@@ -2,14 +2,26 @@
 const express = require("express");
 const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
-
+const { check } = require("express-validator");
 const { setTokenCookie, restoreUser } = require("../../utils/auth");
 const { User } = require("../../db/models");
-
+const { handleValidationErrors } = require("../../utils/validation.js");
 const router = express.Router();
 
+//middlewares
+const validateSignIn = [
+  check("credential")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please provide a valid email or username"),
+  check("password")
+    .exists({ checkFalsy: true })
+    .withMessage("Please provide a password"),
+  handleValidationErrors,
+];
+
 //LOGIN USER
-router.post("/", async (req, res, next) => {
+router.post("/", validateSignIn, async (req, res, next) => {
   const { credential, password } = req.body;
   const user = await User.unscoped().findOne({
     [Op.or]: {
