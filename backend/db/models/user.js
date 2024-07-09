@@ -52,9 +52,18 @@ module.exports = (sequelize, DataTypes) => {
       bio: {
         type: DataTypes.TEXT,
         allowNull: false,
+        defaultValue: "This user hasn't left a bio yet",
       },
-      stars: { type: DataTypes.INTEGER, allowNull: false },
-      status: { type: DataTypes.STRING, allowNull: false },
+      stars: {
+        type: DataTypes.INTEGER,
+        allowNull: false,
+        defaultValue: 0,
+      },
+      status: {
+        type: DataTypes.STRING,
+        allowNull: false,
+        defaultValue: "reading",
+      },
       avatar: { type: DataTypes.STRING, allowNull: true },
       hashedPassword: {
         type: DataTypes.STRING,
