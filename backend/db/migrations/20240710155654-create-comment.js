@@ -79,6 +79,6 @@ module.exports = {
     );
   },
   async down(queryInterface, _Sequelize) {
-    await queryInterface.dropTable("Comments");
+    await queryInterface.dropTable("Comments", options);
   },
 };
