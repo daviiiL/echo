@@ -60,7 +60,7 @@ router.patch(
     try {
       //attempt to save the updated instance to db
       const edited = await comment.save();
-      return res.json(edited);
+      return res.json({ comment: edited });
     } catch (e) {
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       next(e);
@@ -90,4 +90,31 @@ router.delete("/:commentId", requireAuth, async (req, res, next) => {
     next(e);
   }
 });
+
+//get all comments made by the user
+//TODO: fix why article info is not showing up
+router.get("/current", requireAuth, async (req, res, next) => {
+  try {
+    const sessionUserComments = await Comment.findAll(
+      {
+        where: {
+          commenter_id: req.user.id,
+        },
+      },
+      {
+        include: [
+          {
+            model: Article,
+            attributes: ["id", "title"],
+          },
+        ],
+      },
+    );
+    return res.json({ comments: sessionUserComments });
+  } catch (e) {
+    if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
+    return next(e);
+  }
+});
+
 module.exports = router;

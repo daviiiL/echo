@@ -4,6 +4,7 @@ const { User } = require("../../db/models");
 const { setTokenCookie, requireAuth } = require("../../utils/auth");
 const { check } = require("express-validator");
 const { handleValidationErrors } = require("../../utils/validation");
+// const { findAndCheckComment } = require("./utils.js");
 //middlewares
 const validateSignUp = [
   check("email")
@@ -46,6 +47,7 @@ router.post("/", validateSignUp, async (req, res) => {
   });
 });
 
+//Delete user by user id
 router.delete("/delete", requireAuth, async (req, res, next) => {
   const userId = parseInt(req.user.id);
   const user = await User.findByPk(parseInt(userId));
@@ -63,4 +65,6 @@ router.delete("/delete", requireAuth, async (req, res, next) => {
       });
   }
 });
+
+//Get all comments made by the user
 module.exports = router;

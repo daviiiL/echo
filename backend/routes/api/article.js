@@ -4,6 +4,8 @@ const { Article, Comment, User } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth.js");
 const { handleValidationErrors } = require("../../utils/validation.js");
 const { check } = require("express-validator");
+const { validateComment } = require("./validators.js");
+
 //middlewares
 const validateArticle = [
   check("title")
@@ -52,7 +54,7 @@ router.get("/", async (_req, res, next) => {
         },
       ],
     });
-    return res.json(articles);
+    return res.json({ articles: articles });
   } catch (e) {
     const err = new Error(e.message);
     if (e instanceof Sequelize.DatabaseError) {
@@ -75,7 +77,7 @@ router.post("/", requireAuth, validateArticle, async (req, res, next) => {
       author_id: parseInt(userId),
       //parsing userId to int to be extra careful...
     });
-    return res.json(newArticle);
+    return res.json({ article: newArticle });
   } catch (e) {
     const err = new Error(e.message);
     if (e instanceof Sequelize.DatabaseError) {
@@ -107,7 +109,7 @@ router.get("/:articleId", async (req, res, next) => {
         },
       ],
     });
-    return res.json(article);
+    return res.json({ article: article });
   } catch (e) {
     if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
     next(e);
@@ -125,7 +127,7 @@ router.patch("/:articleId", requireAuth, async (req, res, next) => {
   try {
     //save the updated instance to db
     const updatedArticle = await article.save();
-    return res.json(updatedArticle);
+    return res.json({ article: updatedArticle });
   } catch (e) {
     if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
     return next(e);
@@ -143,8 +145,51 @@ router.delete("/:articleId", requireAuth, async (req, res, next) => {
     return res.json({ message: "Deletion Successful" });
   } catch (e) {
     if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
-    next(e);
+    return next(e);
   }
 });
 
+//post a root comment by article id
+router.post(
+  "/:articleId/comments",
+  requireAuth,
+  validateComment,
+  async (req, res, next) => {
+    try {
+      //root comment: no parent comment
+      const newComment = await Comment.create({
+        ...req.body,
+        parent_article: parseInt(req.params.articleId),
+        commenter_id: parseInt(req.user.id),
+        parent_comment: null,
+      });
+      return res.json({ comment: newComment });
+    } catch (e) {
+      if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
+      return next(e);
+    }
+  },
+);
+
+//post a child comment by article id
+router.post(
+  "/:articleId/comments/:parentCommentId",
+  requireAuth,
+  validateComment,
+  async (req, res, next) => {
+    try {
+      const newComment = await Comment.create({
+        ...req.body,
+        parent_article: parseInt(req.params.articleId),
+        commenter_id: parseInt(req.user.id),
+        //pass in the parent comment id
+        parent_comment: parseInt(req.params.parentCommentId),
+      });
+      return res.json({ comment: newComment });
+    } catch (e) {
+      if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
+      return next(e);
+    }
+  },
+);
 module.exports = router;
