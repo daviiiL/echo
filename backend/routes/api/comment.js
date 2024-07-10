@@ -92,24 +92,19 @@ router.delete("/:commentId", requireAuth, async (req, res, next) => {
 });
 
 //get all comments made by the user
-//TODO: fix why article info is not showing up
 router.get("/current", requireAuth, async (req, res, next) => {
   try {
-    const sessionUserComments = await Comment.findAll(
-      {
-        where: {
-          commenter_id: req.user.id,
+    const sessionUserComments = await Comment.findAll({
+      where: {
+        commenter_id: req.user.id,
+      },
+      include: [
+        {
+          model: Article,
+          attributes: ["id", "title"],
         },
-      },
-      {
-        include: [
-          {
-            model: Article,
-            attributes: ["id", "title"],
-          },
-        ],
-      },
-    );
+      ],
+    });
     return res.json({ comments: sessionUserComments });
   } catch (e) {
     if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
