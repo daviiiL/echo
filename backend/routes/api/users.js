@@ -48,12 +48,13 @@ router.post("/", validateSignUp, async (req, res) => {
 
 router.delete("/delete", requireAuth, async (req, res) => {
   const userId = parseInt(req.user.id);
-  const user = User.findOne({ where: { id: userId } });
-  return res.json(user);
+  const user = await User.findByPk(parseInt(userId));
+  // return res.json(user);
   if (user) {
     User.destroy({
       where: { id: userId },
     });
+    return res.json({ message: "Deletion Successful" });
   } else {
     const err = new Error("Deletion failed");
     err.status = 500;

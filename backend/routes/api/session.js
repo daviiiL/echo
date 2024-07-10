@@ -24,12 +24,14 @@ const validateSignIn = [
 router.post("/", validateSignIn, async (req, res, next) => {
   const { credential, password } = req.body;
   const user = await User.unscoped().findOne({
-    [Op.or]: {
-      username: credential,
-      email: credential,
+    where: {
+      [Op.or]: {
+        username: credential,
+        email: credential,
+      },
     },
   });
-
+  // return res.json({ [req.body]: req.body, user });
   if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
     const err = new Error("Login failed.");
     err.status = 401;
