@@ -95,11 +95,13 @@ router.get("/:articleId", async (req, res, next) => {
           model: User,
           as: "Author",
           attributes: {
+            //excluding user personal information from reaching the frontend redux store
             exclude: ["email", "status", "hashedPassword"],
           },
         },
         {
           model: Comment,
+          //not requiring comments
           required: false,
         },
       ],
