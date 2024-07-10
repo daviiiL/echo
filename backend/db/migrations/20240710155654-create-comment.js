@@ -8,7 +8,7 @@ if (process.env.NODE_ENV === "production") {
 module.exports = {
   async up(queryInterface, Sequelize) {
     await queryInterface.createTable(
-      "Articles",
+      "Comments",
       {
         id: {
           allowNull: false,
@@ -16,27 +16,50 @@ module.exports = {
           primaryKey: true,
           type: Sequelize.INTEGER,
         },
-        title: {
-          type: Sequelize.STRING,
+        parent_article: {
+          type: Sequelize.INTEGER,
           allowNull: false,
+          references: {
+            model: "Articles",
+            key: "id",
+          },
+          onDelete: "CASCADE",
+        },
+        parent_comment: {
+          type: Sequelize.INTEGER,
+          allowNull: true,
+          references: {
+            model: "Comments",
+            key: "id",
+          },
+          onDelete: "SET NULL", //so that one user deletes their comment doesn't collapse the rest of the thread
+          defaultValue: null,
+        },
+        commenter_id: {
+          type: Sequelize.INTEGER,
+          allowNull: true,
+          references: {
+            model: "Users",
+            key: "id",
+          },
+          onDelete: "SET NULL",
+          defaultValue: null,
         },
         body: {
           type: Sequelize.TEXT,
           allowNull: false,
         },
-        author_id: {
+        reaction: {
+          type: Sequelize.STRING,
+          allowNull: true,
+          defaultValue: null,
+        },
+        upvote: {
           type: Sequelize.INTEGER,
           allowNull: false,
-          references: {
-            model: "Users",
-          },
-          onDelete: "CASCADE",
+          defaultValue: 0,
         },
-        comment_thread_id: {
-          type: Sequelize.INTEGER,
-          allowNull: true,
-        },
-        likes_count: {
+        downvote: {
           type: Sequelize.INTEGER,
           allowNull: false,
           defaultValue: 0,
@@ -44,13 +67,11 @@ module.exports = {
         createdAt: {
           allowNull: false,
           type: Sequelize.DATE,
-          allowNull: false,
           defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
         updatedAt: {
           allowNull: false,
           type: Sequelize.DATE,
-          allowNull: false,
           defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
@@ -58,6 +79,6 @@ module.exports = {
     );
   },
   async down(queryInterface, _Sequelize) {
-    await queryInterface.dropTable("Articles");
+    await queryInterface.dropTable("Comments");
   },
 };

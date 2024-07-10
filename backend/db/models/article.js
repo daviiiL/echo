@@ -9,7 +9,14 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
-      Article.belongsTo(models.User, { foreignKey: "author_id" });
+      Article.belongsTo(models.User, {
+        foreignKey: "author_id",
+      });
+      Article.hasMany(models.Comment, {
+        foreignKey: "parent_article",
+        onDelete: "CASCADE",
+        hooks: true,
+      });
     }
   }
   Article.init(
