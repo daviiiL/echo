@@ -30,7 +30,7 @@ module.exports = (sequelize, DataTypes) => {
         validate: {
           len: [4, 30],
           isNotEmail(value) {
-            if (Validator.isEmail(value)) {
+            if (validator.isEmail(value)) {
               throw new Error("Invalid input on field 'email'");
             }
           },
@@ -92,7 +92,14 @@ module.exports = (sequelize, DataTypes) => {
           exclude: ["hashedPassword"],
         },
       },
-    }
+      scopes: {
+        standard: {
+          attributes: {
+            exclude: ["email", "hashedPassword"],
+          },
+        },
+      },
+    },
   );
   return User;
 };

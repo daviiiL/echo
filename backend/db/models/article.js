@@ -11,6 +11,7 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       Article.belongsTo(models.User, {
         foreignKey: "author_id",
+        as: "Author",
       });
       Article.hasMany(models.Comment, {
         foreignKey: "parent_article",
@@ -54,7 +55,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Article",
-    }
+    },
   );
   return Article;
 };

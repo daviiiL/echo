@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Sequelize = require("sequelize");
-const { Article } = require("../../db/models");
+const { Article, Comment, User } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth.js");
 const { handleValidationErrors } = require("../../utils/validation.js");
 const { check } = require("express-validator");
@@ -33,14 +33,24 @@ const findAndCheckArticle = async (req) => {
     }
     return article;
   } catch (e) {
+    if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
     return e;
   }
 };
 //get all articles from all users regardless of tags
 //TODO: add pagination
+//TODO: add order by for html buttons: latest first or oldest first
 router.get("/", async (_req, res, next) => {
   try {
-    const articles = await Article.findAll();
+    const articles = await Article.findAll({
+      include: [
+        {
+          model: User,
+          as: "Author",
+          attributes: ["first_name", "last_name", "username"],
+        },
+      ],
+    });
     return res.json(articles);
   } catch (e) {
     const err = new Error(e.message);
@@ -75,6 +85,31 @@ router.post("/", requireAuth, validateArticle, async (req, res, next) => {
   }
 });
 
+//get details of an article by articleId
+// including author info and comments
+router.get("/:articleId", async (req, res, next) => {
+  try {
+    const article = await Article.findByPk(parseInt(req.params.articleId), {
+      include: [
+        {
+          model: User,
+          as: "Author",
+          attributes: {
+            exclude: ["email", "status", "hashedPassword"],
+          },
+        },
+        {
+          model: Comment,
+          required: false,
+        },
+      ],
+    });
+    return res.json(article);
+  } catch (e) {
+    if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
+    next(e);
+  }
+});
 //update an article [proper auth required]
 router.patch("/:articleId", requireAuth, async (req, res, next) => {
   // const article = await Article.findByPk(parseInt(req.params.articleId));
