@@ -20,7 +20,7 @@ const validateComment = [
 const findAndCheckComment = async (req, includeParentPost = false) => {
   try {
     const comment = await Comment.findByPk(
-      parseInt(req.user.id),
+      parseInt(req.params.commentId),
       //for user comments board, including article info is helpful
       includeParentPost
         ? {
@@ -28,9 +28,10 @@ const findAndCheckComment = async (req, includeParentPost = false) => {
           }
         : {},
     );
-    if (parseInt(req.user.id) !== parseInt(comment.author_id)) {
+    if (parseInt(req.user.id) !== parseInt(comment.commenter_id)) {
       const err = new Error("User is unauthorized to perform this action");
       err.title = "Forbidden";
+      err.message = "User is unauthorized to perform this action";
       err.status = 403;
       throw err;
     }
@@ -42,22 +43,24 @@ const findAndCheckComment = async (req, includeParentPost = false) => {
   }
 };
 //routes
-//
+//TODO: add child comment post route
 //update a comment by comment id
-router.update(
+router.patch(
   "/:commentId",
   requireAuth,
   validateComment,
   async (req, res, next) => {
     //check if user is the owner of the comment post
     const comment = await findAndCheckComment(req);
+    //if an error obj is returned, pass it to error handler
+    if (comment instanceof Error) next(comment);
     const { body, reaction } = req.body;
     if (body) comment.body = body;
     if (reaction) comment.reaction = reaction;
     try {
       //attempt to save the updated instance to db
-      await comment.save();
-      return res.json(comment);
+      const edited = await comment.save();
+      return res.json(edited);
     } catch (e) {
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       next(e);
@@ -65,4 +68,26 @@ router.update(
   },
 );
 
+//delete a comment by id
+//erase info and preserve comment node
+router.delete("/:commentId", requireAuth, async (req, res, next) => {
+  const comment = await findAndCheckComment(req);
+  if (comment instanceof Error) next(comment);
+
+  try {
+    //rather than deleting the data entry, erase all info and preserve the data node
+    comment.commenter_id = null;
+    comment.body = "This comment has been deleted.";
+    comment.upvote = 0;
+    comment.downvote = 0;
+    await comment.save();
+    return res.json({
+      message:
+        "Deletion successful. Your information, including identifier and the comment text body, on this comment is erased",
+    });
+  } catch (e) {
+    if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
+    next(e);
+  }
+});
 module.exports = router;

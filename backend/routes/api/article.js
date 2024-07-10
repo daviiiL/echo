@@ -37,6 +37,7 @@ const findAndCheckArticle = async (req) => {
     return e;
   }
 };
+//TODO: add root comment post route
 //get all articles from all users regardless of tags
 //TODO: add pagination
 //TODO: add order by for html buttons: latest first or oldest first
