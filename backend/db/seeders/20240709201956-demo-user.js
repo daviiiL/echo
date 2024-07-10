@@ -42,8 +42,18 @@ module.exports = {
           status: "Surfing in the bits",
           hashedPassword: bcrypt.hashSync("password"),
         },
+        {
+          email: "spiderman@user.io",
+          username: "Spidey",
+          first_name: "Spidy",
+          last_name: "Man",
+          bio: "A test bug named Spidy Man",
+          stars: 0,
+          status: "Testing the frontend",
+          hashedPassword: bcrypt.hashSync("password"),
+        },
       ],
-      { validate: true },
+      { validate: true }
     );
   },
 

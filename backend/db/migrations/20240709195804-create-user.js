@@ -24,6 +24,7 @@ module.exports = {
         email: {
           type: Sequelize.STRING,
           allowNull: false,
+          unique: true,
         },
         first_name: {
           type: Sequelize.STRING,
@@ -72,10 +73,10 @@ module.exports = {
           defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
-      options,
+      options
     );
   },
   async down(queryInterface, _Sequelize) {
-    await queryInterface.dropTable("Users");
+    await queryInterface.dropTable("Users", options);
   },
 };

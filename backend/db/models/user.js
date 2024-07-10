@@ -9,6 +9,10 @@ module.exports = (sequelize, DataTypes) => {
      */
     static associate(models) {
       // define association here
+      User.hasMany(models.Article, {
+        foreignKey: "author_id",
+        onDelete: "cascade",
+      });
     }
   }
   User.init(
@@ -82,7 +86,7 @@ module.exports = (sequelize, DataTypes) => {
           exclude: ["hashedPassword"],
         },
       },
-    },
+    }
   );
   return User;
 };
