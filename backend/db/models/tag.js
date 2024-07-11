@@ -13,6 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         foreignKey: "tag_id",
         onDelete: "CASCADE",
         hooks: true,
+        sourceKey: "id",
       });
       Tag.belongsToMany(models.Article, {
         through: models.ArticleTag,
@@ -25,6 +26,8 @@ module.exports = (sequelize, DataTypes) => {
     {
       title: {
         type: DataTypes.STRING,
+        allowNull: false,
+        unique: true,
         validate: {
           min: {
             args: [3],

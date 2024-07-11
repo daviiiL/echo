@@ -1,5 +1,6 @@
 "use strict";
 const { Model } = require("sequelize");
+const { isEmail } = require("express-validator");
 module.exports = (sequelize, DataTypes) => {
   class User extends Model {
     /**
@@ -29,11 +30,6 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         validate: {
           len: [4, 30],
-          isNotEmail(value) {
-            if (validator.isEmail(value)) {
-              throw new Error("Invalid input on field 'email'");
-            }
-          },
         },
       },
       email: {

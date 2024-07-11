@@ -1,6 +1,6 @@
 const router = require("express").Router();
 const Sequelize = require("sequelize");
-const { Article, Comment, User } = require("../../db/models");
+const { Article, Comment, User, Tag, ArticleTag } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth.js");
 const { handleValidationErrors } = require("../../utils/validation.js");
 const { check } = require("express-validator");
@@ -27,6 +27,7 @@ const validateArticle = [
 const findAndCheckArticle = async (req) => {
   try {
     const article = await Article.findByPk(parseInt(req.params.articleId));
+
     if (parseInt(req.user.id) != parseInt(article.author_id)) {
       const err = new Error("User is unauthorized to perform is action");
       err.title = "Forbidden";
@@ -39,7 +40,6 @@ const findAndCheckArticle = async (req) => {
     return e;
   }
 };
-//TODO: add root comment post route
 //get all articles from all users regardless of tags
 //TODO: add pagination
 //TODO: add order by for html buttons: latest first or oldest first
@@ -68,6 +68,7 @@ router.get("/", async (_req, res, next) => {
 //TODO: get all articles from all users with tags QUERY params
 
 //post an article with authenticated user
+//TODO: add tags if tags are in query param
 router.post("/", requireAuth, validateArticle, async (req, res, next) => {
   try {
     //fetch user id from the request
@@ -120,7 +121,7 @@ router.patch("/:articleId", requireAuth, async (req, res, next) => {
   // const article = await Article.findByPk(parseInt(req.params.articleId));
   const article = await findAndCheckArticle(req);
   /// findAndCheckArticle returns the found article or an error object
-  if (article instanceof Error) next(article);
+  if (article instanceof Error) return next(article);
   const { title, body } = req.body;
   if (title) article.title = title;
   if (body) article.body = body;
@@ -138,7 +139,7 @@ router.patch("/:articleId", requireAuth, async (req, res, next) => {
 router.delete("/:articleId", requireAuth, async (req, res, next) => {
   const article = await findAndCheckArticle(req);
   //refer to the route above for comments
-  if (article instanceof Error) next(article);
+  if (article instanceof Error) return next(article);
   try {
     //attempt to delete record by calling instance.destroy()
     await article.destroy();
@@ -192,4 +193,16 @@ router.post(
     }
   },
 );
+
+// //add a tag to article by articleId
+// //the request url should be .../articles/:articlesId/tags?tag=a&tag=b&tag=c
+// router.post("/:articleId/tags", requireAuth, async (req, res, next) => {
+//   //deep copy into an array from query param
+//   //TODO: handle single tags
+//   const article = await Article.findByPk(parseInt(req.params.articleId));
+//   const tag = await Tag.create({ title: "test" });
+//   await article.addTag(tag);
+//   return res.json(await article.get({ plain: true }));
+// });
+
 module.exports = router;
