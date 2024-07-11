@@ -1,0 +1,19 @@
+div#navbar {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 4em;
+}
+
+div#navbar > ul {
+  height: 100%;
+  padding-top: 4em;
+}
+
+.profile-dropdown {
+  position: absolute;
+}
+
+.hidden {
+  display: none;
+}

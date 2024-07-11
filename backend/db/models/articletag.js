@@ -11,12 +11,10 @@ module.exports = (sequelize, DataTypes) => {
       // define association here
       ArticleTag.belongsTo(models.Article, {
         foreignKey: "article_id",
-        otherKey: "id",
       });
 
       ArticleTag.belongsTo(models.Tag, {
         foreignKey: "tag_id",
-        otherKey: "id",
       });
     }
   }

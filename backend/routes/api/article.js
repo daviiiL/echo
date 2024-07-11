@@ -194,15 +194,15 @@ router.post(
   },
 );
 
-// //add a tag to article by articleId
-// //the request url should be .../articles/:articlesId/tags?tag=a&tag=b&tag=c
-// router.post("/:articleId/tags", requireAuth, async (req, res, next) => {
-//   //deep copy into an array from query param
-//   //TODO: handle single tags
-//   const article = await Article.findByPk(parseInt(req.params.articleId));
-//   const tag = await Tag.create({ title: "test" });
-//   await article.addTag(tag);
-//   return res.json(await article.get({ plain: true }));
-// });
+//add a tag to article by articleId
+//the request url should be .../articles/:articlesId/tags?tag=a&tag=b&tag=c
+router.post("/:articleId/tags", requireAuth, async (req, res, next) => {
+  //deep copy into an array from query param
+  //TODO: handle single tags
+  const article = await Article.findByPk(parseInt(req.params.articleId));
+  const tag = await Tag.create({ title: req.query.tag });
+  await article.addTag(tag);
+  return res.json(await article.get({ plain: true }));
+});
 
 module.exports = router;

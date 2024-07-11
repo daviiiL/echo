@@ -1,0 +1,6 @@
+div.view-container {
+  background-color: var(--view-background);
+  flex-grow: 2;
+  border-top-left-radius: 3em;
+  padding: 4em 0 0 4em;
+}
