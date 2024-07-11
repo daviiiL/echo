@@ -18,6 +18,16 @@ module.exports = (sequelize, DataTypes) => {
         onDelete: "CASCADE",
         hooks: true,
       });
+      Article.hasMany(models.ArticleTag, {
+        foreignKey: "article_id",
+        onDelete: "CASCADE",
+        hooks: true,
+      });
+      Article.belongsToMany(models.Tag, {
+        through: models.ArticleTag,
+        foreignKey: "article_id",
+        otherKey: "id",
+      });
     }
   }
   Article.init(
