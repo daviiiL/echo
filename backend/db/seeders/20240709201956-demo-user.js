@@ -59,13 +59,12 @@ module.exports = {
 
   async down(queryInterface, Sequelize) {
     return queryInterface.bulkDelete(
-      "Users",
+      { ...options, tableName: "Users" },
       {
         username: {
           [Sequelize.Op.in]: ["Demo-lition", "TestingDragon", "SurfingCheetos"],
         },
       },
-      options,
     );
   },
 };
