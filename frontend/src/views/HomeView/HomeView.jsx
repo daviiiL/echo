@@ -1,5 +1,6 @@
 import React from "react";
 import "./HomeView.css";
+import { connect } from "react-redux";
 
 class HomeView extends React.Component {
   render() {
@@ -11,4 +12,10 @@ class HomeView extends React.Component {
   }
 }
 
-export default HomeView;
+const mapStateToProps = (state) => ({
+  articles: state.articles,
+});
+
+const HomeViewConnected = connect(mapStateToProps)(HomeView);
+HomeViewConnected.displayName = "HomeView";
+export default HomeViewConnected;

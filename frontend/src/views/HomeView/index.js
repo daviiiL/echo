@@ -1,3 +1,3 @@
-import HomeView from "./HomeView";
+import HomeViewConnected from "./HomeView";
 
-export default HomeView;
+export default HomeViewConnected;

@@ -5,8 +5,11 @@ import store from "../../store";
 import { fetchAllArticles } from "../../services/articleServices";
 import "./Layout.css";
 import "../../assets/view/index.css";
+import { useEffect } from "react";
 export default function Layout() {
-  store.dispatch(fetchAllArticles());
+  useEffect(() => {
+    store.dispatch(fetchAllArticles());
+  });
   return (
     <div id="main">
       <Modal />

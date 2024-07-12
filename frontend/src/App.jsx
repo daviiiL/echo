@@ -1,13 +1,13 @@
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import Layout from "./views/Layout";
-import HomeView from "./views/HomeView";
+import HomeViewConnected from "./views/HomeView";
 const router = createBrowserRouter([
   {
     element: <Layout />,
     children: [
       {
         path: "/",
-        element: <HomeView />,
+        element: <HomeViewConnected />,
       },
     ],
   },
