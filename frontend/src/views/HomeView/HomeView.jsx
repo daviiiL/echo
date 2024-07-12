@@ -2,6 +2,7 @@ import React from "react";
 import "./HomeView.css";
 import { connect } from "react-redux";
 import ArticleCard from "../../components/ArticleCard";
+
 class HomeView extends React.Component {
   render() {
     return (
@@ -11,7 +12,14 @@ class HomeView extends React.Component {
           {this.props.allArticles &&
             this.props.allArticles.length > 0 &&
             this.props.allArticles.map((e) => {
-              return <ArticleCard key={e.id} article={e} />;
+              return (
+                <div
+                  key={e.id}
+                  onClick={() => this.props.navigate(`/articles/${e.id}`)}
+                >
+                  <ArticleCard article={e} navigate={this.props.navigate} />
+                </div>
+              );
             })}
         </div>
       </div>
@@ -25,4 +33,5 @@ const mapStateToProps = (state) => ({
 
 const HomeViewConnected = connect(mapStateToProps)(HomeView);
 HomeViewConnected.displayName = "HomeView";
+
 export default HomeViewConnected;

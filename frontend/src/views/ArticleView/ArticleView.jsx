@@ -24,9 +24,7 @@ export class ArticleView extends React.Component {
         ArticleView Component
         <p>{this.articleId}</p>
         <div className="article-details-title-bar">
-          <a href="/">
-            <IoMdArrowBack size={30} />
-          </a>
+          <IoMdArrowBack size={30} onClick={() => this.props.navigate("/")} />
         </div>
       </div>
     );
