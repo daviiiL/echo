@@ -52,7 +52,7 @@ module.exports = {
           status: "Testing the frontend",
           hashedPassword: bcrypt.hashSync("password"),
         },
-      ]
+      ],
       // { validate: true }
     );
   },

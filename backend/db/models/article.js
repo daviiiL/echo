@@ -61,6 +61,14 @@ module.exports = (sequelize, DataTypes) => {
         allowNull: false,
         defaultValue: 0,
       },
+      preview_image_url: {
+        type: DataTypes.STRING,
+        allowNull: true,
+      },
+      sub_title: {
+        type: DataTypes.STRING,
+        allowNull: false,
+      },
     },
     {
       sequelize,
