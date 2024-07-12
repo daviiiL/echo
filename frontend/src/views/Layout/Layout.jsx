@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { Outlet } from "react-router-dom";
-import Navigation from "../../components/Navigation";
+import NavigationConnected from "../../components/Navigation";
 import * as sessionActions from "../../store/session";
 import { Modal } from "../../context/Modal";
 import "./Layout.css";
@@ -19,7 +19,7 @@ export default function Layout() {
   return (
     <div id="main">
       <Modal />
-      <Navigation isLoaded={isLoaded} />
+      <NavigationConnected />
 
       {isLoaded && (
         <div id="main-view-container">

@@ -14,10 +14,9 @@ export const sessionService = {
   },
 
   async logout() {
-    const response = await csrfFetch("/api/session", {
+    await csrfFetch("/api/session", {
       method: "DELETE",
     });
     store.dispatch(logoutSuccess());
-    return await response.json();
   },
 };

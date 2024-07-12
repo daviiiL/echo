@@ -8,7 +8,7 @@ export const sessionSlice = createSlice({
   },
   reducers: {
     loginSuccess: (state, action) => {
-      state.user = action.payload;
+      state.user = action.payload.user;
       state.isAuthenticated = true;
     },
     logoutSuccess: (state) => {

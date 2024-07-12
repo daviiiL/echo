@@ -4,7 +4,5 @@ import { sessionSlice } from "./toolkitSession";
 const rootReducer = combineSlices(sessionSlice);
 
 export const store = configureStore({
-  reducer: {
-    session: rootReducer,
-  },
+  reducer: rootReducer,
 });
