@@ -1,3 +1,3 @@
-import configureStore from './store';
+import { store } from "./toolkitStore";
 
-export default configureStore;
+export default store;
