@@ -57,14 +57,13 @@ module.exports = {
     );
   },
 
-  async down(queryInterface, Sequelize) {
-    return queryInterface.bulkDelete(
-      { ...options, tableName: "Users" },
-      {
+  async down(_queryInterface, Sequelize) {
+    return User.bulkDelete({
+      where: {
         username: {
           [Sequelize.Op.in]: ["Demo-lition", "TestingDragon", "SurfingCheetos"],
         },
       },
-    );
+    });
   },
 };
