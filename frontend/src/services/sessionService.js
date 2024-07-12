@@ -1,4 +1,3 @@
-import ProfileButton from "../components/Navigation/ProfileButton";
 import { loginSuccess, logoutSuccess } from "../store/toolkitSession";
 import { csrfFetch } from "../store/csrf";
 import store from "../store";
