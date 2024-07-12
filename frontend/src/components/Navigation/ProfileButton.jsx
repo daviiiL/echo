@@ -9,7 +9,7 @@ import { sessionService } from "../../services/sessionService";
 function ProfileButton({ sessionUser }) {
   const [user, setUser] = useState(sessionUser);
   useEffect(() => {
-    console.log("state updated");
+    // console.log("state updated");
     setUser(sessionUser);
   }, [sessionUser]);
   // const dispatch = useDispatch();
