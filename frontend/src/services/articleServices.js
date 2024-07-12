@@ -1,30 +1,24 @@
-import { getArticleDetails, getAllArticles } from "../store/toolkitArticle";
+import { createAsyncThunk } from "@reduxjs/toolkit";
 import { csrfFetch } from "../store/csrf";
 import store from "../store";
+import { getAllArticles, getArticleDetails } from "../store/toolkitArticle";
 
-export const articleService = {
-  async fetchAllArticles() {
+export const fetchAllArticles = createAsyncThunk(
+  "articles/fetchAllArticles",
+  async () => {
     const response = await csrfFetch("/api/articles");
-    if (response.ok) {
-      const articles = await response.json();
-      store.dispatch(getAllArticles);
-      return articles;
-    } else {
-      const data = await response.json();
-      console.log(data);
-      throw new Error("Fetch All Articles Failed");
-    }
+    const articles = await response.json();
+    store.dispatch(getAllArticles(articles));
+    return articles;
   },
-  async fetchArticleDetails(articleId) {
+);
+
+export const fetchArticleDetails = createAsyncThunk(
+  "articles/fetchArticleDetails",
+  async (articleId) => {
     const response = await csrfFetch(`/api/articles/${articleId}`);
-    if (response.ok) {
-      const article = await response.json();
-      store.dispatch(getArticleDetails);
-      return article;
-    } else {
-      const data = await response.json();
-      console.log(data);
-      throw new Error("Fetch All Articles Failed");
-    }
+    const article = await response.json();
+    store.dispatch(getArticleDetails(article));
+    return article;
   },
-};
+);
