@@ -9,7 +9,7 @@ class HomeView extends React.Component {
         <div id="tags-bar"></div>
         <div id="articles-view">
           {this.props.allArticles &&
-            this.props.allArticles.length &&
+            this.props.allArticles.length > 0 &&
             this.props.allArticles.map((e) => {
               return <ArticleCard key={e.id} article={e} />;
             })}
