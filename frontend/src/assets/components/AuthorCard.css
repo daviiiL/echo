@@ -1,0 +1,35 @@
+div.author-card-container {
+  display: flex;
+
+  & img {
+    border-radius: 10em;
+    height: 4em;
+  }
+
+  & p {
+    margin: 0;
+    padding: 0;
+  }
+}
+
+div.author-card-info {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 4em;
+  row-gap: 0.3em;
+
+  & div {
+    display: flex;
+    width: 100%;
+  }
+}
+
+div.author-card-info div:nth-child(2) {
+  color: var(--date-color);
+}
+
+p.follow-button {
+  color: green;
+}

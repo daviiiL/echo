@@ -1,5 +1,29 @@
 div#article-details {
-  & a {
-    color: black;
+  display: flex;
+}
+
+div#article-details-title-bar {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: fit-content;
+  flex-grow: 2;
+
+  & div {
+    display: flex;
+    align-items: center;
+    column-gap: 1em;
   }
+
+  row-gap: 1em;
+}
+
+p.header {
+  font-weight: bold;
+  font-size: 2em;
+}
+
+p.subheader {
+  font-size: 1.2em;
+  color: #6b6b6b;
 }
