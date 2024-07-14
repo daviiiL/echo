@@ -2,7 +2,12 @@ import React from "react";
 import { connect } from "react-redux";
 import { fetchArticleDetails } from "../../services/articleService";
 import { IoMdArrowBack } from "react-icons/io";
-import { PiHandsClappingThin } from "react-icons/pi";
+import {
+  PiHandsClappingThin,
+  PiChatCircleTextThin,
+  PiBookBookmarkThin,
+  PiBookmarkThin,
+} from "react-icons/pi";
 
 import "../../assets/view/ArticleView.css";
 import AuthorCard from "../../components/AuthorCard";
@@ -42,7 +47,22 @@ export class ArticleView extends React.Component {
             />
           </div>
           <div id="article-interactions">
-            <PiHandsClappingThin />
+            <div>
+              <div>
+                <PiHandsClappingThin size={25} />
+                <p>{this.props.articleDetails.likes_count}</p>
+              </div>
+              <div>
+                <PiChatCircleTextThin size={25} />
+                <p>{this.props.articleDetails?.Comments?.length}</p>
+              </div>
+            </div>
+            <div>
+              <PiBookmarkThin
+                size={25}
+                onClick={() => window.alert("Bookmarks feature coming soon")}
+              />
+            </div>
           </div>
         </div>
       </div>

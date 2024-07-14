@@ -1,3 +1,8 @@
+div#article-content {
+  max-width: 950px;
+  margin-right: 5em;
+}
+
 div#article-details {
   display: flex;
 }
@@ -26,4 +31,16 @@ p.header {
 p.subheader {
   font-size: 1.2em;
   color: #6b6b6b;
+}
+
+div#article-interactions {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  & div {
+    display: flex;
+    align-items: center;
+  }
 }
