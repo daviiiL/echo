@@ -4,7 +4,7 @@ const { Op } = require("sequelize");
 const bcrypt = require("bcryptjs");
 const { check } = require("express-validator");
 const { setTokenCookie, restoreUser } = require("../../utils/auth");
-const { User } = require("../../db/models");
+const { User, Sequelize } = require("../../db/models");
 const { handleValidationErrors } = require("../../utils/validation.js");
 const router = express.Router();
 
@@ -31,6 +31,10 @@ router.post("/", validateSignIn, async (req, res, next) => {
       },
     },
   });
+  if (user) {
+    user.last_active = Sequelize.literal("CURRENT_TIMESTAMP");
+    user.save();
+  }
   // return res.json({ [req.body]: req.body, user });
   if (!user || !bcrypt.compareSync(password, user.hashedPassword.toString())) {
     const err = new Error("Login failed.");
@@ -48,6 +52,10 @@ router.post("/", validateSignIn, async (req, res, next) => {
     username: user.username,
     firstName: user.first_name,
     lastName: user.last_name,
+    bio: user.bio,
+    stars: user.stars,
+    avatar: user.avatar,
+    last_active: user.last_active,
   };
 
   setTokenCookie(res, safeUser);
@@ -64,14 +72,24 @@ router.delete("/", (_req, res) => {
 });
 
 //RESTORE USER SESSION
-router.get("/", (req, res) => {
+router.get("/", async (req, res) => {
   const { user } = req;
+  const curUser = await User.findByPk(parseInt(user.id));
+  curUser.last_active = Sequelize.literal("CURRENT_TIMESTAMP");
+  curUser.save();
   if (user) {
     const safeUser = {
       id: user.id,
       email: user.email,
       username: user.username,
+      firstName: user.first_name,
+      lastName: user.last_name,
+      bio: user.bio,
+      stars: user.stars,
+      avatar: user.avatar,
+      last_active: user.last_active,
     };
+
     return res.json({
       user: safeUser,
     });

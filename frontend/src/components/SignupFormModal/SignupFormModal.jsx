@@ -1,11 +1,12 @@
-import { useState } from 'react';
-import { useDispatch } from 'react-redux';
-import { useModal } from '../../context/Modal';
-import * as sessionActions from '../../store/session';
-import './SignupForm.css';
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
+import { useModal } from "../../context/Modal";
+import { signup } from "../../store/toolkitSession";
+import store from "../../store";
+import "./SignupForm.css";
 
 function SignupFormModal() {
-  const dispatch = useDispatch();
+  const session = useSelector((state) => state.session);
   const [email, setEmail] = useState("");
   const [username, setUsername] = useState("");
   const [firstName, setFirstName] = useState("");
@@ -15,30 +16,40 @@ function SignupFormModal() {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
 
+  useEffect(() => {
+    if (session.errors) setErrors(session.errors);
+    else console.log("registered");
+  }, [session, closeModal]);
+
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (password === confirmPassword) {
+    if (password !== confirmPassword) {
+      return setErrors({
+        confirmPassword:
+          "Confirm Password field must be the same as the Password field",
+      });
+    } else {
       setErrors({});
-      return dispatch(
-        sessionActions.signup({
-          email,
-          username,
-          firstName,
-          lastName,
-          password
-        })
-      )
-        .then(closeModal)
-        .catch(async (res) => {
-          const data = await res.json();
-          if (data?.errors) {
-            setErrors(data.errors);
-          }
-        });
+      const payload = {
+        email,
+        firstName,
+        lastName,
+        password,
+        username,
+      };
+      store.dispatch(signup(payload)).then((res) => {
+        if (!res.error) closeModal();
+      });
     }
-    return setErrors({
-      confirmPassword: "Confirm Password field must be the same as the Password field"
-    });
+  };
+
+  const fillFrom = () => {
+    setEmail("test@aa.io");
+    setUsername("asdf");
+    setFirstName("asdf");
+    setLastName("asdf");
+    setPassword("asdfasdf");
+    setConfirmPassword("asdfasdf");
   };
 
   return (
@@ -88,7 +99,6 @@ function SignupFormModal() {
         <label>
           Password
           <input
-            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
@@ -98,7 +108,6 @@ function SignupFormModal() {
         <label>
           Confirm Password
           <input
-            type="password"
             value={confirmPassword}
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
@@ -106,6 +115,9 @@ function SignupFormModal() {
         </label>
         {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
         <button type="submit">Sign Up</button>
+        <button type="button" onClick={fillFrom}>
+          Autofill Demo
+        </button>
       </form>
     </>
   );

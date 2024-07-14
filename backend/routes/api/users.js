@@ -40,6 +40,11 @@ router.post("/", validateSignUp, async (req, res) => {
     username: user.username,
     firstName: user.first_name,
     lastName: user.last_name,
+    bio: user.bio,
+    avatar: user.avatar,
+    stars: user.stars,
+    status: user.status,
+    last_active: user.last_active,
   };
 
   setTokenCookie(res, safeUser);

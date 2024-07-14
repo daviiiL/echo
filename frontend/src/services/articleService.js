@@ -1,7 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { csrfFetch } from "../store/csrf";
 import store from "../store";
-import { getAllArticles, getArticleDetails } from "../store/toolkitArticle";
+import {
+  getAllArticles,
+  getArticleDetails,
+  postArticle,
+} from "../store/toolkitArticle";
 
 export const fetchAllArticles = createAsyncThunk(
   "articles/fetchAllArticles",
@@ -20,5 +24,12 @@ export const fetchArticleDetails = createAsyncThunk(
     const article = await response.json();
     store.dispatch(getArticleDetails(article));
     return article;
+  },
+);
+
+export const postNewArticle = createAsyncThunk(
+  "articles/postNewArticle",
+  async (article) => {
+    //TODO: finish this thunk
   },
 );

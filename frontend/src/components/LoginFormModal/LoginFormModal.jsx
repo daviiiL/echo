@@ -1,12 +1,9 @@
 import { useState } from "react";
-// import * as sessionActions from '../../store/session';
-import { sessionService } from "../../services/sessionService";
-// import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
-
+import store from "../../store";
+import { login } from "../../store/toolkitSession";
 function LoginFormModal() {
-  // const dispatch = useDispatch();
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -15,21 +12,9 @@ function LoginFormModal() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setErrors({});
-    return await sessionService
-      .login({ credential, password })
-      .then(closeModal)
-      .catch(async (e) => {
-        const data = await e.json();
-        if (data && data.errors) setErrors(data.errors);
-      });
-    // return dispatch(sessionActions.login({ credential, password }))
-    //   .then(closeModal)
-    //   .catch(async (res) => {
-    //     const data = await res.json();
-    //     if (data && data.errors) {
-    //       setErrors(data.errors);
-    //     }
-    //   });
+    const actionResult = await store.dispatch(login({ credential, password }));
+    if (actionResult.error) setErrors({ credential: "Invalid Credentials" });
+    else closeModal();
   };
 
   return (
@@ -54,7 +39,9 @@ function LoginFormModal() {
             required
           />
         </label>
-        {errors.credential && <p>{errors.credential}</p>}
+        {errors.credential && (
+          <p className="server-error">{errors.credential}</p>
+        )}
         <button type="submit">Log In</button>
       </form>
     </>

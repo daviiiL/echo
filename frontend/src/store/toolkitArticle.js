@@ -13,8 +13,12 @@ export const articleSlice = createSlice({
     getArticleDetails: (state, action) => {
       state.articleDetails = action.payload.article;
     },
+    postArticle: (state, action) => {
+      state.allArticles = [...state.allArticles, action.payload.article];
+    },
   },
 });
 
-export const { getAllArticles, getArticleDetails } = articleSlice.actions;
+export const { getAllArticles, getArticleDetails, postArticle } =
+  articleSlice.actions;
 export default articleSlice.reducer;

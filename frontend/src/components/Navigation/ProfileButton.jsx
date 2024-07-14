@@ -1,11 +1,10 @@
 import { useState, useEffect, useRef } from "react";
-// import { useDispatch } from "react-redux";
-// import * as sessionActions from "../../store/session";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
-import SignupFormModal from "../SignupFormModal";
+// import SignupFormModal from "../SignupFormModal";
 import store from "../../store";
-import { sessionService } from "../../services/sessionService";
+import { logout } from "../../services/sessionService";
+import SignUpFormModal from "../SignupFormModal";
 function ProfileButton({ sessionUser }) {
   const [user, setUser] = useState(sessionUser);
   useEffect(() => {
@@ -37,9 +36,9 @@ function ProfileButton({ sessionUser }) {
 
   const closeMenu = () => setShowMenu(false);
 
-  const logout = (e) => {
+  const onClick = (e) => {
     e.preventDefault();
-    store.dispatch(sessionService.logout());
+    store.dispatch(logout());
     closeMenu();
   };
 
@@ -59,7 +58,7 @@ function ProfileButton({ sessionUser }) {
             </li>
             <li>{user.email}</li>
             <li>
-              <button onClick={logout}>Log Out</button>
+              <button onClick={onClick}>Log Out</button>
             </li>
           </>
         ) : (
@@ -72,7 +71,7 @@ function ProfileButton({ sessionUser }) {
             <OpenModalMenuItem
               itemText="Sign Up"
               onItemClick={closeMenu}
-              modalComponent={<SignupFormModal />}
+              modalComponent={<SignUpFormModal />}
             />
           </>
         )}
