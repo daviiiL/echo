@@ -18,7 +18,7 @@ export default function AuthorCard({ owner, readtime, publishDate }) {
             Published on <span style={{ color: "black" }}>echo</span>
           </p>
           {"•"}
-          <p>{`${Math.round(readtime.length / 200)} min read`}</p>
+          <p>{`${Math.ceil(readtime.length / 1200)} min read`}</p>
           {"•"}
           <p>{publishDate}</p>
         </div>

@@ -1,7 +1,8 @@
 import { useState, useEffect, useRef } from "react";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
-// import SignupFormModal from "../SignupFormModal";
+import { PiUserCircleThin } from "react-icons/pi";
+
 import store from "../../store";
 import { logout } from "../../services/sessionService";
 import SignUpFormModal from "../SignupFormModal";
@@ -46,8 +47,15 @@ function ProfileButton({ sessionUser }) {
 
   return (
     <>
-      <button onClick={toggleMenu}>
-        <i className="fas fa-user-circle" />
+      <button id="profile-button" onClick={toggleMenu}>
+        {user?.id ? (
+          <img
+            id="user-profile-icon"
+            src={`https://eu.ui-avatars.com/api/?name=${sessionUser?.first_name}+${sessionUser?.last_name}&size=250`}
+          />
+        ) : (
+          <PiUserCircleThin size={50} />
+        )}
       </button>
       <ul className={ulClassName} ref={ulRef}>
         {user ? (

@@ -3,6 +3,7 @@ import Layout from "./views/Layout";
 // import HomeViewConnected from "./views/HomeView";
 import HomeViewNavigate from "./wrappers/HomeView";
 import ArticleView from "./wrappers/ArticleView";
+import ArticleForm from "./views/ArticleForm";
 const router = createBrowserRouter([
   {
     element: <Layout />,
@@ -14,6 +15,10 @@ const router = createBrowserRouter([
       {
         path: "/articles/:articleId",
         element: <ArticleView />,
+      },
+      {
+        path: "articles/new-article",
+        element: <ArticleForm />,
       },
     ],
   },

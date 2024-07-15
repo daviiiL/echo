@@ -5,7 +5,6 @@ import { IoMdArrowBack } from "react-icons/io";
 import {
   PiHandsClappingThin,
   PiChatCircleTextThin,
-  PiBookBookmarkThin,
   PiBookmarkThin,
 } from "react-icons/pi";
 
@@ -49,12 +48,16 @@ export class ArticleView extends React.Component {
           <div id="article-interactions">
             <div>
               <div>
-                <PiHandsClappingThin size={25} />
-                <p>{this.props.articleDetails.likes_count}</p>
+                <PiHandsClappingThin size={25} className="interact" />
+                <p className="interact">
+                  {this.props.articleDetails.likes_count}
+                </p>
               </div>
               <div>
-                <PiChatCircleTextThin size={25} />
-                <p>{this.props.articleDetails?.Comments?.length}</p>
+                <PiChatCircleTextThin size={25} className="interact" />
+                <p className="interact">
+                  {this.props.articleDetails?.Comments?.length}
+                </p>
               </div>
             </div>
             <div>
@@ -63,6 +66,19 @@ export class ArticleView extends React.Component {
                 onClick={() => window.alert("Bookmarks feature coming soon")}
               />
             </div>
+          </div>
+          <div className="article-body">
+            {this.props.articleDetails?.preview_image_url && (
+              <div className="article-image-container">
+                <img
+                  src={this.props.articleDetails?.preview_image_url}
+                  alt={this.props.articleDetails?.title}
+                />
+              </div>
+            )}
+          </div>
+          <div>
+            <p id="article-body-text">{this.props.articleDetails?.body}</p>
           </div>
         </div>
       </div>
@@ -84,7 +100,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const ArticleViewConnected = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(ArticleView);
 ArticleViewConnected.displayName = "ArticleView";
 export default ArticleViewConnected;
