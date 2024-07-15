@@ -14,6 +14,14 @@ const validateArticle = [
   check("title")
     .isLength({ min: 4 })
     .withMessage("Please enter at least 4 characters for your article title"),
+  check("sub_title")
+    .exists({ checkFalsy: true })
+    .withMessage("Please provide a title"),
+  check("sub_title")
+    .isLength({ min: 4 })
+    .withMessage(
+      "Please enter at least 4 characters for your article sub-title"
+    ),
   check("body")
     .exists({ checkFalsy: true })
     .withMessage("Please provide a body"),
@@ -67,6 +75,31 @@ router.get("/", async (_req, res, next) => {
 });
 //TODO: get all articles from all users with tags QUERY params
 
+router.get("/current", async (req, res, next) => {
+  try {
+    const articles = await Article.findAll({
+      where: {
+        author_id: parseInt(req.user.id),
+      },
+      include: [
+        {
+          model: User,
+          as: "Author",
+          attributes: ["first_name", "last_name", "username"],
+        },
+      ],
+    });
+    return res.json({ articles: articles });
+  } catch (e) {
+    const err = new Error(e.message);
+    if (e instanceof Sequelize.DatabaseError) {
+      err.title = "Database Error";
+      //specifying db error title
+    }
+    return next(err);
+    //otherwise, pass err obj to error handling middlewares
+  }
+});
 //post an article with authenticated user
 //TODO: add tags if tags are in query param
 router.post("/", requireAuth, validateArticle, async (req, res, next) => {
@@ -169,7 +202,7 @@ router.post(
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       return next(e);
     }
-  },
+  }
 );
 
 //post a child comment by article id
@@ -191,7 +224,7 @@ router.post(
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       return next(e);
     }
-  },
+  }
 );
 
 //add a tag to article by articleId

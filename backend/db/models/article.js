@@ -68,12 +68,19 @@ module.exports = (sequelize, DataTypes) => {
       sub_title: {
         type: DataTypes.STRING,
         allowNull: false,
+        validate: {
+          min: {
+            args: [4],
+            msg: "Please enter at least 4 characters for the article sub-title",
+          },
+          notEmpty: true,
+        },
       },
     },
     {
       sequelize,
       modelName: "Article",
-    },
+    }
   );
   return Article;
 };

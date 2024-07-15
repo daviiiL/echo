@@ -1,7 +1,11 @@
 import "../../assets/components/ArticleCard.css";
 import { formatDatabaseDate } from "../../utils/formatDatabaseDate";
-
 //do not show subheader if article title is too long
+
+const stripHTMLTags = (str) => {
+  return str.replace(/<\/?[^>]+(>|$)/g, "");
+};
+
 export default function ArticleCard({ article }) {
   return (
     <div className="article-card-container">
@@ -12,7 +16,8 @@ export default function ArticleCard({ article }) {
           <>
             <p>
               <span className="quote">{`"`}</span>
-              {article.body.slice(0, 100) + "..."}
+              {stripHTMLTags(article.body).slice(0, 100) + "..."}
+
               <br></br>
               <span
                 className="quote"

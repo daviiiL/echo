@@ -4,9 +4,13 @@ div.view-container {
   border-top-left-radius: 3em;
   border-top-right-radius: 3em;
   padding: 2em 0 0 2em;
-  margin-right: 1em;
+  margin-right: 1.5em;
 
   & a {
     color: black;
   }
+}
+
+p.errors {
+  color: red;
 }

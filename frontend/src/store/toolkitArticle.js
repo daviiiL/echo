@@ -10,9 +10,9 @@ export const postArticle = createAsyncThunk(
     };
     const response = await csrfFetch("/api/articles", options);
     const data = await response.json();
-    if (response.status >= 400) rejectWithValue(data);
+    if (response.status >= 400) return rejectWithValue(data);
     return data;
-  },
+  }
 );
 
 export const articleSlice = createSlice({
@@ -31,8 +31,13 @@ export const articleSlice = createSlice({
     },
   },
   extraReducers: (builder) => {
-    builder.addCase(postArticle.rejected, async (state, action) => {
+    builder.addCase(postArticle.rejected, (state, action) => {
       state.errors = action.payload.errors;
+    });
+    builder.addCase(postArticle.fulfilled, (state, action) => {
+      state.articleDetails = action.payload.article;
+      state.allArticles = [...state.allArticles, action.payload.article];
+      state.errors = null;
     });
   },
 });

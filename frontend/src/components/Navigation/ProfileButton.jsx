@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
-import { PiUserCircleThin } from "react-icons/pi";
 
 import store from "../../store";
 import { logout } from "../../services/sessionService";
@@ -46,17 +45,28 @@ function ProfileButton({ sessionUser }) {
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   return (
-    <>
-      <button id="profile-button" onClick={toggleMenu}>
-        {user?.id ? (
+    <div>
+      {user?.id ? (
+        <button id="profile-button" onClick={toggleMenu}>
           <img
             id="user-profile-icon"
-            src={`https://eu.ui-avatars.com/api/?name=${sessionUser?.first_name}+${sessionUser?.last_name}&size=250`}
+            src={`https://eu.ui-avatars.com/api/?name=${user.firstName}+${user.lastName}&size=250`}
           />
-        ) : (
-          <PiUserCircleThin size={50} />
-        )}
-      </button>
+        </button>
+      ) : (
+        <div id="navbar-login-items-container">
+          <OpenModalMenuItem
+            itemText="Log In"
+            onItemClick={closeMenu}
+            modalComponent={<LoginFormModal />}
+          />
+          <OpenModalMenuItem
+            itemText="Sign Up"
+            onItemClick={closeMenu}
+            modalComponent={<SignUpFormModal />}
+          />
+        </div>
+      )}
       <ul className={ulClassName} ref={ulRef}>
         {user ? (
           <>
@@ -84,7 +94,7 @@ function ProfileButton({ sessionUser }) {
           </>
         )}
       </ul>
-    </>
+    </div>
   );
 }
 

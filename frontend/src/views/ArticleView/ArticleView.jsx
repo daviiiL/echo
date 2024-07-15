@@ -7,7 +7,7 @@ import {
   PiChatCircleTextThin,
   PiBookmarkThin,
 } from "react-icons/pi";
-
+import parse from "html-react-parser";
 import "../../assets/view/ArticleView.css";
 import AuthorCard from "../../components/AuthorCard";
 export class ArticleView extends React.Component {
@@ -78,7 +78,8 @@ export class ArticleView extends React.Component {
             )}
           </div>
           <div>
-            <p id="article-body-text">{this.props.articleDetails?.body}</p>
+            {this.props.articleDetails.body &&
+              parse(this.props.articleDetails?.body)}
           </div>
         </div>
       </div>
