@@ -1,0 +1,20 @@
+div.user-content-section-container {
+  display: flex;
+  flex-direction: column;
+  width: 95%;
+  max-width: 800px;
+  row-gap: 1em;
+}
+
+div.content-title {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  column-gap: 1em;
+}
+
+div.content-cards {
+  display: flex;
+  flex-direction: column;
+  row-gap: 2em;
+}

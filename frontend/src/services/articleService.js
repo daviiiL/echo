@@ -1,7 +1,11 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import { csrfFetch } from "../store/csrf";
 import store from "../store";
-import { getAllArticles, getArticleDetails } from "../store/toolkitArticle";
+import {
+  getAllArticles,
+  getArticleDetails,
+  getUserArticles,
+} from "../store/toolkitArticle";
 
 export const fetchAllArticles = createAsyncThunk(
   "articles/fetchAllArticles",
@@ -10,7 +14,7 @@ export const fetchAllArticles = createAsyncThunk(
     const articles = await response.json();
     store.dispatch(getAllArticles(articles));
     return articles;
-  },
+  }
 );
 
 export const fetchArticleDetails = createAsyncThunk(
@@ -20,5 +24,15 @@ export const fetchArticleDetails = createAsyncThunk(
     const article = await response.json();
     store.dispatch(getArticleDetails(article));
     return article;
-  },
+  }
+);
+
+export const fetchCurrentUserArticles = createAsyncThunk(
+  "articles/fetchCurrentUserArticles",
+  async () => {
+    const response = await csrfFetch("/api/articles/current");
+    const articles = await response.json();
+    store.dispatch(getUserArticles(articles));
+    return articles;
+  }
 );

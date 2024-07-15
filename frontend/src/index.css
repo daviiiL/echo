@@ -37,8 +37,31 @@ li {
   --view-background: #ffffff;
   --site-background: #e2e8f0;
   --date-color: #808080;
+  --dashboard-item-color: #3d3d3d;
   --subheader-color: #6b6b6b;
   --divider-color: #e0e0e0;
   --button-color: #2196f3;
   --button-color-secondary: blue;
+}
+
+/* divider styles  */
+/* Dashed border */
+hr.dashed {
+  border-top: 3px dashed #bbb;
+}
+
+/* Dotted border */
+hr.dotted {
+  border-top: 3px dotted #bbb;
+}
+
+/* Solid border */
+hr.solid {
+  border-top: 1px solid #bbb;
+}
+
+/* Rounded border */
+hr.rounded {
+  border-top: 2px solid #bbb;
+  border-radius: 1px;
 }

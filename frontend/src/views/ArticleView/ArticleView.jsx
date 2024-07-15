@@ -33,7 +33,7 @@ export class ArticleView extends React.Component {
         <IoMdArrowBack
           style={{ marginTop: "3px", marginRight: "10px" }}
           size={30}
-          onClick={() => this.props.navigate("/")}
+          onClick={() => this.props.navigate(-1)}
         />
         <div id="article-content">
           <div id="article-details-title-bar">

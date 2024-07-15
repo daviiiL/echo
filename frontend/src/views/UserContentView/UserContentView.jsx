@@ -1,18 +1,18 @@
 import React from "react";
 import { connect } from "react-redux";
+import UserContentSection from "../../components/UserContentSection";
 class UserContentView extends React.Component {
-  constructor(props) {
-    super(props);
-    this.userArticles = this.props.allArticles;
-  }
-
   render() {
-    return <div className="view-container">UserContent Component</div>;
+    return (
+      <div className="view-container">
+        <UserContentSection articles={this.props.articles} />
+      </div>
+    );
   }
 }
 
 const mapStateToProps = (state) => ({
-  allArticles: state.articles.allArticles,
+  articles: state.articles.userArticles,
 });
 
 const UserContentViewConnected = connect(mapStateToProps)(UserContentView);
