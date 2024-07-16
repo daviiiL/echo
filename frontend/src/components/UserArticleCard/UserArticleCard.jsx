@@ -4,6 +4,7 @@ import "../../assets/components/UserArticleCard.css";
 import { SlOptionsVertical } from "react-icons/sl";
 import { CiEdit } from "react-icons/ci";
 import { RiDeleteBin4Line } from "react-icons/ri";
+// import OpenModalButton from "../OpenModalButton";
 
 export default function UserArticleCard({ article }) {
   const navigate = useNavigate();
@@ -28,6 +29,14 @@ export default function UserArticleCard({ article }) {
 
     return () => document.removeEventListener("click", closeMenu);
   }, [showMenu]);
+
+  const navigateToEditArticle = (e) => {
+    e.preventDefault();
+    setShowMenu(false);
+    navigate(`/articles/${article.id}/edit`, {
+      state: { data: article },
+    });
+  };
   const closeMenu = () => setShowMenu(false);
   const ulClassName =
     "user-content-card-dropdown" + (showMenu ? "" : " hidden");
@@ -45,7 +54,7 @@ export default function UserArticleCard({ article }) {
         <SlOptionsVertical className="clickable" onClick={toggleMenu} />
       </div>
       <ul className={ulClassName} ref={ulRef}>
-        <li onClick={closeMenu}>
+        <li onClick={navigateToEditArticle}>
           <div>
             <p>Edit Article</p>
             <CiEdit />

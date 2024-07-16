@@ -1,7 +1,8 @@
 div#article-content {
   max-width: 1000px;
   width: 80%;
-  margin-right: 4em;
+
+  justify-self: center;
   display: flex;
   flex-direction: column;
   row-gap: 1em;
@@ -67,7 +68,6 @@ div.article-image-container {
 
 p#article-body-text {
   font-size: 14pt;
-
   text-wrap: pretty;
   line-height: 2em;
   font-family: "Times New Roman", Times, serif;

@@ -22,6 +22,10 @@ const router = createBrowserRouter([
         element: <ArticleForm />,
       },
       {
+        path: "articles/:articleId/edit",
+        element: <ArticleForm />,
+      },
+      {
         path: "/user/user-content",
         element: <UserContentView />,
       },

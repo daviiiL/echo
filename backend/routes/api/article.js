@@ -155,9 +155,10 @@ router.patch("/:articleId", requireAuth, async (req, res, next) => {
   const article = await findAndCheckArticle(req);
   /// findAndCheckArticle returns the found article or an error object
   if (article instanceof Error) return next(article);
-  const { title, body } = req.body;
+  const { title, body, sub_title } = req.body;
   if (title) article.title = title;
   if (body) article.body = body;
+  if (sub_title) article.sub_title = sub_title;
   try {
     //save the updated instance to db
     const updatedArticle = await article.save();

@@ -30,11 +30,11 @@ export class ArticleView extends React.Component {
   render() {
     return (
       <div className="view-container" id="article-details">
-        <IoMdArrowBack
+        {/*  <IoMdArrowBack
           style={{ marginTop: "3px", marginRight: "10px" }}
           size={30}
           onClick={() => this.props.navigate(-1)}
-        />
+        /> */}
         <div id="article-content">
           <div id="article-details-title-bar">
             <p className="header">{this.props.articleDetails.title}</p>

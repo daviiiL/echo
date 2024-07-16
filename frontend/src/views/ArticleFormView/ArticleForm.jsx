@@ -4,20 +4,41 @@ import { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import store from "../../store";
-import { postArticle } from "../../store/toolkitArticle";
+import { postArticle, updateArticle } from "../../store/toolkitArticle";
 import { useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
+import { fetchArticleDetails } from "../../services/articleService";
 
-export default function ArticleForm({ new_article = true }) {
-  new_article;
+export default function ArticleForm() {
+  const { articleId } = useParams();
+  const [loaded, setLoaded] = useState(false);
+
   const navigate = useNavigate();
   const dbErrors = useSelector((state) => state.articles?.errors);
-
+  const articleDetails = useSelector((state) => state.articles.articleDetails);
   const [body, setBody] = useState("");
   const [header, setHeader] = useState("");
   const [subheader, setSubheader] = useState("");
   const [errors, setErrors] = useState({});
+
+  useEffect(() => {
+    if (articleId) {
+      if (loaded == false) {
+        store
+          .dispatch(fetchArticleDetails(articleId))
+          .then(() => setLoaded(true));
+      } else {
+        setBody(articleDetails.body);
+        setHeader(articleDetails.title);
+        setSubheader(articleDetails.sub_title);
+      }
+    } else {
+      setBody("");
+      setHeader("");
+      setSubheader("");
+    }
+  }, [articleId, loaded, articleDetails]);
 
   const submitNewArticle = (e) => {
     e.preventDefault();
@@ -28,6 +49,22 @@ export default function ArticleForm({ new_article = true }) {
     };
     store
       .dispatch(postArticle(article))
+      .then(unwrapResult)
+      .then((res) => {
+        if (res && res.article.id) navigate(`/articles/${res.article.id}`);
+      });
+  };
+
+  const submitArticleUpdate = (e) => {
+    e.preventDefault();
+    const article = {
+      title: header,
+      sub_title: subheader,
+      body,
+      id: articleId,
+    };
+    store
+      .dispatch(updateArticle(article))
       .then(unwrapResult)
       .then((res) => {
         if (res && res.article.id) navigate(`/articles/${res.article.id}`);
@@ -57,9 +94,12 @@ In summary, React.js is a powerful, flexible, and efficient library for building
     setErrors(dbErrors);
   }, [dbErrors]);
 
+  if (articleId && !loaded) return <h1>loading</h1>;
+
   return (
     <div className="view-container">
       <div id="article-form-container">
+        {articleId && <p id="edit-article-title"> Edit Article {articleId}</p>}
         <form id="article-form">
           <div id="article-form-title-container">
             {" "}
@@ -113,11 +153,24 @@ In summary, React.js is a powerful, flexible, and efficient library for building
           </label> */}
           {/* <Select options={[]} /> */}
           <div id="article-form-buttons">
-            <button id="submit-button" type="submit" onClick={submitNewArticle}>
+            <button
+              id="submit-button"
+              type="submit"
+              onClick={!articleId ? submitNewArticle : submitArticleUpdate}
+            >
               Submit
             </button>
             <button id="draft-button" type="submit" disabled={true}>
               Save Draft
+            </button>
+            <button
+              id="cancel-button"
+              type="button"
+              onClick={() => {
+                navigate(-1);
+              }}
+            >
+              Cancel
             </button>
             <button id="fill-demo-button" type="button" onClick={fillDemo}>
               Fill Article Fields

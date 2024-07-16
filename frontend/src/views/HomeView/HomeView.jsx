@@ -2,8 +2,13 @@ import React from "react";
 import "./HomeView.css";
 import { connect } from "react-redux";
 import ArticleCard from "../../components/ArticleCard";
+import { clearArticleDetails } from "../../store/toolkitArticle";
 import Select from "react-select";
 class HomeView extends React.Component {
+  componentDidMount() {
+    const { clearArticleDetails } = this.props;
+    clearArticleDetails();
+  }
   render() {
     return (
       <div className="view-container" id="home">
@@ -44,8 +49,18 @@ class HomeView extends React.Component {
 const mapStateToProps = (state) => ({
   allArticles: state.articles?.allArticles,
 });
+const mapDispatchToProps = (dispatch) => {
+  return {
+    clearArticleDetails: () => {
+      dispatch(clearArticleDetails());
+    },
+  };
+};
 
-const HomeViewConnected = connect(mapStateToProps)(HomeView);
+const HomeViewConnected = connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeView);
 HomeViewConnected.displayName = "HomeView";
 
 export default HomeViewConnected;

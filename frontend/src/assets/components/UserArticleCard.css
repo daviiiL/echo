@@ -35,6 +35,9 @@ ul.user-content-card-dropdown {
     align-items: center;
     justify-content: space-between;
   }
+  & a {
+    color: white;
+  }
 }
 
 .clickable {
