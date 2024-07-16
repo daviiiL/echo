@@ -15,10 +15,15 @@ export default function ConfirmDeletionModal(props) {
   };
 
   return (
-    <div style={{ padding: "5em" }}>
-      <p>{`${id}`}</p>
-      <button onClick={handleDelete}>Delete</button>
-      <button onClick={closeModal}>Cancel</button>
+    <div className="confirm-deletion-modal-container">
+      <div className="deletion-modal-conf">
+        <p className="modal-header">Confirm Deletion</p>
+        <p className="modal-subheader">deletion is irrecoverable</p>
+      </div>
+      <div className="deletion-modal-button-container">
+        <button onClick={handleDelete}>Delete</button>
+        <button onClick={closeModal}>Cancel</button>
+      </div>
     </div>
   );
 }
