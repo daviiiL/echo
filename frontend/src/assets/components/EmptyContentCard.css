@@ -1,0 +1,13 @@
+div.empty-content-card-container {
+  border: 1px solid var(--button-color);
+  background-color: var(--button-color);
+  width: 70%;
+  height: 30vh;
+  color: white;
+  border-radius: 1em;
+  padding: 2em 3em;
+  font-size: 20pt;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}

@@ -6,6 +6,8 @@ div#article-content {
   display: flex;
   flex-direction: column;
   row-gap: 1em;
+  overflow-y: scroll;
+  max-height: 90vh;
 }
 
 div#article-details {
@@ -27,6 +29,11 @@ div#article-details-title-bar {
 
   row-gap: 1em;
 }
+
+/* div.article-body {
+  overflow-y: scroll;
+  max-height: 70vh;
+} */
 
 p.header {
   font-weight: bold;
@@ -64,6 +71,7 @@ div.article-image-container {
     height: 100%;
     max-height: 600px;
   }
+  margin-bottom: 1em;
 }
 
 p#article-body-text {
@@ -71,4 +79,23 @@ p#article-body-text {
   text-wrap: pretty;
   line-height: 2em;
   font-family: "Times New Roman", Times, serif;
+}
+
+div.article-text {
+  & * {
+    text-wrap: pretty;
+    line-height: 2em;
+    font-family: "Times New Roman", Times, serif;
+  }
+
+  & p {
+    font-size: 14pt;
+  }
+  & ul {
+    padding-left: 40px;
+  }
+  & li {
+    list-style-type: disc;
+    margin: 1em 0;
+  }
 }

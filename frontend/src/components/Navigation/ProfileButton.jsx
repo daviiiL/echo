@@ -5,7 +5,10 @@ import LoginFormModal from "../LoginFormModal";
 import store from "../../store";
 import { logout } from "../../services/sessionService";
 import SignUpFormModal from "../SignupFormModal";
+import { useNavigate } from "react-router-dom";
+import { clearUserArticles } from "../../store/toolkitArticle";
 function ProfileButton({ sessionUser }) {
+  const navigate = useNavigate();
   const [user, setUser] = useState(sessionUser);
   useEffect(() => {
     // console.log("state updated");
@@ -38,8 +41,11 @@ function ProfileButton({ sessionUser }) {
 
   const onClick = (e) => {
     e.preventDefault();
-    store.dispatch(logout());
-    closeMenu();
+    store.dispatch(logout()).then(() => {
+      store.dispatch(clearUserArticles());
+      closeMenu();
+      navigate("/");
+    });
   };
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");

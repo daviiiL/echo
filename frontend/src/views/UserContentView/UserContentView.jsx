@@ -5,7 +5,11 @@ class UserContentView extends React.Component {
   render() {
     return (
       <div className="view-container">
-        <UserContentSection articles={this.props.articles} />
+        <UserContentSection
+          //this component uses the first kwarg param to determine whether its for articles or comments
+          //thus, pass something in; even if its an empty array
+          articles={this.props.articles ? this.props.articles : []}
+        />
       </div>
     );
   }

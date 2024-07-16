@@ -76,10 +76,10 @@ export class ArticleView extends React.Component {
                 />
               </div>
             )}
-          </div>
-          <div>
-            {this.props.articleDetails.body &&
-              parse(this.props.articleDetails?.body)}
+            <div className="article-text">
+              {this.props.articleDetails.body &&
+                parse(this.props.articleDetails?.body, {})}
+            </div>
           </div>
         </div>
       </div>

@@ -3,6 +3,7 @@ import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
 import store from "../../store";
 import { login } from "../../store/toolkitSession";
+import { fetchCurrentUserArticles } from "../../services/articleService";
 function LoginFormModal() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
@@ -14,7 +15,14 @@ function LoginFormModal() {
     setErrors({});
     const actionResult = await store.dispatch(login({ credential, password }));
     if (actionResult.error) setErrors({ credential: "Invalid Credentials" });
-    else closeModal();
+    else {
+      store.dispatch(fetchCurrentUserArticles()).then(closeModal);
+    }
+  };
+
+  const fillDemo = () => {
+    setCredential("Demo-lition");
+    setPassword("password");
   };
 
   return (
@@ -43,6 +51,7 @@ function LoginFormModal() {
           <p className="server-error">{errors.credential}</p>
         )}
         <button type="submit">Log In</button>
+        <button onClick={fillDemo}>Login Demo</button>
       </form>
     </>
   );

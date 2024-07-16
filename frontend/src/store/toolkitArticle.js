@@ -29,6 +29,18 @@ export const updateArticle = createAsyncThunk(
   }
 );
 
+export const deleteArticle = createAsyncThunk(
+  "articles/deleteArticle",
+  async (articleId, { rejectWithValue }) => {
+    const response = await csrfFetch(`/api/articles/${articleId}`, {
+      method: "DELETE",
+    });
+    const data = await response.json();
+    if (response.status >= 400) rejectWithValue(data);
+    return data;
+  }
+);
+
 const replaceArrayItem = (arr, item) => {
   const itemIndex = arr.reduce((acc, el, ind) => {
     if (el.id === item.id) acc = ind;
@@ -59,6 +71,9 @@ export const articleSlice = createSlice({
     clearArticleDetails: (state) => {
       state.articleDetails = {};
     },
+    clearUserArticles: (state) => {
+      state.userArticles = [];
+    },
   },
   extraReducers: (builder) => {
     //extra reducers to handle certain async thunks that require specific error handling.
@@ -86,6 +101,18 @@ export const articleSlice = createSlice({
     builder.addCase(updateArticle.rejected, (state, action) => {
       state.errors = action.payload.errors;
     });
+    builder.addCase(deleteArticle.rejected, (state, action) => {
+      state.errors = action.payload.errors;
+    });
+    builder.addCase(deleteArticle.fulfilled, (state, action) => {
+      const deletedId = action.payload.deleteId;
+      let index = state.allArticles.map((e) => e.id).indexOf(deletedId);
+      state.allArticles.splice(index, 1);
+      // state.allArticles = [...state.allArticles];
+      index = state.userArticles.map((e) => e.id).indexOf(deletedId);
+      state.userArticles.splice(index, 1);
+      // state.userArticles = [...state.userArticles];
+    });
   },
 });
 
@@ -94,5 +121,6 @@ export const {
   getArticleDetails,
   getUserArticles,
   clearArticleDetails,
+  clearUserArticles,
 } = articleSlice.actions;
 export default articleSlice.reducer;

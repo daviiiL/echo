@@ -26,7 +26,7 @@ const findAndCheckComment = async (req, includeParentPost = false) => {
         ? {
             include: [{ model: Article, attributes: ["title", "id"] }],
           }
-        : {},
+        : {}
     );
     if (parseInt(req.user.id) !== parseInt(comment.commenter_id)) {
       const err = new Error("User is unauthorized to perform this action");
@@ -65,7 +65,7 @@ router.patch(
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       next(e);
     }
-  },
+  }
 );
 
 //delete a comment by id
@@ -84,6 +84,7 @@ router.delete("/:commentId", requireAuth, async (req, res, next) => {
     return res.json({
       message:
         "Deletion successful. Your information, including identifier and the comment text body, on this comment is erased",
+      deletedId: req.params.commentId,
     });
   } catch (e) {
     if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
