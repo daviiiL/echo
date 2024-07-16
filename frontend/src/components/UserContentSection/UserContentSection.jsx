@@ -30,7 +30,7 @@ export default function UserContentSection(props) {
               </div>
             ))
           ) : (
-            <EmptyContentCard componentName="articles" />
+            <EmptyContentCard componentName="article" />
           )
         ) : (
           <p>comments coming soon</p>
