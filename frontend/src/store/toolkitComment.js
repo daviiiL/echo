@@ -82,6 +82,28 @@ export const commentSlice = createSlice({
     builder.addCase(fetchArticleComments.fulfilled, (state, action) => {
       state.articleComments = action.payload.comments;
     });
+    builder.addCase(postRootComment.rejected, (state, action) => {
+      state.errors = action.payload.errors;
+    });
+    builder.addCase(postRootComment.fulfilled, (state, action) => {
+      state.articleComments = [
+        ...state.articleComments,
+        action.payload.comment,
+      ];
+      state.userComments = [...state.userComments, action.payload.comment];
+      state.errors = null;
+    });
+    builder.addCase(postChildComment.rejected, (state, action) => {
+      state.errors = action.payload.errors;
+    });
+    builder.addCase(postChildComment.fulfilled, (state, action) => {
+      state.articleComments = [
+        ...state.articleComments,
+        action.payload.comment,
+      ];
+      state.userComments = [...state.userComments, action.payload.comment];
+      state.errors = null;
+    });
   },
 });
 

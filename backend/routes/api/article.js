@@ -198,7 +198,7 @@ router.delete("/:articleId", requireAuth, async (req, res, next) => {
   }
 });
 // -----------------------------------------------------COMMENTS----------------------------------------------------------
-//post a root comment by article id
+//get comments by article id
 router.get("/:articleId/comments", async (req, res, next) => {
   try {
     const articleComments = await Comment.findAll({
@@ -241,10 +241,11 @@ router.get("/:articleId/comments", async (req, res, next) => {
   }
 });
 
+//post a root comment by article id
 router.post(
   "/:articleId/comments",
   requireAuth,
-  // validateComment,
+  validateComment,
   async (req, res, next) => {
     try {
       // return res.json("test");
@@ -255,7 +256,37 @@ router.post(
         commenter_id: parseInt(req.user.id),
         parent_comment: null,
       });
-      return res.json({ comment: newComment });
+      const comment = await Comment.findByPk(newComment.id, {
+        include: [
+          {
+            model: User,
+            attributes: [
+              "first_name",
+              "last_name",
+              "username",
+              "id",
+              "last_active",
+            ],
+          },
+          {
+            model: Comment,
+            as: "parent",
+            include: [
+              {
+                model: User,
+                attributes: [
+                  "first_name",
+                  "last_name",
+                  "username",
+                  "id",
+                  "last_active",
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      return res.json({ comment: comment });
     } catch (e) {
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       next(e);
@@ -277,7 +308,38 @@ router.post(
         //pass in the parent comment id
         parent_comment: parseInt(req.params.parentCommentId),
       });
-      return res.json({ comment: newComment });
+      // return res.json({ comment: newComment });
+      const comment = await Comment.findByPk(newComment.id, {
+        include: [
+          {
+            model: User,
+            attributes: [
+              "first_name",
+              "last_name",
+              "username",
+              "id",
+              "last_active",
+            ],
+          },
+          {
+            model: Comment,
+            as: "parent",
+            include: [
+              {
+                model: User,
+                attributes: [
+                  "first_name",
+                  "last_name",
+                  "username",
+                  "id",
+                  "last_active",
+                ],
+              },
+            ],
+          },
+        ],
+      });
+      return res.json({ comment: comment });
     } catch (e) {
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       return next(e);
