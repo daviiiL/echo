@@ -12,7 +12,7 @@ export const postArticle = createAsyncThunk(
     const data = await response.json();
     if (response.status >= 400) return rejectWithValue(data);
     return data;
-  }
+  },
 );
 
 export const updateArticle = createAsyncThunk(
@@ -26,7 +26,7 @@ export const updateArticle = createAsyncThunk(
     const data = await response.json();
     if (response.status >= 400) return rejectWithValue(data);
     return data;
-  }
+  },
 );
 
 export const deleteArticle = createAsyncThunk(
@@ -38,7 +38,7 @@ export const deleteArticle = createAsyncThunk(
     const data = await response.json();
     if (response.status >= 400) rejectWithValue(data);
     return data;
-  }
+  },
 );
 
 const replaceArrayItem = (arr, item) => {
@@ -90,11 +90,11 @@ export const articleSlice = createSlice({
       state.articleDetails = action.payload.article;
       state.allArticles = replaceArrayItem(
         state.allArticles,
-        action.payload.article
+        action.payload.article,
       );
       state.userArticles = replaceArrayItem(
         state.userArticles,
-        action.payload.article
+        action.payload.article,
       );
       state.errors = null;
     });
@@ -108,10 +108,8 @@ export const articleSlice = createSlice({
       const deletedId = action.payload.deleteId;
       let index = state.allArticles.map((e) => e.id).indexOf(deletedId);
       state.allArticles.splice(index, 1);
-      // state.allArticles = [...state.allArticles];
       index = state.userArticles.map((e) => e.id).indexOf(deletedId);
       state.userArticles.splice(index, 1);
-      // state.userArticles = [...state.userArticles];
     });
   },
 });

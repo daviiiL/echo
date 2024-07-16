@@ -1,16 +1,35 @@
-div.view-container {
-  background-color: var(--view-background);
-  flex-grow: 2;
-  border-top-left-radius: 3em;
-  border-top-right-radius: 3em;
-  padding: 2em 0 0 2em;
-  margin-right: 1.5em;
+div#main {
+    display: flex;
+    width: 100%;
+    min-height: calc(100vh);
+    background-color: var(--site-background);
+}
 
-  & a {
-    color: black;
-  }
+div#main-view-container {
+    width: 100%;
+    min-height: calc(100vh);
+    display: flex;
+    flex-direction: column;
+    margin-left: 5em;
+}
+
+div#main-view-spacer {
+    height: 2em;
+}
+
+div.view-container {
+    background-color: var(--view-background);
+    flex-grow: 2;
+    border-top-left-radius: 3em;
+    border-top-right-radius: 3em;
+    padding: 2em 0 0 2em;
+    margin-right: 1.5em;
+    min-height: 90%;
+    & a {
+        color: black;
+    }
 }
 
 p.errors {
-  color: red;
+    color: red;
 }

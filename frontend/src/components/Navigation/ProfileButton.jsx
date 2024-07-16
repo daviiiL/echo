@@ -7,19 +7,21 @@ import { logout } from "../../services/sessionService";
 import SignUpFormModal from "../SignupFormModal";
 import { useNavigate } from "react-router-dom";
 import { clearUserArticles } from "../../store/toolkitArticle";
+import { clearCurrentUserComments } from "../../store/toolkitComment";
 function ProfileButton({ sessionUser }) {
   const navigate = useNavigate();
   const [user, setUser] = useState(sessionUser);
   useEffect(() => {
-    // console.log("state updated");
+    //sets state for session user
     setUser(sessionUser);
   }, [sessionUser]);
-  // const dispatch = useDispatch();
+
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
 
   const toggleMenu = (e) => {
-    e.stopPropagation(); // Keep from bubbling up to document and triggering closeMenu
+    e.stopPropagation();
+    //close menu
     setShowMenu(!showMenu);
   };
 
@@ -39,10 +41,11 @@ function ProfileButton({ sessionUser }) {
 
   const closeMenu = () => setShowMenu(false);
 
-  const onClick = (e) => {
+  const handleLogout = (e) => {
     e.preventDefault();
     store.dispatch(logout()).then(() => {
       store.dispatch(clearUserArticles());
+      store.dispatch(clearCurrentUserComments());
       closeMenu();
       navigate("/");
     });
@@ -82,7 +85,7 @@ function ProfileButton({ sessionUser }) {
             </li>
             <li>{user.email}</li>
             <li>
-              <button onClick={onClick}>Log Out</button>
+              <button onClick={handleLogout}>Log Out</button>
             </li>
           </>
         ) : (

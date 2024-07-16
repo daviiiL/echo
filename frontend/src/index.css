@@ -4,66 +4,68 @@
  *-------------------------------------------------*/
 
 :root {
-  --view-background: #ffffff;
-  --site-background: #e2e8f0;
-  --date-color: #808080;
-  --dashboard-item-color: #3d3d3d;
-  --subheader-color: #6b6b6b;
-  --divider-color: #e0e0e0;
-  --button-color: #2196f3;
-  --button-color-secondary: blue;
+    --view-background: #ffffff;
+    --site-background: #e2e8f0;
+    --date-color: #808080;
+    --dashboard-item-color: #3d3d3d;
+    --subheader-color: #6b6b6b;
+    --divider-color: #e0e0e0;
+    --button-color: #2196f3;
+    --button-color-secondary: #004aa3;
+    --button-color-focus: #82a1cc;
+    --button-color-secondary-focus: #003184;
 }
 
 /* site wide styling */
 
 * {
-  padding: 0;
-  margin: 0;
-  box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
 }
 
 html,
 body {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
+    /* height: 100%; */
+    display: flex;
+    flex-direction: column;
 }
 
 body {
-  font-family: "Roboto";
+    font-family: "Roboto";
 }
 
 div#root {
-  height: 100%;
+    /* height: 100%; */
 }
 
 a {
-  text-decoration: none;
+    text-decoration: none;
 }
 
 ul,
 li {
-  list-style-type: none;
+    list-style-type: none;
 }
 
 /* divider styles  */
 /* Dashed border */
 hr.dashed {
-  border-top: 3px dashed #bbb;
+    border-top: 3px dashed #bbb;
 }
 
 /* Dotted border */
 hr.dotted {
-  border-top: 3px dotted #bbb;
+    border-top: 3px dotted #bbb;
 }
 
 /* Solid border */
 hr.solid {
-  border-top: 1px solid #bbb;
+    border-top: 1px solid #bbb;
 }
 
 /* Rounded border */
 hr.rounded {
-  border-top: 2px solid #bbb;
-  border-radius: 1px;
+    border-top: 2px solid #bbb;
+    border-radius: 1px;
 }

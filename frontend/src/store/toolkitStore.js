@@ -1,9 +1,11 @@
 import { combineSlices, configureStore } from "@reduxjs/toolkit";
 import { sessionSlice } from "./toolkitSession";
 import { articleSlice } from "./toolkitArticle";
+import { commentSlice } from "./toolkitComment";
 import { applyMiddleware, compose } from "redux";
 import thunk from "redux-thunk";
-const rootReducer = combineSlices(sessionSlice, articleSlice);
+
+const rootReducer = combineSlices(sessionSlice, articleSlice, commentSlice);
 
 let enhancer;
 if (import.meta.env.MODE === "production") {

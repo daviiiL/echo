@@ -62,7 +62,12 @@ export default function UserArticleCard({ article }) {
         </li>
         <li>
           <OpenModalText
-            modalComponent={<ConfirmDeletionModal articleId={article.id} />}
+            modalComponent={
+              <ConfirmDeletionModal
+                articleId={article.id}
+                deletionType="article"
+              />
+            }
             onModalClose={closeMenu}
             itemText="Delete Article"
             iconComponent={<RiDeleteBin4Line />}

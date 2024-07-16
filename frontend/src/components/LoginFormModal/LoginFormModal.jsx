@@ -4,6 +4,7 @@ import "./LoginForm.css";
 import store from "../../store";
 import { login } from "../../store/toolkitSession";
 import { fetchCurrentUserArticles } from "../../services/articleService";
+import { fetchCurrentUserComments } from "../../store/toolkitComment";
 function LoginFormModal() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
@@ -16,6 +17,7 @@ function LoginFormModal() {
     const actionResult = await store.dispatch(login({ credential, password }));
     if (actionResult.error) setErrors({ credential: "Invalid Credentials" });
     else {
+      store.dispatch(fetchCurrentUserComments());
       store.dispatch(fetchCurrentUserArticles()).then(closeModal);
     }
   };

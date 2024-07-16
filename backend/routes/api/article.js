@@ -20,7 +20,7 @@ const validateArticle = [
   check("sub_title")
     .isLength({ min: 4 })
     .withMessage(
-      "Please enter at least 4 characters for your article sub-title"
+      "Please enter at least 4 characters for your article sub-title",
     ),
   check("body")
     .exists({ checkFalsy: true })
@@ -187,8 +187,28 @@ router.delete("/:articleId", requireAuth, async (req, res, next) => {
     return next(e);
   }
 });
-
+// -----------------------------------------------------COMMENTS----------------------------------------------------------
 //post a root comment by article id
+router.get("/:articleId/comments", async (req, res, next) => {
+  try {
+    const articleComments = await Comment.findAll({
+      where: {
+        parent_article: req.params.articleId,
+      },
+      include: [
+        {
+          model: User,
+          attributes: ["first_name", "last_name", "username", "id"],
+        },
+      ],
+    });
+    return res.json({ comments: articleComments });
+  } catch (e) {
+    if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
+    return next(e);
+  }
+});
+
 router.post(
   "/:articleId/comments",
   requireAuth,
@@ -207,7 +227,7 @@ router.post(
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       return next(e);
     }
-  }
+  },
 );
 
 //post a child comment by article id
@@ -229,9 +249,9 @@ router.post(
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       return next(e);
     }
-  }
+  },
 );
-
+// ----------------------------------------TAGS---------------------------------------
 //add a tag to article by articleId
 //the request url should be .../articles/:articlesId/tags?tag=a&tag=b&tag=c
 router.post("/:articleId/tags", requireAuth, async (req, res, next) => {
