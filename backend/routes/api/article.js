@@ -4,7 +4,6 @@ const { Article, Comment, User, Tag, ArticleTag } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth.js");
 const { handleValidationErrors } = require("../../utils/validation.js");
 const { check } = require("express-validator");
-const { validateComment } = require("./validators.js");
 
 //middlewares
 const validateArticle = [
@@ -28,6 +27,17 @@ const validateArticle = [
   check("body")
     .isLength({ min: 40 })
     .withMessage("Please enter at least 40 charactesr for your article body"),
+  handleValidationErrors,
+];
+
+const validateComment = [
+  check("body")
+    .exists({ checkFalsy: true })
+    .notEmpty()
+    .withMessage("Please provide a text for your comment"),
+  check("body")
+    .isLength({ min: 5 })
+    .withMessage("Please enter at least 5 characters for your comment"),
   handleValidationErrors,
 ];
 
@@ -198,23 +208,46 @@ router.get("/:articleId/comments", async (req, res, next) => {
       include: [
         {
           model: User,
-          attributes: ["first_name", "last_name", "username", "id"],
+          attributes: [
+            "first_name",
+            "last_name",
+            "username",
+            "id",
+            "last_active",
+          ],
+        },
+        {
+          model: Comment,
+          as: "parent",
+          include: [
+            {
+              model: User,
+              attributes: [
+                "first_name",
+                "last_name",
+                "username",
+                "id",
+                "last_active",
+              ],
+            },
+          ],
         },
       ],
     });
     return res.json({ comments: articleComments });
   } catch (e) {
     if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
-    return next(e);
+    next(e);
   }
 });
 
 router.post(
   "/:articleId/comments",
   requireAuth,
-  validateComment,
+  // validateComment,
   async (req, res, next) => {
     try {
+      // return res.json("test");
       //root comment: no parent comment
       const newComment = await Comment.create({
         ...req.body,
@@ -225,7 +258,7 @@ router.post(
       return res.json({ comment: newComment });
     } catch (e) {
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
-      return next(e);
+      next(e);
     }
   },
 );

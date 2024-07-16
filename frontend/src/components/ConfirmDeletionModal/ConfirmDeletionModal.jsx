@@ -18,7 +18,11 @@ export default function ConfirmDeletionModal(props) {
   return (
     <div className="confirm-deletion-modal-container">
       <div>
-        <MdOutlineClear size={30} />
+        <MdOutlineClear
+          size={30}
+          onClick={closeModal}
+          style={{ cursor: "pointer" }}
+        />
       </div>
       <div className="deletion-modal-conf">
         <p>

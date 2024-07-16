@@ -21,6 +21,40 @@ export const fetchArticleComments = createAsyncThunk(
   },
 );
 
+export const postRootComment = createAsyncThunk(
+  "comments/postRootComment",
+  async (payload, { rejectWithValue }) => {
+    const options = {
+      method: "POST",
+      body: JSON.stringify({ ...payload }),
+    };
+    const response = await csrfFetch(
+      `/api/articles/${payload.articleId}/comments`,
+      options,
+    );
+    const data = await response.json();
+    if (response.status >= 400) return rejectWithValue(data);
+    return data;
+  },
+);
+
+export const postChildComment = createAsyncThunk(
+  "comments/postChildComment",
+  async (payload, { rejectWithValue }) => {
+    const options = {
+      method: "POST",
+      body: JSON.stringify({ ...payload }),
+    };
+    const response = await csrfFetch(
+      `/api/articles/${payload.articleId}/comments/${payload.parentCommentId}`,
+      options,
+    );
+    const data = await response.json();
+    if (response.status >= 400) return rejectWithValue(data);
+    return data;
+  },
+);
+
 export const commentSlice = createSlice({
   name: "comments",
   initialState: {

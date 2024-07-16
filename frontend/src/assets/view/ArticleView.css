@@ -97,3 +97,7 @@ div.article-text {
         margin: 1em 0;
     }
 }
+
+div#comments-content {
+    padding: 2em 0 4em 2em;
+}

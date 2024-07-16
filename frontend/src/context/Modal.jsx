@@ -1,6 +1,6 @@
-import { useRef, useState, useContext, createContext } from 'react';
-import ReactDOM from 'react-dom';
-import './Modal.css';
+import { useRef, useState, useContext, createContext } from "react";
+import ReactDOM from "react-dom";
+import "./Modal.css";
 
 const ModalContext = createContext();
 
@@ -9,12 +9,12 @@ export function ModalProvider({ children }) {
   const [modalContent, setModalContent] = useState(null);
   // callback function that will be called when modal is closing
   const [onModalClose, setOnModalClose] = useState(null);
-
+  const [modalId, setModalId] = useState(null);
   const closeModal = () => {
     setModalContent(null); // clear the modal contents
     // If callback function is truthy, call the callback function and reset it
     // to null:
-    if (typeof onModalClose === 'function') {
+    if (typeof onModalClose === "function") {
       setOnModalClose(null);
       onModalClose();
     }
@@ -25,7 +25,9 @@ export function ModalProvider({ children }) {
     modalContent, // React component to render inside modal
     setModalContent, // function to set the React component to render inside modal
     setOnModalClose, // function to set the callback function called when modal is closing
-    closeModal // function to close the modal
+    closeModal, // function to close the modal
+    modalId, //param to overwrite modal componet id for easy styling
+    setModalId,
   };
 
   return (
@@ -39,20 +41,24 @@ export function ModalProvider({ children }) {
 }
 
 export function Modal() {
-  const { modalRef, modalContent, closeModal } = useContext(ModalContext);
+  const { modalRef, modalContent, closeModal, modalId } =
+    useContext(ModalContext);
   // If there is no div referenced by the modalRef or modalContent is not a
   // truthy value, render nothing:
   if (!modalRef || !modalRef.current || !modalContent) return null;
 
   // Render the following component to the div referenced by the modalRef
   return ReactDOM.createPortal(
-    <div id="modal">
-      <div id="modal-background" onClick={closeModal} />
-      <div id="modal-content">
+    <div id={modalId ? modalId : "modal"}>
+      <div
+        id={modalId ? `modal-background-${modalId}` : "modal-background"}
+        onClick={closeModal}
+      />
+      <div id={modalId ? `modal-content+${modalId}` : "modal-content"}>
         {modalContent}
       </div>
     </div>,
-    modalRef.current
+    modalRef.current,
   );
 }
 

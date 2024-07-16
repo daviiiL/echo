@@ -7,7 +7,7 @@ import store from "./store";
 
 import { restoreCSRF, csrfFetch } from "./store/csrf";
 import { ModalProvider } from "./context/Modal";
-
+// import { MenuModalProvider } from "./context/MenuModal";
 import "@fontsource/roboto";
 
 if (import.meta.env.MODE !== "production") {
@@ -21,9 +21,11 @@ if (import.meta.env.MODE !== "production") {
 ReactDOM.createRoot(document.getElementById("root")).render(
   <React.StrictMode>
     <ModalProvider>
+      {/* <MenuModalProvider> */}
       <Provider store={store}>
         <App />
       </Provider>
+      {/* </MenuModalProvider> */}
     </ModalProvider>
   </React.StrictMode>,
 );

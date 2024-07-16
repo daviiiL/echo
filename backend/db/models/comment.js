@@ -22,6 +22,7 @@ module.exports = (sequelize, DataTypes) => {
       });
       Comment.belongsTo(models.Comment, {
         foreignKey: "parent_comment",
+        as: "parent",
       });
     }
   }
@@ -55,7 +56,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Comment",
-    }
+    },
   );
   return Comment;
 };

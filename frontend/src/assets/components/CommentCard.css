@@ -1,0 +1,35 @@
+div.comment-card-container {
+    display: flex;
+    flex-direction: column;
+    height: min-content;
+    & > div:first-child {
+        display: flex;
+        margin-right: 4em;
+        justify-content: space-between;
+    }
+    & span:not(.comment-user-name) {
+        color: #505966;
+    }
+}
+
+div.comment-card-container.child-comment {
+    margin-left: 3em;
+    padding-left: 1em;
+
+    border-left: 0.5px solid var(--site-background);
+}
+
+div.comment-card-body p {
+    font-weight: 200;
+    color: #505966;
+    padding: 0.5em 0 1em 0;
+    max-width: 60%;
+    line-height: 140%;
+}
+
+span.comment-user-name {
+    background-color: var(--site-background);
+    padding: 0.2em 0.2em;
+    color: var(--button-color);
+    border-radius: 1em;
+}

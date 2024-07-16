@@ -1,7 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchArticleComments } from "../../store/toolkitComment";
-
+import CommentCard from "../CommentCard/CommentCard";
+import "../../assets/components/ArticleCommentSection.css";
 export class ArticleCommentsSection extends React.Component {
   componentDidMount() {
     this.props.fetchArticleComments(this.props.articleId);
@@ -9,9 +10,14 @@ export class ArticleCommentsSection extends React.Component {
 
   render() {
     return (
-      <div>
-        <p>ArticleCommentsSection</p>
-      </div>
+      <>
+        <p className="comment-section-header">
+          {`${this.props.comments?.length} Comments`}
+        </p>
+        {this.props.comments.map((comment) => (
+          <CommentCard key={comment.id} comment={comment} />
+        ))}
+      </>
     );
   }
 }
