@@ -1,7 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import { fetchArticleDetails } from "../../services/articleService";
-import { IoMdArrowBack } from "react-icons/io";
+// import { IoMdArrowBack } from "react-icons/io";
 import {
   PiHandsClappingThin,
   PiChatCircleTextThin,

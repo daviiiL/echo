@@ -4,8 +4,8 @@ import "../../assets/components/UserArticleCard.css";
 import { SlOptionsVertical } from "react-icons/sl";
 import { CiEdit } from "react-icons/ci";
 import { RiDeleteBin4Line } from "react-icons/ri";
-// import OpenModalButton from "../OpenModalButton";
-
+import ConfirmDeletionModal from "../ConfirmDeletionModal";
+import OpenModalText from "../OpenModalButton/OpenModalText";
 export default function UserArticleCard({ article }) {
   const navigate = useNavigate();
   const [showMenu, setShowMenu] = useState(false);
@@ -60,11 +60,13 @@ export default function UserArticleCard({ article }) {
             <CiEdit />
           </div>
         </li>
-        <li onClick={closeMenu}>
-          <div>
-            <p>Delete Article</p>
-            <RiDeleteBin4Line />
-          </div>
+        <li>
+          <OpenModalText
+            modalComponent={<ConfirmDeletionModal id={article.id} />}
+            onModalClose={closeMenu}
+            itemText="Delete Article"
+            iconComponent={<RiDeleteBin4Line />}
+          />
         </li>
       </ul>
     </div>
