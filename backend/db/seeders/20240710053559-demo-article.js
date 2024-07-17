@@ -17,6 +17,18 @@ const userArticles = [
       },
     ],
   },
+  {
+    username: "Demo-lition",
+    payload: [
+      {
+        title: "An Article about Posting in Postman",
+        body: "Building a robust API backend requires careful consideration of design principles, security measures, and efficient data management. A well-structured API should be easy to use, scalable, and secure, ensuring smooth communication between your application and its consumers.",
+        sub_title: "An exploration on posting in Postman",
+        preview_image_url:
+          "https://upload.wikimedia.org/wikipedia/commons/thumb/2/21/NYPL_1814_postman.jpg/170px-NYPL_1814_postman.jpg",
+      },
+    ],
+  },
 ];
 
 /** @type {import('sequelize-cli').Migration} */
