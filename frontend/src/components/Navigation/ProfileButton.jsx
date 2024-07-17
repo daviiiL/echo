@@ -6,7 +6,10 @@ import store from "../../store";
 import { logout } from "../../services/sessionService";
 import SignUpFormModal from "../SignupFormModal";
 import { useNavigate } from "react-router-dom";
-import { clearUserArticles } from "../../store/toolkitArticle";
+import {
+  clearArticleDetails,
+  clearUserArticles,
+} from "../../store/toolkitArticle";
 import { clearCurrentUserComments } from "../../store/toolkitComment";
 function ProfileButton({ sessionUser }) {
   const navigate = useNavigate();
@@ -46,6 +49,7 @@ function ProfileButton({ sessionUser }) {
     store.dispatch(logout()).then(() => {
       store.dispatch(clearUserArticles());
       store.dispatch(clearCurrentUserComments());
+      store.dispatch(clearArticleDetails());
       closeMenu();
       navigate("/");
     });
@@ -63,7 +67,7 @@ function ProfileButton({ sessionUser }) {
           />
         </button>
       ) : (
-        <div id="navbar-login-items-container">
+        <ul id="navbar-login-items-container">
           <OpenModalMenuItem
             itemText="Log In"
             onItemClick={closeMenu}
@@ -74,7 +78,7 @@ function ProfileButton({ sessionUser }) {
             onItemClick={closeMenu}
             modalComponent={<SignUpFormModal />}
           />
-        </div>
+        </ul>
       )}
       <ul className={ulClassName} ref={ulRef}>
         {user ? (

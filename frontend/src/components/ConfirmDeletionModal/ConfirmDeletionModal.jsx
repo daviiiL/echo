@@ -3,7 +3,7 @@ import { useModal } from "../../context/Modal";
 import { deleteArticle } from "../../store/toolkitArticle";
 import store from "../../store";
 import { MdOutlineClear } from "react-icons/md";
-
+import { deleteComment } from "../../store/toolkitComment";
 export default function ConfirmDeletionModal(props) {
   // const errors = useState((state) => state.articles.errors);
   const id = props.articleId ? props.articleId : props.commentId;
@@ -11,7 +11,9 @@ export default function ConfirmDeletionModal(props) {
   const { closeModal } = useModal();
   const handleDelete = (e) => {
     e.preventDefault();
-    store.dispatch(deleteArticle(id));
+    props.articleId !== undefined
+      ? store.dispatch(deleteArticle(id))
+      : store.dispatch(deleteComment(id));
     closeModal();
   };
 

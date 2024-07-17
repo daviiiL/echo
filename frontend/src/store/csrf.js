@@ -1,5 +1,7 @@
 import Cookies from "js-cookie";
-
+window.addEventListener("unhandledrejection", (event) => {
+  event.preventDefault();
+});
 export async function csrfFetch(url, options = {}) {
   // set options.method to 'GET' if there is no method
   options.method = options.method || "GET";
@@ -16,13 +18,6 @@ export async function csrfFetch(url, options = {}) {
   }
   // call the default window's fetch with the url and the options passed in
   const res = await window.fetch(url, options);
-
-  // if the response status code is 400 or above, then throw an error with the
-  // error being the response
-  // if (res.status >= 400) throw res;
-
-  // if the response status code is under 400, then return the response to the
-  // next promise chain
   return res;
 }
 

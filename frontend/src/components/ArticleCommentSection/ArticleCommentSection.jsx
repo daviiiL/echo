@@ -9,6 +9,43 @@ export class ArticleCommentsSection extends React.Component {
     this.props.fetchArticleComments(this.props.articleId);
   }
 
+  sortCommentsPreorder = (comments) => {
+    const result = [];
+    const map = {};
+    for (const comment of comments) {
+      map[comment.id] = { ...comment, children: [] };
+    }
+    for (const comment of comments) {
+      if (comment.parent_comment !== null)
+        map[comment.parent_comment].children.push(map[comment.id]);
+    }
+
+    function preorderTraversal(comment) {
+      result.push(comment);
+      for (const child of comment.children) preorderTraversal(child);
+    }
+
+    for (const comment of comments) {
+      if (comment.parent_comment === null) preorderTraversal(map[comment.id]);
+    }
+    return result;
+  };
+
+  flattenComments(comments) {
+    const sortedComments = this.sortCommentsPreorder(comments);
+    const flattened = [];
+
+    function flatten(comment) {
+      flattened.push(comment);
+      for (const child of comment.children) flatten(child);
+    }
+
+    for (const comment of sortedComments) {
+      if (comment.parent_comment === null) flatten(comment);
+    }
+    return flattened;
+  }
+
   render() {
     return (
       <>
@@ -16,13 +53,16 @@ export class ArticleCommentsSection extends React.Component {
           {`${this.props.comments?.length} Comments`}
         </p>
         <div className="comment-form-container">
-          <CommentForm articleId={this.props.articleId} />
+          <CommentForm
+            articleId={this.props.articleId}
+            authenticated={this.props.sessionUser !== null}
+          />
         </div>
-        {this.props.comments.map((comment) => (
+        {this.flattenComments(this.props.comments).map((comment) => (
           <CommentCard
             key={comment.id}
             comment={comment}
-            sessionUser={this.props.sessionUser}
+            sessionUserId={this.props.sessionUser?.id}
           />
         ))}
       </>

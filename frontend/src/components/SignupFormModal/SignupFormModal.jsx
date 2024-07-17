@@ -18,7 +18,6 @@ function SignupFormModal() {
 
   useEffect(() => {
     if (session.errors) setErrors(session.errors);
-    else console.log("registered");
   }, [session, closeModal]);
 
   const handleSubmit = (e) => {
@@ -53,73 +52,65 @@ function SignupFormModal() {
   };
 
   return (
-    <>
-      <h1>Sign Up</h1>
+    <div id="signup-form-modal">
       <form onSubmit={handleSubmit}>
-        <label>
-          Email
+        <p id="login-title">{`let's get started`}</p>
+        <div id="login-modal-input-fields">
           <input
             type="text"
             value={email}
+            placeholder="email"
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-        </label>
-        {errors.email && <p>{errors.email}</p>}
-        <label>
-          Username
+          {errors.email && <p>{errors.email}</p>}
           <input
             type="text"
             value={username}
+            placeholder="username"
             onChange={(e) => setUsername(e.target.value)}
             required
           />
-        </label>
-        {errors.username && <p>{errors.username}</p>}
-        <label>
-          First Name
+          {errors.username && <p>{errors.username}</p>}
           <input
             type="text"
             value={firstName}
+            placeholder="your first name"
             onChange={(e) => setFirstName(e.target.value)}
             required
           />
-        </label>
-        {errors.firstName && <p>{errors.firstName}</p>}
-        <label>
-          Last Name
+          {errors.firstName && <p>{errors.firstName}</p>}
           <input
             type="text"
             value={lastName}
+            placeholder="your last name"
             onChange={(e) => setLastName(e.target.value)}
             required
           />
-        </label>
-        {errors.lastName && <p>{errors.lastName}</p>}
-        <label>
-          Password
+          {errors.lastName && <p>{errors.lastName}</p>}
           <input
             value={password}
+            placeholder="set a memorable password"
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-        </label>
-        {errors.password && <p>{errors.password}</p>}
-        <label>
-          Confirm Password
+          {errors.password && <p>{errors.password}</p>}
           <input
             value={confirmPassword}
+            placeholder="confirm your password"
             onChange={(e) => setConfirmPassword(e.target.value)}
             required
           />
-        </label>
-        {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
-        <button type="submit">Sign Up</button>
-        <button type="button" onClick={fillFrom}>
-          Autofill Demo
-        </button>
+          {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
+        </div>
+        <div id="login-modal-buttons">
+          <button type="submit">Sign Up</button>
+          <button type="button" onClick={fillFrom}>
+            Autofill Demo
+          </button>
+        </div>
       </form>
-    </>
+    </div>
   );
 }
 

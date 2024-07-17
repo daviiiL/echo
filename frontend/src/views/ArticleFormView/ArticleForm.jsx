@@ -9,6 +9,7 @@ import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { fetchArticleDetails } from "../../services/articleService";
+import { CiEdit } from "react-icons/ci";
 
 export default function ArticleForm() {
   const { articleId } = useParams();
@@ -99,7 +100,11 @@ In summary, React.js is a powerful, flexible, and efficient library for building
   return (
     <div className="view-container">
       <div id="article-form-container">
-        {articleId && <p id="edit-article-title"> Edit Article {articleId}</p>}
+        {articleId && (
+          <p id="edit-article-title">
+            edit mode <CiEdit />
+          </p>
+        )}
         <form id="article-form">
           <div id="article-form-title-container">
             {" "}

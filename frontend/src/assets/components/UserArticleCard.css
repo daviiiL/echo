@@ -1,45 +1,45 @@
 div.user-content-card {
-  color: var(--dashboard-item-color);
-  display: flex;
-  align-items: start;
-  justify-content: space-between;
-  padding-bottom: 2em;
-  position: relative;
+    color: var(--dashboard-item-color);
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    padding-bottom: 2em;
+    position: relative;
 }
 
 div.article-details {
-  display: flex;
-  flex-direction: column;
-  cursor: pointer;
-  row-gap: 2px;
+    display: flex;
+    flex-direction: column;
+    cursor: pointer;
+    row-gap: 2px;
 }
 
 ul.user-content-card-dropdown {
-  position: absolute;
-  right: 0;
-  width: 10em;
-  top: 30px;
-  background-color: var(--button-color);
-  border: 1px solid var(--button-color);
-  padding: 1em;
-  color: white;
-  font-weight: bold;
-  border-radius: 1em;
-  z-index: 2;
-  & > li {
-    margin: 1em 0;
-    cursor: pointer;
-  }
-  & div {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-  }
-  & a {
+    position: absolute;
+    right: 0;
+    width: 10em;
+    top: 30px;
+    background-color: var(--button-color);
+    border: 1px solid var(--button-color);
+    padding: 1em;
     color: white;
-  }
+    font-weight: bold;
+    border-radius: 1em;
+    z-index: 2;
+    & > li {
+        margin: 0.5em 0;
+        cursor: pointer;
+    }
+    & div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    & a {
+        color: white;
+    }
 }
 
 .clickable {
-  cursor: pointer;
+    cursor: pointer;
 }

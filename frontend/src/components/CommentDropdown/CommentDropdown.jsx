@@ -13,6 +13,7 @@ export default function CommentDropdown({
   parentCommentId,
   isOwnComment,
   articleId,
+  sessionUserId,
 }) {
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
@@ -49,15 +50,27 @@ export default function CommentDropdown({
         {isOwnComment && (
           <>
             <li>
-              <div>
-                <p>Edit</p>
-                <CiEdit />
-              </div>
+              <OpenModalText
+                modalComponent={
+                  <CommentForm
+                    isModal={true}
+                    authenticated={true}
+                    newComment={false}
+                    parentCommentId={parentCommentId}
+                  />
+                }
+                onModalClose={closeMenu}
+                itemText="Edit"
+                iconComponent={<CiEdit />}
+              />
             </li>
             <li>
               <OpenModalText
                 modalComponent={
-                  <ConfirmDeletionModal commentId={1} deletionType="comment" />
+                  <ConfirmDeletionModal
+                    commentId={parentCommentId}
+                    deletionType="comment"
+                  />
                 }
                 onModalClose={closeMenu}
                 itemText="Delete"
@@ -73,6 +86,8 @@ export default function CommentDropdown({
                 articleId={articleId}
                 parentCommentId={parentCommentId}
                 isModal={true}
+                sessionUserId={sessionUserId}
+                authenticated={true}
               />
             }
             onModalClose={closeMenu}

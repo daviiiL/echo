@@ -1,0 +1,17 @@
+div#signup-form-modal {
+    display: flex;
+    flex-direction: column;
+    padding: 2em;
+    height: 600px;
+    width: 400px;
+
+    background-color: var(--site-background);
+    border-radius: 1em;
+    & > form {
+        display: flex;
+        flex-direction: column;
+        row-gap: 0.5em;
+        justify-content: space-between;
+        height: 100%;
+    }
+}

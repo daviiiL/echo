@@ -20,7 +20,7 @@ export default function AuthorCard({
           <p>{`${owner.first_name} ${owner.last_name}`}</p>
           {isArticle || (
             <p className="user-last-active-date">
-              {formatDataBaseActiveDate(owner.last_active)}
+              {owner.last_active && formatDataBaseActiveDate(owner.last_active)}
             </p>
           )}
           {isArticle && "•"}

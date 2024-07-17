@@ -50,6 +50,13 @@ form.comment-form {
     }
 }
 
+div#comment-form-buttons {
+    align-items: center;
+    & p {
+        color: var(--subheader-color);
+    }
+}
+
 button#cancel-button {
     background-color: var(--site--background);
     color: var(--button-color-secondary);

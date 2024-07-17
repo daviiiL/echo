@@ -3,7 +3,15 @@ import "../../assets/components/CommentFormModal.css";
 import store from "../../store";
 import { useSelector } from "react-redux";
 import { useEffect } from "react";
-import { postChildComment, postRootComment } from "../../store/toolkitComment";
+import {
+  clearCommentErrors,
+  postChildComment,
+  postChildCommentModal,
+  postRootCommentModal,
+  postRootComment,
+  updateComment,
+  fetchCommentById,
+} from "../../store/toolkitComment";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useModal } from "../../context/Modal";
 export default function CommentForm({
@@ -11,38 +19,55 @@ export default function CommentForm({
   articleId,
   parentCommentId,
   isModal,
+  authenticated = false,
 }) {
   const [body, setBody] = useState("");
   const [loaded, setLoaded] = useState(false);
-
   const dbErrors = useSelector((state) => state.comments?.errors);
+  const dbModalErrors = useSelector((state) => state.comments?.modalErrors);
+  const comment = useSelector((state) => state.comments?.singleComment);
   const [errors, setErrors] = useState({});
 
   const { closeModal } = useModal();
+
+  useEffect(() => {
+    store.dispatch(clearCommentErrors()); //run clear errors stored in redux because diff instances share the same store
+  }, []);
+
   useEffect(() => {
     if (!newComment) {
       if (!loaded) {
-        //pass: dispatch prepopuation thunk here
+        store.dispatch(fetchCommentById(parentCommentId)).then(setLoaded(true));
       } else {
-        //set body to state
+        setBody(comment.body);
       }
     } else {
       setBody("");
     }
-  }, [loaded, newComment]);
+  }, [loaded, newComment, comment, parentCommentId]);
 
   useEffect(() => {
-    setErrors(dbErrors);
-  }, [dbErrors]);
+    !isModal ? setErrors(dbErrors) : setErrors(dbModalErrors);
+  }, [dbErrors, dbModalErrors, isModal]);
 
-  const updateComment = (e) => {
+  const submitUpdatedComment = (e) => {
     e.preventDefault();
-    window.alert("clicked update");
+    if (!authenticated) return window.alert("Please login to continue.");
+    const payload = {
+      commentId: parentCommentId,
+      body,
+    };
+    store
+      .dispatch(updateComment(payload))
+      .then(unwrapResult)
+      .then((res) => {
+        if (res && res.comment.id) closeModal();
+      });
   };
 
   const submitComment = (e) => {
     e.preventDefault();
-
+    if (!authenticated) return window.alert("Please login to continue.");
     //the presence of parent comment id determines
     //if creating a parent or child comment
     const newComment = {
@@ -50,22 +75,40 @@ export default function CommentForm({
       parent_article: articleId,
       parent_comment: parentCommentId,
     };
-    // console.log(newComment);
-    parentCommentId
-      ? store
-          .dispatch(postChildComment(newComment))
-          .then(unwrapResult)
-          .then((res) => {
-            if (res && res.comment.id) {
-              closeModal();
-            }
-          })
-      : store
-          .dispatch(postRootComment(newComment))
-          .then(unwrapResult)
-          .then((res) => {
-            if (res && res.comment.id) setBody("");
-          });
+
+    if (!isModal) {
+      parentCommentId
+        ? store
+            .dispatch(postChildComment(newComment))
+            .then(unwrapResult)
+            .then((res) => {
+              if (res && res.comment.id) {
+                closeModal();
+              }
+            })
+        : store
+            .dispatch(postRootComment(newComment))
+            .then(unwrapResult)
+            .then((res) => {
+              if (res && res.comment.id) setBody("");
+            });
+    } else {
+      parentCommentId
+        ? store
+            .dispatch(postChildCommentModal(newComment))
+            .then(unwrapResult)
+            .then((res) => {
+              if (res && res.comment.id) {
+                closeModal();
+              }
+            })
+        : store
+            .dispatch(postRootCommentModal(newComment))
+            .then(unwrapResult)
+            .then((res) => {
+              if (res && res.comment.id) setBody("");
+            });
+    }
   };
 
   return (
@@ -78,6 +121,7 @@ export default function CommentForm({
         onChange={(e) => setBody(e.target.value)}
       ></textarea>
       <div id="comment-form-buttons">
+        {newComment || <p>editing...</p>}
         {isModal && (
           <button id="cancel-button" onClick={closeModal}>
             Cancel
@@ -86,7 +130,7 @@ export default function CommentForm({
         <button
           id="publish-button"
           type="submit"
-          onClick={newComment ? submitComment : updateComment}
+          onClick={newComment ? submitComment : submitUpdatedComment}
         >
           Publish
         </button>

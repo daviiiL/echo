@@ -1,16 +1,18 @@
 import "../../assets/components/CommentCard.css";
 import AuthorCard from "../AuthorCard/AuthorCard";
 import CommentDropdown from "../CommentDropdown";
-import { SlOptions } from "react-icons/sl";
 
-export default function CommentCard({ comment, sessionUser }) {
-  if (!comment || !sessionUser) return <h1>loading</h1>;
-  const isOwnComment = comment.User.id === sessionUser.id;
+export default function CommentCard({ comment, sessionUserId }) {
+  if (!comment) return <h1>loading</h1>;
+  comment = { ...comment };
+  const deletedUser = {
+    id: -1,
+    first_name: "Deleted",
+    last_name: "Comment",
+  };
+  if (!comment.User) comment.User = deletedUser;
+  const isOwnComment = comment.User.id === sessionUserId;
 
-  // console.log({
-  //   isOwnComment,
-  //   parentCommentId,
-  // });
   return (
     <div
       className={`comment-card-container ${comment.parent ? "child-comment" : ""}`}
@@ -22,11 +24,14 @@ export default function CommentCard({ comment, sessionUser }) {
           updatedAt={comment.updatedAt}
           isArticle={false}
         />
-        <CommentDropdown
-          parentCommentId={comment.id}
-          isOwnComment={isOwnComment}
-          articleId={comment.parent_article}
-        />
+        {sessionUserId && (
+          <CommentDropdown
+            parentCommentId={comment.id}
+            isOwnComment={isOwnComment}
+            sessionUserId={sessionUserId}
+            articleId={comment.parent_article}
+          />
+        )}
       </div>
       <div className="comment-card-body">
         <p>

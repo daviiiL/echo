@@ -14,6 +14,7 @@ export default function Layout() {
   useEffect(() => {
     store.dispatch(fetchAllArticles());
     store.dispatch(restoreSession());
+    //TODO: maybe fetch current user data only if authenticated
     store.dispatch(fetchCurrentUserArticles());
   });
   return (
