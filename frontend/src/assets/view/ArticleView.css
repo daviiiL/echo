@@ -8,6 +8,12 @@ div#article-content {
     margin-right: 2em;
 }
 
+div#comments-content {
+    max-width: 1000px;
+    width: 80%;
+    align-self: center;
+    margin: 2em 0 0 -2em;
+}
 div#article-details {
     display: flex;
     flex-direction: column;
@@ -97,8 +103,4 @@ div.article-text {
         list-style-type: disc;
         margin: 1em 0;
     }
-}
-
-div#comments-content {
-    padding: 2em 0 4em 2em;
 }
