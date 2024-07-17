@@ -43,6 +43,26 @@ const findAndCheckComment = async (req, includeParentPost = false) => {
   }
 };
 //routes
+//get all comments made by the user
+router.get("/current", requireAuth, async (req, res, next) => {
+  try {
+    const sessionUserComments = await Comment.findAll({
+      where: {
+        commenter_id: req.user.id,
+      },
+      include: [
+        {
+          model: Article,
+          attributes: ["id", "title"],
+        },
+      ],
+    });
+    return res.json({ comments: sessionUserComments });
+  } catch (e) {
+    if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
+    return next(e);
+  }
+});
 //get comment by id
 router.get("/:commentId", async (req, res, next) => {
   const comment = await Comment.findByPk(req.params.commentId, {
@@ -96,27 +116,6 @@ router.delete("/:commentId", requireAuth, async (req, res, next) => {
   } catch (e) {
     if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
     next(e);
-  }
-});
-
-//get all comments made by the user
-router.get("/current", requireAuth, async (req, res, next) => {
-  try {
-    const sessionUserComments = await Comment.findAll({
-      where: {
-        commenter_id: req.user.id,
-      },
-      include: [
-        {
-          model: Article,
-          attributes: ["id", "title"],
-        },
-      ],
-    });
-    return res.json({ comments: sessionUserComments });
-  } catch (e) {
-    if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
-    return next(e);
   }
 });
 

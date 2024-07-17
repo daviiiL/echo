@@ -10,12 +10,21 @@ import { restoreSession } from "../../services/sessionService";
 import "./Layout.css";
 import "../../assets/view/index.css";
 import { useEffect } from "react";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { fetchCurrentUserComments } from "../../store/toolkitComment";
 export default function Layout() {
   useEffect(() => {
     store.dispatch(fetchAllArticles());
-    store.dispatch(restoreSession());
+    store
+      .dispatch(restoreSession())
+      .then(unwrapResult)
+      .then((res) => {
+        if (res.user?.id) {
+          store.dispatch(fetchCurrentUserArticles());
+          store.dispatch(fetchCurrentUserComments());
+        }
+      });
     //TODO: maybe fetch current user data only if authenticated
-    store.dispatch(fetchCurrentUserArticles());
   });
   return (
     <div id="main">
