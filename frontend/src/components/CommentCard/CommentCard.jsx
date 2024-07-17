@@ -3,8 +3,14 @@ import AuthorCard from "../AuthorCard/AuthorCard";
 import CommentDropdown from "../CommentDropdown";
 import { SlOptions } from "react-icons/sl";
 
-export default function CommentCard({ comment }) {
-  if (!comment) return <h1>loading</h1>;
+export default function CommentCard({ comment, sessionUser }) {
+  if (!comment || !sessionUser) return <h1>loading</h1>;
+  const isOwnComment = comment.User.id === sessionUser.id;
+
+  // console.log({
+  //   isOwnComment,
+  //   parentCommentId,
+  // });
   return (
     <div
       className={`comment-card-container ${comment.parent ? "child-comment" : ""}`}
@@ -16,7 +22,11 @@ export default function CommentCard({ comment }) {
           updatedAt={comment.updatedAt}
           isArticle={false}
         />
-        <CommentDropdown icon={<SlOptions />} />
+        <CommentDropdown
+          parentCommentId={comment.id}
+          isOwnComment={isOwnComment}
+          articleId={comment.parent_article}
+        />
       </div>
       <div className="comment-card-body">
         <p>

@@ -15,9 +15,15 @@ export class ArticleCommentsSection extends React.Component {
         <p className="comment-section-header">
           {`${this.props.comments?.length} Comments`}
         </p>
-        <CommentForm articleId={this.props.articleId} />
+        <div className="comment-form-container">
+          <CommentForm articleId={this.props.articleId} />
+        </div>
         {this.props.comments.map((comment) => (
-          <CommentCard key={comment.id} comment={comment} />
+          <CommentCard
+            key={comment.id}
+            comment={comment}
+            sessionUser={this.props.sessionUser}
+          />
         ))}
       </>
     );
@@ -26,6 +32,7 @@ export class ArticleCommentsSection extends React.Component {
 
 const mapStateToProps = (state) => ({
   comments: state.comments?.articleComments,
+  sessionUser: state.session?.user,
 });
 
 const mapDispatchToProps = (dispatch) => {
