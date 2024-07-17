@@ -26,10 +26,12 @@ export const postRootComment = createAsyncThunk(
   async (payload, { rejectWithValue }) => {
     const options = {
       method: "POST",
-      body: JSON.stringify({ ...payload }),
+      body: JSON.stringify({
+        ...payload,
+      }),
     };
     const response = await csrfFetch(
-      `/api/articles/${payload.articleId}/comments`,
+      `/api/articles/${payload.parent_article}/comments`,
       options,
     );
     const data = await response.json();
@@ -46,7 +48,7 @@ export const postChildComment = createAsyncThunk(
       body: JSON.stringify({ ...payload }),
     };
     const response = await csrfFetch(
-      `/api/articles/${payload.articleId}/comments/${payload.parentCommentId}`,
+      `/api/articles/${payload.parent_article}/comments/${payload.parent_comment}`,
       options,
     );
     const data = await response.json();

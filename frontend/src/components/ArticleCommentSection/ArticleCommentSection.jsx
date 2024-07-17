@@ -3,6 +3,7 @@ import { connect } from "react-redux";
 import { fetchArticleComments } from "../../store/toolkitComment";
 import CommentCard from "../CommentCard/CommentCard";
 import "../../assets/components/ArticleCommentSection.css";
+import CommentForm from "../CommentForm/CommentForm";
 export class ArticleCommentsSection extends React.Component {
   componentDidMount() {
     this.props.fetchArticleComments(this.props.articleId);
@@ -14,6 +15,7 @@ export class ArticleCommentsSection extends React.Component {
         <p className="comment-section-header">
           {`${this.props.comments?.length} Comments`}
         </p>
+        <CommentForm articleId={this.props.articleId} />
         {this.props.comments.map((comment) => (
           <CommentCard key={comment.id} comment={comment} />
         ))}
