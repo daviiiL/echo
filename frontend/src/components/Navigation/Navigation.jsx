@@ -44,9 +44,11 @@ class Navigation extends React.Component {
           <li className="nav-items">Words</li>
           <li className="nav-items">Chats</li>
           <li className="nav-items">News</li>
-          <li className="nav-items">
-            <NavLink to="/user/user-content">Yours</NavLink>
-          </li>
+          {this.props.session.user?.id && (
+            <li className="nav-items">
+              <NavLink to="/user/user-content">Yours</NavLink>
+            </li>
+          )}
         </ul>
       </div>
     );
