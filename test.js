@@ -1,161 +1,65 @@
 const comments = [
-        {
-            "id": 1,
-            "parent_article": 1,
-            "parent_comment": null,
-            "commenter_id": null,
-            "body": "This comment has been deleted.",
-            "reaction": null,
-            "upvote": 0,
-            "downvote": 0,
-            "createdAt": "2024-07-17T07:46:36.838Z",
-            "updatedAt": "2024-07-17T07:53:20.883Z",
-            "User": null,
-            "parent": null
-        },
-        {
-            "id": 2,
-            "parent_article": 1,
-            "parent_comment": 1,
-            "commenter_id": 4,
-            "body": "Thank you for testing out the threaded comment feature! I am replying to your comment, Demo.",
-            "reaction": null,
-            "upvote": 0,
-            "downvote": 0,
-            "createdAt": "2024-07-17T07:46:36.840Z",
-            "updatedAt": "2024-07-17T07:46:36.840Z",
-            "User": {
-                "first_name": "Spidy",
-                "last_name": "Man",
-                "username": "Spidey",
-                "id": 4,
-                "last_active": "2024-07-17T07:46:36.000Z"
-            },
-            "parent": {
-                "id": 1,
-                "parent_article": 1,
-                "parent_comment": null,
-                "commenter_id": null,
-                "body": "This comment has been deleted.",
-                "reaction": null,
-                "upvote": 0,
-                "downvote": 0,
-                "createdAt": "2024-07-17T07:46:36.838Z",
-                "updatedAt": "2024-07-17T07:53:20.883Z",
-                "User": null
-            }
-        },
-        {
-            "id": 3,
-            "parent_article": 1,
-            "parent_comment": null,
-            "commenter_id": null,
-            "body": "This comment has been deleted.",
-            "reaction": null,
-            "upvote": 0,
-            "downvote": 0,
-            "createdAt": "2024-07-17T07:47:44.295Z",
-            "updatedAt": "2024-07-17T08:00:16.929Z",
-            "User": null,
-            "parent": null
-        },
-        {
-            "id": 4,
-            "parent_article": 1,
-            "parent_comment": 2,
-            "commenter_id": null,
-            "body": "This comment has been deleted.",
-            "reaction": null,
-            "upvote": 0,
-            "downvote": 0,
-            "createdAt": "2024-07-17T07:47:58.125Z",
-            "updatedAt": "2024-07-17T07:48:04.292Z",
-            "User": null,
-            "parent": {
-                "id": 2,
-                "parent_article": 1,
-                "parent_comment": 1,
-                "commenter_id": 4,
-                "body": "Thank you for testing out the threaded comment feature! I am replying to your comment, Demo.",
-                "reaction": null,
-                "upvote": 0,
-                "downvote": 0,
-                "createdAt": "2024-07-17T07:46:36.840Z",
-                "updatedAt": "2024-07-17T07:46:36.840Z",
-                "User": {
-                    "first_name": "Spidy",
-                    "last_name": "Man",
-                    "username": "Spidey",
-                    "id": 4,
-                    "last_active": "2024-07-17T07:46:36.000Z"
-                }
-            }
-        }, 
-        {id: 5, parent_comment: 4}
-    ]
+  {
+    id: 1,
+    parent_comment: null,
+  },
+  {
+    id: 3,
+    parent_comment: 1,
+  },
+  {
+    id: 6,
+    parent_comment: null,
+  },
+  {
+    id: 7,
+    parent_comment: 3,
+  },
+  { id: 10, parent_comment: 6 },
+];
 
+function constructCommentTree(arr) {
+  const unrootedArr = arr.reduce((acc, el, ind) => {
+    const comment = { ...el, children: [] }; //the original object is immutable. so...
+    if (comment.parent_comment === null) comment.parent_comment = 0; //since multiplle root comments, need another root to combine subtrees
+    acc.push(comment);
+    return acc;
+  }, []);
+  unrootedArr.unshift({ id: 0, parent_comment: null, children: [] }); //add root to tree node arr
+  const indexMapping = unrootedArr.reduce((acc, el, ind) => {
+    acc[el.id] = ind;
+    return acc;
+  }, {});
+  let root;
+  unrootedArr.forEach((e, _, arr) => {
+    if (e.parent_comment === null) {
+      root = e;
+      return;
+    }
+    // console.log(e.parent_comment);
+    const parentIndex = indexMapping[e.parent_comment];
+    const parentComment = arr[parentIndex];
+    parentComment.children = [...parentComment.children, e];
+  });
+  return root;
+}
 
-function sortCommentsPreorder(comments) {
+function flattenPreOrder(node) {
   const result = [];
-  const map = {};
 
-  // Create a map for efficient parent lookups
-  for (const comment of comments) {
-    map[comment.id] = { ...comment, children: [] }; // Add 'children' property
-  }
+  function traverse(node) {
+    if (!node) return;
+    result.push(node);
 
-  // Build the comment tree
-  for (const comment of comments) {
-    if (comment.parent_comment !== null) {
-      map[comment.parent_comment].children.push(map[comment.id]);
+    if (node.children?.length) {
+      for (const child of node.children) {
+        traverse(child);
+      }
     }
   }
 
-  // Recursive function for preorder traversal
-  function preorderTraversal(comment) {
-    result.push(comment);
-    for (const child of comment.children) {
-      preorderTraversal(child);
-    }
-  }
-
-  // Start the traversal from root comments (no parent_comment)
-  for (const comment of comments) {
-    if (comment.parent_comment === null) {
-      preorderTraversal(map[comment.id]);
-    }
-  }
-
-  return result; // Return the sorted array of comments
+  traverse(node);
+  return result;
 }
 
-// Example usage
-const sortedComments = sortCommentsPreorder(comments);
-console.log(sortedComments); // Output the sorted comments
-
-function flattenComments(comments) {  
-  const sortedComments = sortCommentsPreorder(comments); // Get the pre-ordered comments
-
-  const flattened = [];
-
-  // Recursive function to flatten the tree
-  function flatten(comment) {
-    flattened.push(comment);
-    for (const child of comment.children) {
-      flatten(child);
-    }
-  }
-
-  // Start flattening from the root comments
-  for (const comment of sortedComments) {
-    if (comment.parent_comment === null) {
-      flatten(comment);
-    }
-  }
-
-  return flattened;
-}
-
-// Example usage
-const flattenedComments = flattenComments(comments);
-console.log(flattenedComments);
+console.log(flattenPreOrder(constructCommentTree(comments)));

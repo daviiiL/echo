@@ -9,41 +9,49 @@ export class ArticleCommentsSection extends React.Component {
     this.props.fetchArticleComments(this.props.articleId);
   }
 
-  sortCommentsPreorder = (comments) => {
+  constructCommentTree(arr) {
+    const unrootedArr = arr.reduce((acc, el) => {
+      const comment = { ...el, children: [] }; //the original object is immutable. so...
+      if (comment.parent_comment === null) comment.parent_comment = 0; //since multiplle root comments, need another root to combine subtrees
+      acc.push(comment);
+      return acc;
+    }, []);
+    unrootedArr.unshift({ id: 0, parent_comment: null, children: [] }); //add root to tree node arr
+    const indexMapping = unrootedArr.reduce((acc, el, ind) => {
+      acc[el.id] = ind;
+      return acc;
+    }, {});
+    let root;
+    unrootedArr.forEach((e, _, arr) => {
+      if (e.parent_comment === null) {
+        root = e;
+        return;
+      }
+      // console.log(e.parent_comment);
+      const parentIndex = indexMapping[e.parent_comment];
+      const parentComment = arr[parentIndex];
+      parentComment.children = [...parentComment.children, e];
+    });
+    return root;
+  }
+
+  flattenPreOrderNTree(comments) {
     const result = [];
-    const map = {};
-    for (const comment of comments) {
-      map[comment.id] = { ...comment, children: [] };
-    }
-    for (const comment of comments) {
-      if (comment.parent_comment !== null)
-        map[comment.parent_comment].children.push(map[comment.id]);
-    }
+    const commentTree = this.constructCommentTree(comments, result);
 
-    function preorderTraversal(comment) {
-      result.push(comment);
-      for (const child of comment.children) preorderTraversal(child);
-    }
+    const traverse = (node) => {
+      if (!node) return;
+      result.push(node);
 
-    for (const comment of comments) {
-      if (comment.parent_comment === null) preorderTraversal(map[comment.id]);
-    }
+      if (node.children?.length) {
+        for (const child of node.children) {
+          traverse(child);
+        }
+      }
+    };
+
+    traverse(commentTree);
     return result;
-  };
-
-  flattenComments(comments) {
-    const sortedComments = this.sortCommentsPreorder(comments);
-    const flattened = [];
-
-    function flatten(comment) {
-      flattened.push(comment);
-      for (const child of comment.children) flatten(child);
-    }
-
-    for (const comment of sortedComments) {
-      if (comment.parent_comment === null) flatten(comment);
-    }
-    return flattened;
   }
 
   render() {
@@ -58,13 +66,15 @@ export class ArticleCommentsSection extends React.Component {
             authenticated={this.props.sessionUser !== null}
           />
         </div>
-        {this.flattenComments(this.props.comments).map((comment) => (
-          <CommentCard
-            key={comment.id}
-            comment={comment}
-            sessionUserId={this.props.sessionUser?.id}
-          />
-        ))}
+        {this.flattenPreOrderNTree(this.props.comments)
+          .slice(1) //dispose fake root
+          .map((comment) => (
+            <CommentCard
+              key={comment.id}
+              comment={comment}
+              sessionUserId={this.props.sessionUser?.id}
+            />
+          ))}
       </>
     );
   }
