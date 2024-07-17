@@ -11,7 +11,6 @@ import parse from "html-react-parser";
 import "../../assets/view/ArticleView.css";
 import AuthorCard from "../../components/AuthorCard";
 import ArticleCommentsSectionConnected from "../../components/ArticleCommentSection/ArticleCommentSection";
-import CommentForm from "../../components/CommentForm/CommentForm";
 
 export class ArticleView extends React.Component {
   constructor(props) {

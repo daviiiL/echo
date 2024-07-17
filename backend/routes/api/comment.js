@@ -26,7 +26,7 @@ const findAndCheckComment = async (req, includeParentPost = false) => {
         ? {
             include: [{ model: Article, attributes: ["title", "id"] }],
           }
-        : {}
+        : {},
     );
     if (parseInt(req.user.id) !== parseInt(comment.commenter_id)) {
       const err = new Error("User is unauthorized to perform this action");
@@ -43,7 +43,14 @@ const findAndCheckComment = async (req, includeParentPost = false) => {
   }
 };
 //routes
-//TODO: add child comment post route
+//get comment by id
+router.get("/:commentId", async (req, res, next) => {
+  const comment = await Comment.findByPk(req.params.commentId, {
+    attributes: ["parent_comment", "parent_article", "id", "body"],
+  });
+  return res.json({ comment });
+});
+
 //update a comment by comment id
 router.patch(
   "/:commentId",
@@ -65,7 +72,7 @@ router.patch(
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       next(e);
     }
-  }
+  },
 );
 
 //delete a comment by id

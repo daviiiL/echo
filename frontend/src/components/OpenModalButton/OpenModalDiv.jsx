@@ -6,7 +6,6 @@ export default function OpenModalDiv({
   onItemClick, // optional: callback function that will be called once the button that opens the modal is clicked
   onModalClose, // optional: callback function that will be called once the modal is closed
   icon,
-  modalId,
 }) {
   const { setModalContent, setOnModalClose } = useModal();
 
