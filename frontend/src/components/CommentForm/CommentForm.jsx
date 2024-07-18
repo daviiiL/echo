@@ -17,7 +17,7 @@ import { useModal } from "../../context/Modal";
 export default function CommentForm({
   newComment = true,
   articleId,
-  parentCommentId,
+  currentCommentId,
   isModal,
   authenticated = false,
 }) {
@@ -37,14 +37,16 @@ export default function CommentForm({
   useEffect(() => {
     if (!newComment) {
       if (!loaded) {
-        store.dispatch(fetchCommentById(parentCommentId)).then(setLoaded(true));
+        store
+          .dispatch(fetchCommentById(currentCommentId))
+          .then(setLoaded(true));
       } else {
         setBody(comment.body);
       }
     } else {
       setBody("");
     }
-  }, [loaded, newComment, comment, parentCommentId]);
+  }, [loaded, newComment, comment, currentCommentId]);
 
   useEffect(() => {
     !isModal ? setErrors(dbErrors) : setErrors(dbModalErrors);
@@ -54,7 +56,7 @@ export default function CommentForm({
     e.preventDefault();
     if (!authenticated) return window.alert("Please login to continue.");
     const payload = {
-      commentId: parentCommentId,
+      commentId: currentCommentId,
       body,
     };
     store
@@ -73,11 +75,11 @@ export default function CommentForm({
     const newComment = {
       body,
       parent_article: articleId,
-      parent_comment: parentCommentId,
+      parent_comment: currentCommentId,
     };
 
     if (!isModal) {
-      parentCommentId
+      currentCommentId
         ? store
             .dispatch(postChildComment(newComment))
             .then(unwrapResult)
@@ -93,7 +95,7 @@ export default function CommentForm({
               if (res && res.comment.id) setBody("");
             });
     } else {
-      parentCommentId
+      currentCommentId
         ? store
             .dispatch(postChildCommentModal(newComment))
             .then(unwrapResult)

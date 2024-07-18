@@ -12,11 +12,14 @@ div.article-details {
     flex-direction: column;
     cursor: pointer;
     row-gap: 2px;
+    position: relative;
+    z-index: 0;
 }
 
 ul.user-content-card-dropdown {
     position: absolute;
-    right: 0;
+    z-index: 3;
+    right: -3em;
     width: 10em;
     top: 30px;
     background-color: var(--button-color);
@@ -25,7 +28,7 @@ ul.user-content-card-dropdown {
     color: white;
     font-weight: bold;
     border-radius: 1em;
-    z-index: 2;
+    z-index: 3;
     & > li {
         margin: 0.5em 0;
         cursor: pointer;

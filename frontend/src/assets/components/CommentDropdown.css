@@ -1,0 +1,35 @@
+div.comment-dropdown-container {
+    color: var(--dashboard-item-color);
+    display: flex;
+    align-items: start;
+    justify-content: space-between;
+    padding-bottom: 2em;
+    position: relative;
+}
+
+ul.comment-dropdown {
+    position: absolute;
+    z-index: 3;
+    right: -3em;
+    width: 10em;
+    top: 30px;
+    background-color: var(--button-color);
+    border: 1px solid var(--button-color);
+    padding: 1em;
+    color: white;
+    font-weight: bold;
+    border-radius: 1em;
+    & > li {
+        margin: 0.5em 0;
+        cursor: pointer;
+    }
+    & div {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+    & p {
+        font-size: 12pt;
+        color: white;
+    }
+}
