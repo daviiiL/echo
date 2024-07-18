@@ -71,3 +71,7 @@ hr.rounded {
     border-top: 2px solid #bbb;
     border-radius: 1px;
 }
+
+label.errors {
+    color: red;
+}

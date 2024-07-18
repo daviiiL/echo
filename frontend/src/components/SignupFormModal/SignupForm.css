@@ -15,3 +15,7 @@ div#signup-form-modal {
         height: 100%;
     }
 }
+
+div#signup-form-modal label.errors {
+    color: red;
+}
