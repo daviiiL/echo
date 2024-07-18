@@ -12,17 +12,18 @@ export default function CommentCard({ comment, sessionUserId }) {
   };
   if (!comment.User) comment.User = deletedUser;
   const isOwnComment = comment.User.id === sessionUserId;
-
   return (
     <div
       className={`comment-card-container ${comment.parent ? "child-comment" : ""}`}
     >
       <div>
-        <AuthorCard
-          owner={comment.User}
-          updatedAt={comment.updatedAt}
-          isArticle={false}
-        />
+        {comment.User.id !== -1 && (
+          <AuthorCard
+            owner={comment.User}
+            updatedAt={comment.updatedAt}
+            isArticle={false}
+          />
+        )}
         {comment.User.id !== -1 && sessionUserId && (
           <CommentDropdown
             currentCommentId={comment.id}

@@ -26,7 +26,19 @@ export default function CommentForm({
   const dbErrors = useSelector((state) => state.comments?.errors);
   const dbModalErrors = useSelector((state) => state.comments?.modalErrors);
   const comment = useSelector((state) => state.comments?.singleComment);
+  const [serverErrors, setServerErrors] = useState({});
   const [errors, setErrors] = useState({});
+  const [showErrors, setShowErrors] = useState(false);
+  useEffect(() => {
+    const err = {};
+    if (body && body?.length < 5)
+      err.body = "Please enter at least 5 characters to post";
+    setErrors(err);
+  }, [body]);
+
+  setTimeout(() => {
+    setShowErrors(false);
+  }, 5000);
 
   const { closeModal } = useModal();
 
@@ -49,7 +61,7 @@ export default function CommentForm({
   }, [loaded, newComment, comment, currentCommentId]);
 
   useEffect(() => {
-    !isModal ? setErrors(dbErrors) : setErrors(dbModalErrors);
+    !isModal ? setServerErrors(dbErrors) : setServerErrors(dbModalErrors);
   }, [dbErrors, dbModalErrors, isModal]);
 
   const submitUpdatedComment = (e) => {
@@ -70,6 +82,8 @@ export default function CommentForm({
   const submitComment = (e) => {
     e.preventDefault();
     if (!authenticated) return window.alert("Please login to continue.");
+    if (Object.keys(errors).length) return setShowErrors(true); //stopping user from posting if errors
+
     //the presence of parent comment id determines
     //if creating a parent or child comment
     const newComment = {
@@ -115,15 +129,17 @@ export default function CommentForm({
 
   return (
     <form className="comment-form">
-      {errors?.body && <p className="errors">{errors.body}</p>}
+      {serverErrors?.body && <p className="errors">{serverErrors.body}</p>}
+      {showErrors && errors?.body && <p className="errors">{errors.body}</p>}
       <textarea
         type="text"
         placeholder={"type your comment here"}
         value={body}
+        required
         onChange={(e) => setBody(e.target.value)}
       ></textarea>
       <div id="comment-form-buttons">
-        {newComment || <p>editing...</p>}
+        {newComment || <p>editing your post</p>}
         {isModal && (
           <button id="cancel-button" onClick={closeModal}>
             Cancel

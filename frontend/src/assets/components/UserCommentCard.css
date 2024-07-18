@@ -6,6 +6,7 @@ div.user-comment-card {
         max-width: 80%;
         white-space: normal;
         width: 80%;
+        overflow-wrap: break-word;
     }
     & > div:last-child {
         height: min-content;

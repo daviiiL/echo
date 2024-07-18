@@ -18,17 +18,17 @@ div.comment-card-container {
 div.comment-card-container.child-comment {
     margin-left: 3em;
     padding-left: 1em;
-    border-left: 0.5px solid var(--site-background);
+    border-left: 0.3em solid var(--site-background);
 }
 
 div.comment-card-body p {
     font-weight: 200;
     color: #505966;
-    padding: 0.5em 0 1em 0;
+    padding: 0.5em 0 0.5em 0;
     max-width: 60%;
     line-height: 140%;
-    word-break: break-all;
-    white-space: normal;
+    text-justify: center;
+    overflow-wrap: break-word;
 }
 
 span.comment-user-name {

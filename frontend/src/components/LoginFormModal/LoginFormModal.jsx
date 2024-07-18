@@ -31,6 +31,7 @@ function LoginFormModal() {
     <div id="login-form-modal">
       <form onSubmit={handleSubmit}>
         <p id="login-title">welcome back</p>
+        {errors.credential && <p className="errors">{errors.credential}</p>}
         <div id="login-modal-input-fields">
           <div className="form-group">
             <input
@@ -51,7 +52,6 @@ function LoginFormModal() {
             <label>password</label>
           </div>
         </div>
-        {errors.credential && <p className="errors">{errors.credential}</p>}
         <div id="login-modal-buttons">
           <button id="login-demo" onClick={fillDemo}>
             Demo

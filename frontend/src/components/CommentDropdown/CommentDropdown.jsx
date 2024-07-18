@@ -117,7 +117,7 @@ export default function CommentDropdown({
                 modalComponent={
                   <CommentForm
                     articleId={articleId}
-                    parentCommentId={currentCommentId}
+                    currentCommentId={currentCommentId}
                     isModal={true}
                     sessionUserId={sessionUserId}
                     authenticated={true}
