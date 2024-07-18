@@ -5,6 +5,7 @@ import ProfileButton from "./ProfileButton";
 import { connect } from "react-redux";
 import icon from "./echo_logo_icon_only.png";
 import { IoIosAdd } from "react-icons/io";
+import { clearArticleErrors } from "../../store/toolkitArticle";
 
 class Navigation extends React.Component {
   render() {
@@ -25,7 +26,12 @@ class Navigation extends React.Component {
 
           <li className="nav-items">
             {this.props.session.user?.id ? (
-              <NavLink to="/articles/new-article">
+              <NavLink
+                to="/articles/new-article"
+                onClick={() => {
+                  this.props.clearArticleErrors();
+                }}
+              >
                 <div id="add-article-button">
                   <IoIosAdd size={40} />
                 </div>
@@ -58,6 +64,13 @@ const mapStateToProps = (state) => ({
   session: state.session,
 });
 
-const NavigationConnected = connect(mapStateToProps)(Navigation);
+const mapDispatchToProps = (dispatch) => ({
+  clearArticleErrors: () => dispatch(clearArticleErrors()),
+});
+
+const NavigationConnected = connect(
+  mapStateToProps,
+  mapDispatchToProps,
+)(Navigation);
 NavigationConnected.displayName = "Navigation";
 export default NavigationConnected;

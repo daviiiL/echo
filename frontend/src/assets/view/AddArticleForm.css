@@ -40,8 +40,6 @@ div#article-form-title-container {
 
 input#article-form-title {
     width: 60vw;
-    padding-top: 0px !important;
-    padding-bottom: 0px !important;
     /* padding: 0 0 0 1em; */
     font-size: 30pt;
     text-align: center;

@@ -67,6 +67,7 @@ export default function CommentForm({
   const submitUpdatedComment = (e) => {
     e.preventDefault();
     if (!authenticated) return window.alert("Please login to continue.");
+    if (Object.keys(errors).length) return setShowErrors(true);
     const payload = {
       commentId: currentCommentId,
       body,
@@ -128,7 +129,7 @@ export default function CommentForm({
   };
 
   return (
-    <form className="comment-form">
+    <form className="comment-form" id="comment-form">
       {serverErrors?.body && <p className="errors">{serverErrors.body}</p>}
       {showErrors && errors?.body && <p className="errors">{errors.body}</p>}
       <textarea
