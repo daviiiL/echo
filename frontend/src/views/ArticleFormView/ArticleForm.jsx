@@ -28,6 +28,8 @@ export default function ArticleForm() {
     if (body && body.length < 40)
       validateErrors.body =
         "Please input at least 40 characters for your article";
+    if (body && body.length > 60000)
+      validateErrors.body = "Your article is too long";
     if (header && header.length < 4)
       validateErrors.title =
         "Please provide a title that is longer than 3 characters";
