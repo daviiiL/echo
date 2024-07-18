@@ -56,51 +56,69 @@ function SignupFormModal() {
       <form onSubmit={handleSubmit}>
         <p id="login-title">{`let's get started`}</p>
         <div id="login-modal-input-fields">
-          <input
-            type="text"
-            value={email}
-            placeholder="email"
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <div className="form-group">
+            {" "}
+            <input
+              type="text"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              required
+            />
+            <label>email</label>
+          </div>
           {errors.email && <p>{errors.email}</p>}
-          <input
-            type="text"
-            value={username}
-            placeholder="username"
-            onChange={(e) => setUsername(e.target.value)}
-            required
-          />
+          <div className="form-group">
+            {" "}
+            <input
+              type="text"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+            <label>username</label>
+          </div>
           {errors.username && <p>{errors.username}</p>}
-          <input
-            type="text"
-            value={firstName}
-            placeholder="your first name"
-            onChange={(e) => setFirstName(e.target.value)}
-            required
-          />
+          <div className="form-group">
+            {" "}
+            <input
+              type="text"
+              value={firstName}
+              onChange={(e) => setFirstName(e.target.value)}
+              required
+            />
+            <label>your first name</label>
+          </div>
           {errors.firstName && <p>{errors.firstName}</p>}
-          <input
-            type="text"
-            value={lastName}
-            placeholder="your last name"
-            onChange={(e) => setLastName(e.target.value)}
-            required
-          />
+          <div className="form-group">
+            {" "}
+            <input
+              type="text"
+              value={lastName}
+              onChange={(e) => setLastName(e.target.value)}
+              required
+            />
+            <label>your last name</label>
+          </div>
           {errors.lastName && <p>{errors.lastName}</p>}
-          <input
-            value={password}
-            placeholder="set a memorable password"
-            onChange={(e) => setPassword(e.target.value)}
-            required
-          />
+          <div className="form-group">
+            {" "}
+            <input
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+            <label>a memorable password</label>
+          </div>
           {errors.password && <p>{errors.password}</p>}
-          <input
-            value={confirmPassword}
-            placeholder="confirm your password"
-            onChange={(e) => setConfirmPassword(e.target.value)}
-            required
-          />
+          <div className="form-group">
+            {" "}
+            <input
+              value={confirmPassword}
+              onChange={(e) => setConfirmPassword(e.target.value)}
+              required
+            />
+            <label>confirm password</label>
+          </div>
           {errors.confirmPassword && <p>{errors.confirmPassword}</p>}
         </div>
         <div id="login-modal-buttons">

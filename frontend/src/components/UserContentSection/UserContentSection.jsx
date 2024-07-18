@@ -53,7 +53,6 @@ export default function UserContentSection(props) {
             props.articles.map((article) => (
               <div key={article.id}>
                 <UserArticleCard article={article} />
-                <hr className="solid"></hr>
               </div>
             ))
           ) : (

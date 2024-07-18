@@ -16,7 +16,6 @@ div.content-title {
 div.content-cards {
     display: flex;
     flex-direction: column;
-    row-gap: 2em;
     border: 1px solid var(--site-background);
 
     border-radius: 1em;

@@ -7,17 +7,13 @@ div.user-comment-card {
         white-space: normal;
         width: 80%;
     }
+    & > div:last-child {
+        height: min-content;
+    }
     background-color: var(--card-background);
     padding: 1em;
     margin: 0.3em;
     border-radius: 1em;
-}
-
-div.comment-dropdown-container {
-    height: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
 }
 
 div.comment-details {

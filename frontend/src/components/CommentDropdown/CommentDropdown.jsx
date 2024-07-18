@@ -43,7 +43,7 @@ export default function CommentDropdown({
 
   return (
     <div className="comment-dropdown-container">
-      <div onClick={toggleMenu}>
+      <div className="comment-toggle-container" onClick={toggleMenu}>
         {isUserContent ? <SlOptionsVertical /> : <SlOptions />}
       </div>
       <ul className={ulClassName} ref={ulRef}>
