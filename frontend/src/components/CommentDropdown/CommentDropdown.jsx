@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 
-import "../../assets/components/UserArticleCard.css";
-import { SlOptions } from "react-icons/sl";
+import "../../assets/components/CommentDropdown.css";
+import { SlOptions, SlOptionsVertical } from "react-icons/sl";
 import { CiEdit } from "react-icons/ci";
 import { RiDeleteBin4Line } from "react-icons/ri";
 import ConfirmDeletionModal from "../ConfirmDeletionModal";
@@ -10,7 +10,8 @@ import { GoReply } from "react-icons/go";
 import CommentForm from "../CommentForm/CommentForm";
 
 export default function CommentDropdown({
-  parentCommentId,
+  isUserContent = false,
+  currentCommentId,
   isOwnComment,
   articleId,
   sessionUserId,
@@ -38,16 +39,15 @@ export default function CommentDropdown({
   }, [showMenu]);
 
   const closeMenu = () => setShowMenu(false);
-  const ulClassName =
-    "user-content-card-dropdown" + (showMenu ? "" : " hidden");
+  const ulClassName = "comment-dropdown" + (showMenu ? "" : " hidden");
 
   return (
-    <div className="user-content-card">
-      <div>
-        <SlOptions onClick={toggleMenu} />
+    <div className="comment-dropdown-container">
+      <div className="comment-toggle-container" onClick={toggleMenu}>
+        {isUserContent ? <SlOptionsVertical /> : <SlOptions />}
       </div>
       <ul className={ulClassName} ref={ulRef}>
-        {isOwnComment && (
+        {isUserContent ? (
           <>
             <li>
               <OpenModalText
@@ -56,7 +56,7 @@ export default function CommentDropdown({
                     isModal={true}
                     authenticated={true}
                     newComment={false}
-                    parentCommentId={parentCommentId}
+                    currentCommentId={currentCommentId}
                   />
                 }
                 onModalClose={closeMenu}
@@ -68,7 +68,7 @@ export default function CommentDropdown({
               <OpenModalText
                 modalComponent={
                   <ConfirmDeletionModal
-                    commentId={parentCommentId}
+                    commentId={currentCommentId}
                     deletionType="comment"
                   />
                 }
@@ -78,23 +78,58 @@ export default function CommentDropdown({
               />
             </li>{" "}
           </>
-        )}
-        <li>
-          <OpenModalText
-            modalComponent={
-              <CommentForm
-                articleId={articleId}
-                parentCommentId={parentCommentId}
-                isModal={true}
-                sessionUserId={sessionUserId}
-                authenticated={true}
+        ) : (
+          <>
+            {isOwnComment && (
+              <>
+                <li>
+                  <OpenModalText
+                    modalComponent={
+                      <CommentForm
+                        isModal={true}
+                        authenticated={true}
+                        newComment={false}
+                        currentCommentId={currentCommentId}
+                      />
+                    }
+                    onModalClose={closeMenu}
+                    itemText="Edit"
+                    iconComponent={<CiEdit />}
+                  />
+                </li>
+                <li>
+                  <OpenModalText
+                    modalComponent={
+                      <ConfirmDeletionModal
+                        commentId={currentCommentId}
+                        deletionType="comment"
+                      />
+                    }
+                    onModalClose={closeMenu}
+                    itemText="Delete"
+                    iconComponent={<RiDeleteBin4Line />}
+                  />
+                </li>{" "}
+              </>
+            )}
+            <li>
+              <OpenModalText
+                modalComponent={
+                  <CommentForm
+                    articleId={articleId}
+                    currentCommentId={currentCommentId}
+                    isModal={true}
+                    sessionUserId={sessionUserId}
+                    authenticated={true}
+                  />
+                }
+                onModalClose={closeMenu}
+                itemText="Reply"
+                iconComponent={<GoReply />}
               />
-            }
-            onModalClose={closeMenu}
-            itemText="Reply"
-            iconComponent={<GoReply />}
-          />
-        </li>
+            </li>
+          </>
+        )}
       </ul>
     </div>
   );

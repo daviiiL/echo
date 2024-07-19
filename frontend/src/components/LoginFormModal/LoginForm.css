@@ -2,11 +2,12 @@ div#login-form-modal {
     display: flex;
     flex-direction: column;
     padding: 2em;
-    height: 300px;
+    max-height: 500px;
     width: 400px;
 
     background-color: var(--site-background);
     border-radius: 1em;
+
     & > form {
         display: flex;
         flex-direction: column;
@@ -15,6 +16,7 @@ div#login-form-modal {
         height: 100%;
     }
 }
+
 p#login-title {
     font-size: 20pt;
 }
@@ -35,13 +37,14 @@ div#login-modal-input-fields {
     width: 100%;
     display: flex;
     flex-direction: column;
-    row-gap: 1em;
+
     & input {
         font-size: 14pt;
         border: 0px;
         border-radius: 0.5em;
         padding: 0.5em;
         width: 100%;
+        border-bottom: 1px solid var(--button-color-secondary);
     }
 }
 
@@ -50,6 +53,7 @@ div#login-modal-buttons {
     align-items: center;
     justify-content: flex-end;
     column-gap: 1em;
+
     & > button {
         font-weight: bold;
         font-size: 12pt;
@@ -66,4 +70,44 @@ div#login-modal-buttons {
         border: 1px solid var(--button-color-secondary);
         color: var(--site-background);
     }
+}
+
+.form-group {
+    position: relative;
+    padding: 12px 0;
+    max-width: 100%;
+}
+
+.form-group input {
+    font-size: 16px;
+    display: block;
+}
+
+.form-group label {
+    font-size: 18px;
+    font-weight: 100;
+    position: absolute;
+    top: -0.6em;
+    padding-left: 0.5em;
+    display: block;
+    left: 0;
+    pointer-events: none;
+    transform: translateY(30px);
+    color: var(--date-color);
+}
+
+.form-group input:valid,
+.form-group input:focus {
+    outline: none;
+}
+
+.form-group input:valid + label,
+.form-group input:focus + label {
+    font-size: 14px;
+    color: var(--button-color);
+    transform: translateY(0);
+}
+
+.form-group label {
+    transition: all 0.2s ease-in-out;
 }

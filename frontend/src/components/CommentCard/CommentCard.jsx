@@ -12,21 +12,21 @@ export default function CommentCard({ comment, sessionUserId }) {
   };
   if (!comment.User) comment.User = deletedUser;
   const isOwnComment = comment.User.id === sessionUserId;
-
   return (
     <div
       className={`comment-card-container ${comment.parent ? "child-comment" : ""}`}
     >
-      {" "}
       <div>
-        <AuthorCard
-          owner={comment.User}
-          updatedAt={comment.updatedAt}
-          isArticle={false}
-        />
-        {sessionUserId && (
+        {comment.User.id !== -1 && (
+          <AuthorCard
+            owner={comment.User}
+            updatedAt={comment.updatedAt}
+            isArticle={false}
+          />
+        )}
+        {comment.User.id !== -1 && sessionUserId && (
           <CommentDropdown
-            parentCommentId={comment.id}
+            currentCommentId={comment.id}
             isOwnComment={isOwnComment}
             sessionUserId={sessionUserId}
             articleId={comment.parent_article}
@@ -35,7 +35,7 @@ export default function CommentCard({ comment, sessionUserId }) {
       </div>
       <div className="comment-card-body">
         <p>
-          {comment.parent?.User && (
+          {comment.User.id !== -1 && comment.parent?.User && (
             <span>
               <span>
                 <span className="comment-user-name">{`${comment.User.first_name} ${comment.User.last_name}`}</span>{" "}

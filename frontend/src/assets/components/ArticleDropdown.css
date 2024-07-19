@@ -1,4 +1,4 @@
-div.comment-dropdown-container {
+div.article-dropdown-container {
     color: var(--dashboard-item-color);
     display: flex;
     align-items: start;
@@ -7,7 +7,7 @@ div.comment-dropdown-container {
     position: relative;
 }
 
-ul.comment-dropdown {
+ul.article-dropdown {
     position: absolute;
     z-index: 3;
     right: -3em;

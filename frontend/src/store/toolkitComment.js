@@ -2,7 +2,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { csrfFetch } from "./csrf";
 
 export const fetchCurrentUserComments = createAsyncThunk(
-  "comments/fetchUserComments",
+  "comments/fetchCurrentUserComments",
   async (_, { rejectWithValue }) => {
     const response = await csrfFetch("/api/comments/current");
     const data = await response.json();

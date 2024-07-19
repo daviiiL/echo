@@ -5,13 +5,13 @@ const { Comment, User, Article } = require("../models");
 const comments = [
   {
     from: "Demo-lition",
-    to: "Test Article",
+    to: "What is Lorem Ipsum",
     reply: false,
     payload: { body: "This is a test comment that starts a comment thread" },
   },
   {
     from: "Spidey",
-    to: "Test Article",
+    to: "What is Lorem Ipsum",
     reply: true,
     payload: {
       body: "Thank you for testing out the threaded comment feature! I am replying to your comment, Demo.",

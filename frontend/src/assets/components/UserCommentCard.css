@@ -1,4 +1,4 @@
-div.user-content-card {
+div.user-comment-card {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -6,6 +6,10 @@ div.user-content-card {
         max-width: 80%;
         white-space: normal;
         width: 80%;
+        overflow-wrap: break-word;
+    }
+    & > div:last-child {
+        height: min-content;
     }
     background-color: var(--card-background);
     padding: 1em;
@@ -13,12 +17,9 @@ div.user-content-card {
     border-radius: 1em;
 }
 
-div.article-details {
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    row-gap: 2px;
-    position: relative;
-    z-index: 0;
+div.comment-details {
+    width: 80%;
+    & p {
+        width: 100%;
+    }
 }

@@ -74,6 +74,9 @@ export const articleSlice = createSlice({
     clearUserArticles: (state) => {
       state.userArticles = [];
     },
+    clearArticleErrors: (state) => {
+      state.errors = null;
+    },
   },
   extraReducers: (builder) => {
     //extra reducers to handle certain async thunks that require specific error handling.
@@ -105,7 +108,7 @@ export const articleSlice = createSlice({
       state.errors = action.payload.errors;
     });
     builder.addCase(deleteArticle.fulfilled, (state, action) => {
-      const deletedId = action.payload.deleteId;
+      const deletedId = parseInt(action.payload.deletedId);
       let index = state.allArticles.map((e) => e.id).indexOf(deletedId);
       state.allArticles.splice(index, 1);
       index = state.userArticles.map((e) => e.id).indexOf(deletedId);
@@ -120,5 +123,6 @@ export const {
   getUserArticles,
   clearArticleDetails,
   clearUserArticles,
+  clearArticleErrors,
 } = articleSlice.actions;
 export default articleSlice.reducer;

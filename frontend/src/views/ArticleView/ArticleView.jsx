@@ -58,7 +58,9 @@ export class ArticleView extends React.Component {
               <div>
                 <PiChatCircleTextThin size={25} className="interact" />
                 <p className="interact">
-                  {this.props.articleDetails?.Comments?.length}
+                  {/* probably consider removing fetching comments in article backend route to lighten server load */}
+                  {/* {this.props.articleDetails?.Comments?.length} NOTE: replaced by comment store article comment length*/}
+                  {this.props.commentsLength}
                 </p>
               </div>
             </div>
@@ -95,6 +97,7 @@ export class ArticleView extends React.Component {
 
 const mapStateToProps = (state) => ({
   articleDetails: state.articles?.articleDetails,
+  commentsLength: state.comments?.articleComments?.length,
 });
 
 const mapDispatchToProps = (dispatch) => {

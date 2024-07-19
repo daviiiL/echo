@@ -1,0 +1,5 @@
+div.user-content-sections-container {
+    display: flex;
+    flex-direction: column;
+    row-gap: 2em;
+}

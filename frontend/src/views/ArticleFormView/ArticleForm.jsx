@@ -22,6 +22,22 @@ export default function ArticleForm() {
   const [header, setHeader] = useState("");
   const [subheader, setSubheader] = useState("");
   const [errors, setErrors] = useState({});
+  useEffect(() => {
+    const validateErrors = {};
+    if (!body || !header || !subheader) validateErrors.fields = "empty";
+    if (body && body.length < 40)
+      validateErrors.body =
+        "Please input at least 40 characters for your article";
+    if (body && body.length > 60000)
+      validateErrors.body = "Your article is too long";
+    if (header && header.length < 4)
+      validateErrors.title =
+        "Please provide a title that is longer than 3 characters";
+    if (subheader && subheader.length < 4)
+      validateErrors.sub_title =
+        "Please provide a sub-title that is longer than 3 characters";
+    setErrors(validateErrors);
+  }, [body, header, subheader]);
 
   useEffect(() => {
     if (articleId) {
@@ -43,6 +59,8 @@ export default function ArticleForm() {
 
   const submitNewArticle = (e) => {
     e.preventDefault();
+    if (Object.keys(errors).length > 0) return;
+
     const article = {
       title: header,
       sub_title: subheader,
@@ -58,6 +76,7 @@ export default function ArticleForm() {
 
   const submitArticleUpdate = (e) => {
     e.preventDefault();
+    if (Object.keys(errors).length) return;
     const article = {
       title: header,
       sub_title: subheader,
@@ -92,7 +111,7 @@ In summary, React.js is a powerful, flexible, and efficient library for building
   };
 
   useEffect(() => {
-    setErrors(dbErrors);
+    if (dbErrors) setErrors(dbErrors);
   }, [dbErrors]);
 
   if (articleId && !loaded) return <h1>loading</h1>;

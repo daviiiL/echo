@@ -3,8 +3,35 @@ import UserArticleCard from "../UserArticleCard";
 import { GrArticle } from "react-icons/gr";
 import { FaComments } from "react-icons/fa6";
 import EmptyContentCard from "../EmptyContentCard";
+import UserCommentCard from "../UserCommentCard";
+import { IoMdArrowForward } from "react-icons/io";
+import { useNavigate } from "react-router-dom";
+
+const createCommentSection = (articleComments, navigate) => {
+  const { article, comments } = articleComments;
+  return (
+    <div
+      key={`article${article.id}`}
+      className="user-content-comment-article-container"
+    >
+      <div className="comments-article-container">
+        <p
+          className="comments-article-title"
+          onClick={() => navigate(`/articles/${article.id}`)}
+        >
+          from article <span>{article.title}</span>
+          <IoMdArrowForward />
+        </p>
+      </div>
+      {comments.map((e) => (
+        <UserCommentCard comment={e} key={`comment${e.id}`} />
+      ))}
+    </div>
+  );
+};
 
 export default function UserContentSection(props) {
+  const navigate = useNavigate();
   return (
     <div className="user-content-section-container">
       <div className="content-title">
@@ -26,14 +53,17 @@ export default function UserContentSection(props) {
             props.articles.map((article) => (
               <div key={article.id}>
                 <UserArticleCard article={article} />
-                <hr className="solid"></hr>
               </div>
             ))
           ) : (
             <EmptyContentCard componentName="article" />
           )
+        ) : Object.values(props.comments).length ? (
+          Object.values(props.comments).map((e) =>
+            createCommentSection(e, navigate),
+          )
         ) : (
-          <p>comments coming soon</p>
+          <EmptyContentCard componentName="comments" />
         )}
       </div>
     </div>

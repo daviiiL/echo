@@ -1,20 +1,37 @@
 div.user-content-section-container {
-  display: flex;
-  flex-direction: column;
-  width: 95%;
-  max-width: 800px;
-  row-gap: 1em;
+    display: flex;
+    flex-direction: column;
+    width: 95%;
+    max-width: 800px;
+    row-gap: 1em;
 }
 
 div.content-title {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  column-gap: 1em;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    column-gap: 1em;
 }
 
 div.content-cards {
-  display: flex;
-  flex-direction: column;
-  row-gap: 2em;
+    display: flex;
+    flex-direction: column;
+    border: 1px solid var(--site-background);
+
+    border-radius: 1em;
+    padding: 0.5em;
+    box-shadow: 0 0 3px var(--site-background);
+}
+
+p.comments-article-title {
+    cursor: pointer;
+    font-size: larger;
+    display: flex;
+    align-items: center;
+    column-gap: 0.4em;
+    & > span {
+        background-color: var(--site-background);
+        padding: 0.3em;
+        border-radius: 0.2em;
+    }
 }

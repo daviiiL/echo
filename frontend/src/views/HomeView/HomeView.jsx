@@ -3,7 +3,7 @@ import "./HomeView.css";
 import { connect } from "react-redux";
 import ArticleCard from "../../components/ArticleCard";
 import { clearArticleDetails } from "../../store/toolkitArticle";
-import Select from "react-select";
+// import Select from "react-select";
 class HomeView extends React.Component {
   componentDidMount() {
     const { clearArticleDetails } = this.props;
@@ -12,7 +12,7 @@ class HomeView extends React.Component {
   render() {
     return (
       <div className="view-container" id="home">
-        <div id="tags-bar">
+        {/* <div id="tags-bar">
           <Select
             placeholder="  pick an article category"
             styles={{
@@ -26,7 +26,7 @@ class HomeView extends React.Component {
             }}
             isMulti
           />
-        </div>
+        </div> */}
         <div id="articles-view">
           {this.props.allArticles &&
             this.props.allArticles.length > 0 &&
@@ -59,7 +59,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const HomeViewConnected = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(HomeView);
 HomeViewConnected.displayName = "HomeView";
 
