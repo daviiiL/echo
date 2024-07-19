@@ -371,17 +371,25 @@ router.post("/:articleId/tags", requireAuth, async (req, res, next) => {
   //deep copy into an array from query param
   //TODO: handle single tags
   const article = await findAndCheckArticle(req);
-  const createdTags = [];
+  const addedTags = [];
   if (article instanceof Error) return next(article);
 
   const tags = [...req.query.tag];
+
   for (const tagTitle of tags) {
-    const tag = await Tag.create({ title: tagTitle.toLowerCase() }).then((e) =>
-      createdTags.push(e)
-    );
-    await article.addTag(tag);
+    const [tag, created] = await Tag.findOrCreate({
+      where: { title: tagTitle.toLowerCase() },
+      defaults: {
+        title: tagTitle.toLowerCase(),
+      },
+    });
+    // return res.json(tag instanceof Tag);
+    if (tag instanceof Tag) {
+      addedTags.push(tag);
+      await article.addTag(tag);
+    }
   }
-  return res.json({ tags: createdTags });
+  return res.json({ tags: addedTags });
 });
 
 //get all tags of an article by article Id

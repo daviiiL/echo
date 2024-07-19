@@ -8,6 +8,7 @@ import {
 } from "../../store/tag";
 import { connect } from "react-redux";
 import { capString } from "../../utils/stringUtils";
+import "../../assets/components/TagBar.css";
 
 const constructTagOptions = (tags) => {
   return tags.reduce((acc, el) => {
@@ -52,8 +53,14 @@ class TagBar extends React.Component {
               ...provided,
               width: "fit-content",
             }),
+            option: (provided, state) => ({
+              ...provided,
+              backgroundColor: state.isFocused && "#2196f3",
+              color: state.isFocused && "white",
+            }),
           }}
           isMulti
+          id="tagbar"
           closeMenuOnSelect={true}
           components={animatedComponents}
           placeholder="search for your favorite categories"
