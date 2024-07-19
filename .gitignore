@@ -1,3 +1,5 @@
+/backend/db/dev.db
+
 # Logs
 logs
 *.log
