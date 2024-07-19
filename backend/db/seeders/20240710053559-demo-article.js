@@ -258,7 +258,6 @@ const userArticles = [
       },
     ],
   },
-  {},
 ];
 
 /** @type {import('sequelize-cli').Migration} */
