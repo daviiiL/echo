@@ -33,7 +33,11 @@ export default function ArticleCard({ article }) {
         )}
       </div>
       <div className="article-card-info-container">
-        <p className="title-small">{article.title}</p>
+        <p className="title-small">
+          {article.title.length > 40
+            ? article.title.slice(0, 40) + "..."
+            : article.title}
+        </p>
         {article.title.length < 27 && (
           <p className="subtitle-small">
             {article.sub_title.slice(0, 25) + "..."}

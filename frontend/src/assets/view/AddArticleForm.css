@@ -78,16 +78,17 @@ input#article-form-sub-title:focus {
 }
 
 div#article-form-body-container {
-    height: 80%;
+    flex-grow: 2;
+    max-height: 70vh;
     display: flex;
     align-items: center;
     flex-direction: column;
-    overflow: hidden;
+    overflow: auto;
     object-fit: contain;
 }
 .quill {
     height: 90%;
-    width: 80%;
+    width: 90%;
     align-self: center;
 }
 

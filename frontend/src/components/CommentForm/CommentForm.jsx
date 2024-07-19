@@ -38,7 +38,7 @@ export default function CommentForm({
 
   setTimeout(() => {
     setShowErrors(false);
-  }, 5000);
+  }, 10000);
 
   const { closeModal } = useModal();
 
@@ -67,7 +67,8 @@ export default function CommentForm({
   const submitUpdatedComment = (e) => {
     e.preventDefault();
     if (!authenticated) return window.alert("Please login to continue.");
-    if (Object.keys(errors).length) return setShowErrors(true);
+    if (Object.keys(errors).length || body.length === 0)
+      return setShowErrors(true);
     const payload = {
       commentId: currentCommentId,
       body,
@@ -83,6 +84,9 @@ export default function CommentForm({
   const submitComment = (e) => {
     e.preventDefault();
     if (!authenticated) return window.alert("Please login to continue.");
+    if (body.length === 0) {
+      errors.body = "You forgot to type in some comments  : )";
+    }
     if (Object.keys(errors).length) return setShowErrors(true); //stopping user from posting if errors
 
     //the presence of parent comment id determines
