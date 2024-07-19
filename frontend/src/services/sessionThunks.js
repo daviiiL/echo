@@ -2,7 +2,7 @@ import {
   // loginSuccess,
   logoutSuccess,
   restoreSessionSuccess,
-} from "../store/toolkitSession";
+} from "../store/session";
 import { csrfFetch } from "../store/csrf";
 import store from "../store";
 import { createAsyncThunk } from "@reduxjs/toolkit";
@@ -27,7 +27,7 @@ export const logout = createAsyncThunk(
         server: "Something went wrong. Please try again later!",
       };
     rejectWithValue(errorMessages);
-  },
+  }
 );
 
 export const restoreSession = createAsyncThunk(
@@ -38,5 +38,5 @@ export const restoreSession = createAsyncThunk(
     if (response.status >= 400)
       return store.dispatch(restoreSessionSuccess({ user: null }));
     store.dispatch(restoreSessionSuccess(data));
-  },
+  }
 );

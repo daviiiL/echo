@@ -11,7 +11,7 @@ import {
   postRootComment,
   updateComment,
   fetchCommentById,
-} from "../../store/toolkitComment";
+} from "../../store/comment";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useModal } from "../../context/Modal";
 export default function CommentForm({

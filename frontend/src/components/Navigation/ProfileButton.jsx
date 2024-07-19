@@ -3,14 +3,11 @@ import OpenModalMenuItem from "./OpenModalMenuItem";
 import LoginFormModal from "../LoginFormModal";
 
 import store from "../../store";
-import { logout } from "../../services/sessionService";
+import { logout } from "../../services/sessionThunks";
 import SignUpFormModal from "../SignupFormModal";
 import { useNavigate } from "react-router-dom";
-import {
-  clearArticleDetails,
-  clearUserArticles,
-} from "../../store/toolkitArticle";
-import { clearCurrentUserComments } from "../../store/toolkitComment";
+import { clearArticleDetails, clearUserArticles } from "../../store/article";
+import { clearCurrentUserComments } from "../../store/comment";
 function ProfileButton({ sessionUser }) {
   const navigate = useNavigate();
   const [user, setUser] = useState(sessionUser);

@@ -158,7 +158,7 @@ const userArticles = [
       },
       {
         title: "How to be a good Cheetos friend",
-        sub_title: "Every Cheetos deserves someone appreciates them",
+        sub_title: "Every Cheetos deserves someone who appreciates them",
         body: ` <p>Hey there, fellow introverts! If you’re a Cheeto like me, you know how challenging it can be to navigate the social world. While being an introvert comes with its unique perks, like enjoying your own company and having deep, meaningful thoughts, socializing with friends can sometimes feel overwhelming. But fear not! Here are some tips to help you, an introvert Cheeto, thrive in social settings.</p>
 
            <h2>Embrace Your Introversion</h2>

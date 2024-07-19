@@ -1,9 +1,9 @@
 import "../../assets/components/ConfirmDeletionModal.css";
 import { useModal } from "../../context/Modal";
-import { deleteArticle } from "../../store/toolkitArticle";
+import { deleteArticle } from "../../store/article";
 import store from "../../store";
 import { MdOutlineClear } from "react-icons/md";
-import { deleteComment } from "../../store/toolkitComment";
+import { deleteComment } from "../../store/comment";
 export default function ConfirmDeletionModal(props) {
   // const errors = useState((state) => state.articles.errors);
   const id = props.articleId ? props.articleId : props.commentId;

@@ -1,10 +1,17 @@
-import { createStore, applyMiddleware, compose, combineReducers } from 'redux';
-import thunk from 'redux-thunk';
-import sessionReducer from './session';
+import { combineSlices, configureStore } from "@reduxjs/toolkit";
+import { sessionSlice } from "./session";
+import { articleSlice } from "./article";
+import { commentSlice } from "./comment";
+import { tagSlice } from "./tag";
+import { applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
 
-const rootReducer = combineReducers({
-  session: sessionReducer
-});
+const rootReducer = combineSlices(
+  sessionSlice,
+  articleSlice,
+  commentSlice,
+  tagSlice
+);
 
 let enhancer;
 if (import.meta.env.MODE === "production") {
@@ -16,8 +23,9 @@ if (import.meta.env.MODE === "production") {
   enhancer = composeEnhancers(applyMiddleware(thunk, logger));
 }
 
-const configureStore = (preloadedState) => {
-  return createStore(rootReducer, preloadedState, enhancer);
-};
-
-export default configureStore;
+export const store = configureStore(
+  {
+    reducer: rootReducer,
+  },
+  applyMiddleware(thunk, enhancer)
+);

@@ -1,3 +1,3 @@
-import { store } from "./toolkitStore";
+import { store } from "./store";
 
 export default store;

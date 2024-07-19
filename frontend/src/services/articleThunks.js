@@ -5,12 +5,15 @@ import {
   getAllArticles,
   getArticleDetails,
   getUserArticles,
-} from "../store/toolkitArticle";
+} from "../store/article";
+import constructUrlQueryParams from "../utils/constructUrlQueryParams";
 
 export const fetchAllArticles = createAsyncThunk(
   "articles/fetchAllArticles",
-  async () => {
-    const response = await csrfFetch("/api/articles");
+  async (tags) => {
+    const response = !tags.length
+      ? await csrfFetch("/api/articles")
+      : await csrfFetch(`/api/tags${constructUrlQueryParams(tags, "tag")}`);
     const articles = await response.json();
     store.dispatch(getAllArticles(articles));
     return articles;

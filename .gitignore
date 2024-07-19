@@ -1,6 +1,5 @@
-# ignores local db file
-backend/db/dev.db
-
+# ignores all .db files
+**/dev.db
 # Logs
 logs
 *.log

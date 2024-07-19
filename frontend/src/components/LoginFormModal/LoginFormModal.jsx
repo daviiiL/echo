@@ -2,9 +2,9 @@ import { useState } from "react";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
 import store from "../../store";
-import { login } from "../../store/toolkitSession";
-import { fetchCurrentUserArticles } from "../../services/articleService";
-import { fetchCurrentUserComments } from "../../store/toolkitComment";
+import { login } from "../../store/session";
+import { fetchCurrentUserArticles } from "../../services/articleThunks";
+import { fetchCurrentUserComments } from "../../store/comment";
 function LoginFormModal() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
