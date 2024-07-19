@@ -206,9 +206,6 @@ const userArticles = [
                 <h2>Be Yourself</h2>
                 <p>Lastly, remember to be yourself. You don’t need to pretend to be someone you’re not to fit in. Your friends like you for who you are, and being authentic is the best way to build genuine connections. Embrace your quirks, share your thoughts, and let your unique personality shine. By being true to yourself, you’ll attract friends who appreciate and value you.</p>`,
       },
-      {
-        title: "",
-      },
     ],
   },
   {
