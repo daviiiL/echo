@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchArticleDetails } from "../../services/articleService";
+import { fetchArticleDetails } from "../../services/articleThunks";
 // import { IoMdArrowBack } from "react-icons/io";
 import {
   PiHandsClappingThin,
@@ -110,7 +110,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const ArticleViewConnected = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(ArticleView);
 ArticleViewConnected.displayName = "ArticleView";
 export default ArticleViewConnected;

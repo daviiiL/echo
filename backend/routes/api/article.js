@@ -19,7 +19,7 @@ const validateArticle = [
   check("sub_title")
     .isLength({ min: 4 })
     .withMessage(
-      "Please enter at least 4 characters for your article sub-title",
+      "Please enter at least 4 characters for your article sub-title"
     ),
   check("body")
     .exists({ checkFalsy: true })
@@ -69,6 +69,15 @@ router.get("/", async (_req, res, next) => {
           model: User,
           as: "Author",
           attributes: ["first_name", "last_name", "username"],
+        },
+        {
+          model: Tag,
+          required: false,
+          attributes: ["id", "title"],
+          through: {
+            model: ArticleTag,
+            attributes: [],
+          },
         },
       ],
     });
@@ -150,6 +159,15 @@ router.get("/:articleId", async (req, res, next) => {
           model: Comment,
           //not requiring comments
           required: false,
+        },
+        {
+          model: Tag,
+          required: false,
+          attributes: ["id", "title"],
+          through: {
+            model: ArticleTag,
+            attributes: [],
+          },
         },
       ],
     });
@@ -291,7 +309,7 @@ router.post(
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       next(e);
     }
-  },
+  }
 );
 
 //post a child comment by article id
@@ -344,7 +362,7 @@ router.post(
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       return next(e);
     }
-  },
+  }
 );
 // ----------------------------------------TAGS---------------------------------------
 //add a tag to article by articleId
@@ -352,10 +370,31 @@ router.post(
 router.post("/:articleId/tags", requireAuth, async (req, res, next) => {
   //deep copy into an array from query param
   //TODO: handle single tags
-  const article = await Article.findByPk(parseInt(req.params.articleId));
-  const tag = await Tag.create({ title: req.query.tag });
-  await article.addTag(tag);
-  return res.json(await article.get({ plain: true }));
+  const article = await findAndCheckArticle(req);
+  const createdTags = [];
+  if (article instanceof Error) return next(article);
+
+  const tags = [...req.query.tag];
+  for (const tagTitle of tags) {
+    const tag = await Tag.create({ title: tagTitle.toLowerCase() }).then((e) =>
+      createdTags.push(e)
+    );
+    await article.addTag(tag);
+  }
+  return res.json({ tags: createdTags });
 });
 
+//get all tags of an article by article Id
+router.get("/:articleId/tags", async (req, res, next) => {
+  const article = await findAndCheckArticle(req);
+  if (article instanceof Error) return next(article);
+  return res.json(
+    await article.getTags({
+      through: {
+        model: ArticleTag,
+        attributes: [],
+      },
+    })
+  );
+});
 module.exports = router;

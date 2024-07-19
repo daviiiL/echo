@@ -1,8 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
 import UserContentSection from "../../components/UserContentSection";
-import { fetchCurrentUserArticles } from "../../services/articleService";
-import { fetchCurrentUserComments } from "../../store/toolkitComment";
+import { fetchCurrentUserArticles } from "../../services/articleThunks";
+import { fetchCurrentUserComments } from "../../store/comment";
 import "../../assets/view/UserContentView.css";
 const structureCommentsByArticle = (comments) => {
   //learning the importance of commenting my code
@@ -70,7 +70,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const UserContentViewConnected = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(UserContentView);
 UserContentViewConnected.displayName = "UserContentView";
 export default UserContentViewConnected;

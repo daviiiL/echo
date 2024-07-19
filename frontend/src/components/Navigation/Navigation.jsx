@@ -5,7 +5,7 @@ import ProfileButton from "./ProfileButton";
 import { connect } from "react-redux";
 import icon from "./echo_logo_icon_only.png";
 import { IoIosAdd } from "react-icons/io";
-import { clearArticleErrors } from "../../store/toolkitArticle";
+import { clearArticleErrors } from "../../store/article";
 
 class Navigation extends React.Component {
   render() {
@@ -70,7 +70,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const NavigationConnected = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(Navigation);
 NavigationConnected.displayName = "Navigation";
 export default NavigationConnected;

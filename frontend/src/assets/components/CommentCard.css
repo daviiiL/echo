@@ -1,39 +1,39 @@
 div.comment-card-container {
+  display: flex;
+  flex-direction: column;
+  height: min-content;
+  & > div:first-child {
     display: flex;
-    flex-direction: column;
-    height: min-content;
-    & > div:first-child {
-        display: flex;
-        justify-content: space-between;
-    }
-    & span:not(.comment-user-name) {
-        color: #505966;
-    }
-    background: rgba(240, 240, 240, 0.5);
-    padding: 1em;
-    margin: 0.3em 0;
-    border-radius: 1em;
+    justify-content: space-between;
+  }
+  & span:not(.comment-user-name) {
+    color: #505966;
+  }
+  background: rgba(240, 240, 240, 0.5);
+  padding: 1em;
+  margin: 0.3em 0;
+  border-radius: 1em;
 }
 
 div.comment-card-container.child-comment {
-    margin-left: 3em;
-    padding-left: 1em;
-    border-left: 0.3em solid var(--site-background);
+  margin-left: 3em;
+  padding-left: 1em;
+  border-left: 0.3em solid var(--site-background);
 }
 
 div.comment-card-body p {
-    font-weight: 200;
-    color: #505966;
-    padding: 0.5em 0 0.5em 0;
-    max-width: 60%;
-    line-height: 140%;
-    text-justify: center;
-    overflow-wrap: break-word;
+  font-weight: 200;
+  color: #505966;
+  padding: 0.5em 0 0.5em 0;
+  max-width: 100%;
+  line-height: 140%;
+  text-justify: center;
+  overflow-wrap: break-word;
 }
 
 span.comment-user-name {
-    background-color: var(--site-background);
-    padding: 0.2em 0.2em;
-    color: var(--button-color);
-    border-radius: 1em;
+  background-color: var(--site-background);
+  padding: 0.2em 0.2em;
+  color: var(--button-color);
+  border-radius: 1em;
 }

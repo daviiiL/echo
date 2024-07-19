@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { signup } from "../../store/toolkitSession";
+import { signup } from "../../store/session";
 import store from "../../store";
 import "./SignupForm.css";
 
@@ -20,7 +20,7 @@ function SignupFormModal() {
   useEffect(() => {
     const validateErrors = {};
     const emailRegExp = new RegExp(
-      "^[a-zA-Z0-9._%±]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$",
+      "^[a-zA-Z0-9._%±]+@[a-zA-Z0-9.-]+.[a-zA-Z]{2,}$"
     );
     //empty fields are caught by the browser, not checked here
     //not checking first and last names because what do we check against

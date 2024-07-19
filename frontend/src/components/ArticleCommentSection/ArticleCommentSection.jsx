@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from "react-redux";
-import { fetchArticleComments } from "../../store/toolkitComment";
+import { fetchArticleComments } from "../../store/comment";
 import CommentCard from "../CommentCard/CommentCard";
 import "../../assets/components/ArticleCommentSection.css";
 import CommentForm from "../CommentForm/CommentForm";
@@ -95,7 +95,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const ArticleCommentsSectionConnected = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(ArticleCommentsSection);
 ArticleCommentsSectionConnected.displayName = "ArticleView";
 export default ArticleCommentsSectionConnected;

@@ -4,11 +4,11 @@ import { useEffect, useState } from "react";
 import ReactQuill from "react-quill";
 import "react-quill/dist/quill.snow.css";
 import store from "../../store";
-import { postArticle, updateArticle } from "../../store/toolkitArticle";
+import { postArticle, updateArticle } from "../../store/article";
 import { useSelector } from "react-redux";
 import { useNavigate, useParams } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
-import { fetchArticleDetails } from "../../services/articleService";
+import { fetchArticleDetails } from "../../services/articleThunks";
 import { CiEdit } from "react-icons/ci";
 
 export default function ArticleForm() {
