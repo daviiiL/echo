@@ -9,25 +9,29 @@ import { useNavigate } from "react-router-dom";
 
 const createCommentSection = (articleComments, navigate) => {
   const { article, comments } = articleComments;
-  return (
-    <div
-      key={`article${article.id}`}
-      className="user-content-comment-article-container"
-    >
-      <div className="comments-article-container">
-        <p
-          className="comments-article-title"
-          onClick={() => navigate(`/articles/${article.id}`)}
-        >
-          from article <span>{article.title}</span>
-          <IoMdArrowForward />
-        </p>
+  if (comments.length > 0) {
+    return (
+      <div
+        key={`article${article.id}`}
+        className="user-content-comment-article-container"
+      >
+        <div className="comments-article-container">
+          <p
+            className="comments-article-title"
+            onClick={() => navigate(`/articles/${article.id}`)}
+          >
+            from article <span>{article.title}</span>
+            <IoMdArrowForward />
+          </p>
+        </div>
+        {comments.map((e) => (
+          <UserCommentCard comment={e} key={`comment${e.id}`} />
+        ))}
       </div>
-      {comments.map((e) => (
-        <UserCommentCard comment={e} key={`comment${e.id}`} />
-      ))}
-    </div>
-  );
+    );
+  } else {
+    return <></>;
+  }
 };
 
 export default function UserContentSection(props) {

@@ -91,7 +91,6 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => {
   return {
     setHomepageTags: (tags) => {
-      console.log(tags);
       dispatch(setHomepageTags(tags));
     },
     clearHomePageTags: () => {
