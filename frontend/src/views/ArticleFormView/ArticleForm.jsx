@@ -10,18 +10,27 @@ import { useNavigate, useParams } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { fetchArticleDetails } from "../../services/articleThunks";
 import { CiEdit } from "react-icons/ci";
+import ArticleTagBarConnected from "../../components/ArticleTagBar";
 
 export default function ArticleForm() {
+  //if an article id is given then the component goes into "edit mode"; otherwise, new article
   const { articleId } = useParams();
+  //state to indicate whether fetching for previous article data is done
   const [loaded, setLoaded] = useState(false);
 
   const navigate = useNavigate();
+
+  //grabbing dbErrors fromm state if any (from rejected thunks)
   const dbErrors = useSelector((state) => state.articles?.errors);
   const articleDetails = useSelector((state) => state.articles.articleDetails);
+
+  //states for article input fields
   const [body, setBody] = useState("");
   const [header, setHeader] = useState("");
   const [subheader, setSubheader] = useState("");
   const [errors, setErrors] = useState({});
+
+  //frontend validations
   useEffect(() => {
     const validateErrors = {};
     if (!body || !header || !subheader) validateErrors.fields = "empty";
@@ -40,17 +49,23 @@ export default function ArticleForm() {
   }, [body, header, subheader]);
 
   useEffect(() => {
+    //if is edit
     if (articleId) {
+      //if previous data of article is not fetched and populated yet
       if (loaded == false) {
+        //fetch for prev article details
         store
           .dispatch(fetchArticleDetails(articleId))
           .then(() => setLoaded(true));
+        //set state to true after finishing fetching
       } else {
+        //if fetched, set input field states to prev data
         setBody(articleDetails.body);
         setHeader(articleDetails.title);
         setSubheader(articleDetails.sub_title);
       }
     } else {
+      //if new article mode, then set everything to empty strings
       setBody("");
       setHeader("");
       setSubheader("");
@@ -91,6 +106,7 @@ export default function ArticleForm() {
       });
   };
 
+  //demo article creation data filler
   const fillDemo = (e) => {
     e.preventDefault();
     setHeader("Introduction to React");
@@ -119,6 +135,9 @@ In summary, React.js is a powerful, flexible, and efficient library for building
   return (
     <div className="view-container">
       <div id="article-form-container">
+        <div>
+          <ArticleTagBarConnected />
+        </div>
         {articleId && (
           <p id="edit-article-title">
             edit mode <CiEdit />
