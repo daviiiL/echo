@@ -35,14 +35,9 @@ export default function ArticleCard({ article }) {
       <div className="article-card-info-container">
         <p className="title-small">
           {article.title.length > 40
-            ? article.title.slice(0, 40) + "..."
+            ? article.title.slice(0, 30) + "..."
             : article.title}
         </p>
-        {article.title.length < 27 && (
-          <p className="subtitle-small">
-            {article.sub_title.slice(0, 25) + "..."}
-          </p>
-        )}
 
         <p className="date-small">{formatDatabaseDate(article.updatedAt)}</p>
       </div>

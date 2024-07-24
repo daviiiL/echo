@@ -1,6 +1,8 @@
 div.article-card-container {
   /* border: 1px solid red; */
-  height: 280px;
+  /* height: 300px; */
+  /* width: fit-content; */
+  height: 350px;
   border-radius: 1em;
   padding: 0.3em;
   display: flex;
@@ -15,14 +17,19 @@ div.article-card-preview-container {
   object-fit: cover;
   overflow: hidden;
   border-radius: 1em;
+  display: flex;
+  flex-direction: column;
 }
 
 div.article-card-preview-container > p {
   padding: 1em;
+  flex-grow: 2;
 }
 
 div.article-card-preview-container > img {
-  width: 100%;
+  min-width: 100%;
+  min-height: 100%;
+  /* max-height: 350px; */
   object-fit: cover;
 }
 
@@ -30,7 +37,7 @@ div.article-card-info-container {
   display: flex;
   flex-direction: column;
   row-gap: 0.3em;
-  height: 25%;
+  height: 20%;
   justify-content: space-between;
 }
 
@@ -39,7 +46,7 @@ p.title-small {
 }
 
 p.subtitle-small {
-  font-weight: normal;
+  font-weight: object-fit;
   font-size: 11pt;
 }
 
@@ -53,4 +60,18 @@ span.quote {
   font-weight: bolder;
 
   font-size: 2em;
+}
+
+@media screen and (max-width: 768px) {
+  body {
+    div.article-card-preview-container {
+      height: fit-content;
+    }
+    div.article-card-container {
+      height: fit-content;
+      & img {
+        height: 150px;
+      }
+    }
+  }
 }

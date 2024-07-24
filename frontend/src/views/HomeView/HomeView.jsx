@@ -17,7 +17,7 @@ class HomeView extends React.Component {
           <div className="mb-5" id="tags-bar">
             <TagBar />
           </div>
-          <div className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-9">
+          <div className="grid sm:grid-cols-1 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-7 2xl:grid-cols-8">
             {this.props.allArticles &&
               this.props.allArticles.length > 0 &&
               this.props.allArticles.map((e) => {
