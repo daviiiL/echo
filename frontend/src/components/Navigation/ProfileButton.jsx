@@ -8,6 +8,7 @@ import SignUpFormModal from "../SignupFormModal";
 import { useNavigate } from "react-router-dom";
 import { clearArticleDetails, clearUserArticles } from "../../store/article";
 import { clearCurrentUserComments } from "../../store/comment";
+import { clearSessionErrors } from "../../store/session";
 function ProfileButton({ sessionUser }) {
   const navigate = useNavigate();
   const [user, setUser] = useState(sessionUser);
@@ -67,12 +68,12 @@ function ProfileButton({ sessionUser }) {
         <ul id="navbar-login-items-container">
           <OpenModalMenuItem
             itemText="Log In"
-            onItemClick={closeMenu}
+            onItemClick={store.dispatch(clearSessionErrors())}
             modalComponent={<LoginFormModal />}
           />
           <OpenModalMenuItem
             itemText="Sign Up"
-            onItemClick={closeMenu}
+            onItemClick={store.dispatch(clearSessionErrors())}
             modalComponent={<SignUpFormModal />}
           />
         </ul>
