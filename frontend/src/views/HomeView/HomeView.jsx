@@ -24,6 +24,7 @@ class HomeView extends React.Component {
                 <div
                   key={e.id}
                   onClick={() => this.props.navigate(`/articles/${e.id}`)}
+                  className="article-card-slot scale-90 hover:scale-100 transition-transform"
                 >
                   <ArticleCard article={e} navigate={this.props.navigate} />
                 </div>

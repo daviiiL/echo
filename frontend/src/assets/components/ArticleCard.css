@@ -48,6 +48,7 @@ p.title-small {
 p.subtitle-small {
   font-weight: object-fit;
   font-size: 11pt;
+  overflow: auto;
 }
 
 p.date-small {
@@ -64,6 +65,9 @@ span.quote {
 
 @media screen and (max-width: 768px) {
   body {
+    div.article-card-slot {
+      transform: scale(1);
+    }
     div.article-card-preview-container {
       height: 210px;
       & > p {

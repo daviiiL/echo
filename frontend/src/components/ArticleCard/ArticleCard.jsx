@@ -27,12 +27,6 @@ export default function ArticleCard({ article }) {
             ? article.title.slice(0, 40) + "..."
             : article.title}
         </p>
-        {article.title.length < 27 && (
-          <p className="subtitle-small">
-            {article.sub_title.slice(0, 25) + "..."}
-          </p>
-        )}
-
         <p className="date-small">{formatDatabaseDate(article.updatedAt)}</p>
       </div>
     </div>
