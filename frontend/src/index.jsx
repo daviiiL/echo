@@ -10,7 +10,12 @@ import { ModalProvider } from "./context/Modal";
 
 import "@fontsource/roboto";
 import { ThemeProvider } from "styled-components";
+import { restoreCSRF } from "./store/csrf";
+if (import.meta.env.MODE !== "production") {
+  restoreCSRF();
 
+  /*   window.sessionActions = sessionActions; */
+}
 const materialTheme = createTheme({
   palette: {
     background: {

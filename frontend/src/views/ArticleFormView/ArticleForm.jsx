@@ -10,6 +10,7 @@ import { useNavigate, useParams } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { fetchArticleDetails } from "../../services/articleThunks";
 import { CiEdit } from "react-icons/ci";
+import { Button } from "@mui/material";
 
 export default function ArticleForm() {
   const { articleId } = useParams();
@@ -176,18 +177,17 @@ In summary, React.js is a powerful, flexible, and efficient library for building
             Add a preview image <input type="file"></input>
           </label> */}
           {/* <Select options={[]} /> */}
-          <div id="article-form-buttons">
-            <button
+          <div className="flex w-full ml-14 gap-x-5">
+            <Button
+              variant="contained"
               id="submit-button"
               type="submit"
               onClick={!articleId ? submitNewArticle : submitArticleUpdate}
             >
               Submit
-            </button>
-            <button id="draft-button" type="submit" disabled={true}>
-              Save Draft
-            </button>
-            <button
+            </Button>
+
+            <Button
               id="cancel-button"
               type="button"
               onClick={() => {
@@ -195,10 +195,10 @@ In summary, React.js is a powerful, flexible, and efficient library for building
               }}
             >
               Cancel
-            </button>
-            <button id="fill-demo-button" type="button" onClick={fillDemo}>
+            </Button>
+            <Button id="fill-demo-button" type="button" onClick={fillDemo}>
               Fill Article Fields
-            </button>
+            </Button>
           </div>
         </form>
       </div>

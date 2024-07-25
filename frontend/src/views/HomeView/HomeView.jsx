@@ -4,7 +4,6 @@ import { connect } from "react-redux";
 import ArticleCard from "../../components/ArticleCard";
 import { clearArticleDetails } from "../../store/article";
 import TagBar from "../../components/TagBar";
-// import Select from "react-select";
 class HomeView extends React.Component {
   componentDidMount() {
     const { clearArticleDetails } = this.props;
@@ -13,7 +12,7 @@ class HomeView extends React.Component {
   render() {
     return (
       <div className="view-container" id="home">
-        <div id="tags-bar" className="mb-4">
+        <div className="px-4">
           <TagBar />
         </div>
         <div className="grid sm:grid-cols-1 md:grid-cols-3 lg:grid-cols-5 xl:grid-cols-6 2xl:grid-cols-7">

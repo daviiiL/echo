@@ -31,7 +31,7 @@ export class ArticleView extends React.Component {
 
   render() {
     return (
-      <div className="view-container" id="article-details">
+      <div className="view-container flex-col" id="article-details">
         {/*  <IoMdArrowBack
           style={{ marginTop: "3px", marginRight: "10px" }}
           size={30}
@@ -39,8 +39,10 @@ export class ArticleView extends React.Component {
         /> */}
         <div id="article-content">
           <div id="article-details-title-bar">
-            <p className="header">{this.props.articleDetails.title}</p>
-            <p className="subheader">{this.props.articleDetails.sub_title}</p>
+            <p className="header text-4xl">{this.props.articleDetails.title}</p>
+            <p className="subheader text-2xl font-light">
+              {this.props.articleDetails.sub_title}
+            </p>
             <AuthorCard
               owner={this.props.articleDetails.Author}
               readtime={this.props.articleDetails.body}
@@ -110,7 +112,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const ArticleViewConnected = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ArticleView);
 ArticleViewConnected.displayName = "ArticleView";
 export default ArticleViewConnected;

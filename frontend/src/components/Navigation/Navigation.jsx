@@ -7,6 +7,8 @@ import icon from "./echo_logo_icon_only.png";
 import { IoIosAdd } from "react-icons/io";
 import { clearArticleErrors } from "../../store/article";
 import UserProfileMenu from "../ReactDialogs/UserProfileMenu/UserProfileMenu";
+import notify from "../Toaster/notify";
+
 class Navigation extends React.Component {
   render() {
     return (
@@ -26,6 +28,7 @@ class Navigation extends React.Component {
               <UserProfileMenu sessionUser={this.props.session.user} />
             </li>
           )}
+
           <li className="nav-items">
             {this.props.session.user?.id ? (
               <NavLink
@@ -42,7 +45,13 @@ class Navigation extends React.Component {
               <div
                 id="add-article-button"
                 onClick={() => {
-                  window.alert("Please login to post an article");
+                  // window.alert("Please login to post an article");
+                  notify({
+                    message: "Please login to post an article",
+                    icon: "⛔",
+                    position: "top-left",
+                    // color: "error",
+                  });
                 }}
               >
                 <IoIosAdd size={40} />

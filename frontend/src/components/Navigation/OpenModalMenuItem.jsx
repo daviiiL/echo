@@ -16,9 +16,12 @@ function OpenModalMenuItem({
   };
 
   return (
-    <li onClick={onClick} className="nav-items flex-col cursor-pointer">
+    <li
+      onClick={onClick}
+      className="nav-items flex-col cursor-pointer hover:bg-gray-300 rounded-lg"
+    >
       {icon}
-      <p className="text-xs text-gray-500">{itemText.toLowerCase()}</p>
+      <p className="text-xs text-gray-500 ">{itemText.toLowerCase()}</p>
     </li>
   );
 }

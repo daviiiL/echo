@@ -5,6 +5,7 @@ import store from "../../store";
 import { login } from "../../store/session";
 import { fetchCurrentUserArticles } from "../../services/articleThunks";
 import { fetchCurrentUserComments } from "../../store/comment";
+import notify from "../Toaster/notify";
 function LoginFormModal() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +20,12 @@ function LoginFormModal() {
     else {
       store.dispatch(fetchCurrentUserComments());
       store.dispatch(fetchCurrentUserArticles()).then(closeModal);
+      notify({
+        message: "You are in",
+        icon: "🎉",
+        color: "white",
+        position: "top-left",
+      });
     }
   };
 

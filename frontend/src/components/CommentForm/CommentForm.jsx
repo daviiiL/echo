@@ -14,6 +14,7 @@ import {
 } from "../../store/comment";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { useModal } from "../../context/Modal";
+import notify from "../Toaster/notify";
 export default function CommentForm({
   newComment = true,
   articleId,
@@ -66,7 +67,8 @@ export default function CommentForm({
 
   const submitUpdatedComment = (e) => {
     e.preventDefault();
-    if (!authenticated) return window.alert("Please login to continue.");
+    if (!authenticated)
+      return notify({ message: "please login to update your comments" });
     if (Object.keys(errors).length || body.length === 0)
       return setShowErrors(true);
     const payload = {
@@ -83,7 +85,12 @@ export default function CommentForm({
 
   const submitComment = (e) => {
     e.preventDefault();
-    if (!authenticated) return window.alert("Please login to continue.");
+    if (!authenticated)
+      return notify({
+        message: "Please login to post comments",
+        position: "bottom-right",
+        color: "error",
+      });
     if (body.length === 0) {
       errors.body = "You forgot to type in some comments  : )";
     }

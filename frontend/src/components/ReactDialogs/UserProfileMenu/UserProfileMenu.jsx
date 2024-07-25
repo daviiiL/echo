@@ -11,7 +11,7 @@ import { logout } from "../../../services/sessionThunks";
 import { clearArticleDetails, clearUserArticles } from "../../../store/article";
 import { clearCurrentUserComments } from "../../../store/comment";
 import { useNavigate } from "react-router-dom";
-
+import notify from "../../Toaster/notify";
 export default function UserProfileMenu({ sessionUser }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
@@ -31,6 +31,12 @@ export default function UserProfileMenu({ sessionUser }) {
       store.dispatch(clearArticleDetails());
       setOpen(false);
       navigate("/");
+      notify({
+        message: `till next time`,
+        icon: "👏",
+        position: "top-left",
+        color: "white",
+      });
     });
   };
 
@@ -57,13 +63,17 @@ export default function UserProfileMenu({ sessionUser }) {
         }}
         hideBackdrop={true}
       >
-        <DialogTitle>Hi, {`${sessionUser.firstName}`}!</DialogTitle>
+        <DialogTitle>
+          Hi,{" "}
+          <span className="font-sans font-normal">{`${sessionUser.firstName}`}</span>
+          !
+        </DialogTitle>
         <DialogContent></DialogContent>
         <DialogActions>
-          <Button variant="outlined" onClick={handleClose}>
+          <Button variant="outlined" size={"small"} onClick={handleClose}>
             Close
           </Button>
-          <Button variant="contained" onClick={handleLogout}>
+          <Button variant="contained" size="small" onClick={handleLogout}>
             Logout
           </Button>
         </DialogActions>

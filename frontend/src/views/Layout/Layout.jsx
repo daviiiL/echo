@@ -13,6 +13,8 @@ import { useEffect, useState } from "react";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { fetchCurrentUserComments } from "../../store/comment";
 import { useSelector } from "react-redux";
+import Notifier from "../../components/Toaster";
+
 export default function Layout() {
   //get user selected tags from state, which is updated by the tag bar
   const selectedTags = useSelector((state) => state.tags.selectedTags);
@@ -42,6 +44,7 @@ export default function Layout() {
   });
   return (
     <div id="main">
+      <Notifier />
       <Modal />
       <NavigationConnected />
       <div id="main-view-container">
