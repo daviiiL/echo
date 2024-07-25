@@ -20,12 +20,12 @@ class Navigation extends React.Component {
               </NavLink>
             </div>
           </li>
-          <li className="nav-items">
-            <ProfileButton sessionUser={this.props.session.user} />
-          </li>
-          <li className="nav-items">
-            <UserProfileMenu />
-          </li>
+          <ProfileButton sessionUser={this.props.session.user} />
+          {this.props.session?.user && (
+            <li className="nav-items">
+              <UserProfileMenu sessionUser={this.props.session.user} />
+            </li>
+          )}
           <li className="nav-items">
             {this.props.session.user?.id ? (
               <NavLink

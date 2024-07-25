@@ -15,20 +15,3 @@ div#articles-view {
   display: flex;
   flex-flow: row wrap;
 }
-/**/
-/* /* small screen  */ */
-/* @media screen and (max-width: 768px) { */
-/*   body div.article-card-container:not(.managed) { */
-/*     width: 75vw; */
-/*     height: 45%; */
-/*     align-items: flex-start; */
-/*   } */
-/* } */
-/**/
-/* /* mid screen */ */
-/* @media screen and (min-width: 768px) { */
-/*   body div.article-card-container:not(.managed) { */
-/*     width: 200px; */
-/*     margin-right: 1em; */
-/*   } */
-/* } */
