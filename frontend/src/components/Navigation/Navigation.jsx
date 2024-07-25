@@ -6,7 +6,7 @@ import { connect } from "react-redux";
 import icon from "./echo_logo_icon_only.png";
 import { IoIosAdd } from "react-icons/io";
 import { clearArticleErrors } from "../../store/article";
-
+import UserProfileMenu from "../ReactDialogs/UserProfileMenu/UserProfileMenu";
 class Navigation extends React.Component {
   render() {
     return (
@@ -23,7 +23,9 @@ class Navigation extends React.Component {
           <li className="nav-items">
             <ProfileButton sessionUser={this.props.session.user} />
           </li>
-
+          <li className="nav-items">
+            <UserProfileMenu />
+          </li>
           <li className="nav-items">
             {this.props.session.user?.id ? (
               <NavLink
@@ -70,7 +72,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const NavigationConnected = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Navigation);
 NavigationConnected.displayName = "Navigation";
 export default NavigationConnected;
