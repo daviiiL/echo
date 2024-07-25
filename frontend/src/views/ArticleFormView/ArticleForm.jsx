@@ -11,6 +11,7 @@ import { unwrapResult } from "@reduxjs/toolkit";
 import { fetchArticleDetails } from "../../services/articleThunks";
 import { CiEdit } from "react-icons/ci";
 import { Button } from "@mui/material";
+import ArticleEditor from "../../components/ArticleEditor";
 
 export default function ArticleForm() {
   const { articleId } = useParams();
@@ -118,90 +119,89 @@ In summary, React.js is a powerful, flexible, and efficient library for building
   if (articleId && !loaded) return <h1>loading</h1>;
 
   return (
-    <div className="view-container">
-      <div id="article-form-container">
-        {articleId && (
-          <p id="edit-article-title">
-            edit mode <CiEdit />
-          </p>
-        )}
-        <form id="article-form">
-          <div id="article-form-title-container">
-            {" "}
-            <label>
-              <input
-                id="article-form-title"
-                type="text"
-                placeholder="TITLE"
-                value={header}
-                required
-                onChange={(e) => setHeader(e.target.value)}
-              ></input>
-            </label>
-            {errors?.title && (
-              <p className="article-form-errors errors">{errors.title}</p>
-            )}
-          </div>
-          <hr />
-          <div id="article-form-sub-title-container">
-            {" "}
-            <label>
-              <input
-                id="article-form-sub-title"
-                type="text"
-                placeholder="SUBTITLE"
-                value={subheader}
-                required
-                onChange={(e) => setSubheader(e.target.value)}
-              ></input>
-            </label>
-            {errors?.sub_title && (
-              <p className="article-form-errors errors">{errors.sub_title}</p>
-            )}
-          </div>
-          <div id="article-form-body-container">
-            {errors?.body && (
-              <p className="article-form-errors errors">{errors.body}</p>
-            )}
-            <ReactQuill
+    <div id="article-form-container" className="view-container">
+      {articleId && (
+        <p id="edit-article-title">
+          edit mode <CiEdit />
+        </p>
+      )}
+      <form id="article-form">
+        <div id="article-form-title-container">
+          {" "}
+          <label>
+            <input
+              id="article-form-title"
+              type="text"
+              placeholder="TITLE"
+              value={header}
+              required
+              onChange={(e) => setHeader(e.target.value)}
+            ></input>
+          </label>
+          {errors?.title && (
+            <p className="article-form-errors errors">{errors.title}</p>
+          )}
+        </div>
+        <hr />
+        <div id="article-form-sub-title-container">
+          {" "}
+          <label>
+            <input
+              id="article-form-sub-title"
+              type="text"
+              placeholder="SUBTITLE"
+              value={subheader}
+              required
+              onChange={(e) => setSubheader(e.target.value)}
+            ></input>
+          </label>
+          {errors?.sub_title && (
+            <p className="article-form-errors errors">{errors.sub_title}</p>
+          )}
+        </div>
+        <div id="article-form-body-container" className="w-full">
+          {errors?.body && (
+            <p className="article-form-errors errors">{errors.body}</p>
+          )}
+          {/* <ReactQuill
               theme="snow"
               modules={{ toolbar: true }}
               // formats={[]}
 
               value={body}
               onChange={setBody}
-            />
-          </div>
+            /> */}
+          <ArticleEditor value={body} onChange={setBody} />
+        </div>
 
-          {/* <label>
+        {/* <label>
             Add a preview image <input type="file"></input>
           </label> */}
-          {/* <Select options={[]} /> */}
-          <div className="flex w-full ml-14 gap-x-5">
-            <Button
-              variant="contained"
-              id="submit-button"
-              type="submit"
-              onClick={!articleId ? submitNewArticle : submitArticleUpdate}
-            >
-              Submit
-            </Button>
+        {/* <Select options={[]} /> */}
+        <div className="flex w-full ml-14 gap-x-5">
+          <Button
+            variant="contained"
+            id="submit-button"
+            type="submit"
+            onClick={!articleId ? submitNewArticle : submitArticleUpdate}
+          >
+            Submit
+          </Button>
 
-            <Button
-              id="cancel-button"
-              type="button"
-              onClick={() => {
-                navigate(-1);
-              }}
-            >
-              Cancel
-            </Button>
-            <Button id="fill-demo-button" type="button" onClick={fillDemo}>
-              Fill Article Fields
-            </Button>
-          </div>
-        </form>
-      </div>
+          <Button
+            id="cancel-button"
+            type="button"
+            onClick={() => {
+              navigate(-1);
+            }}
+          >
+            Cancel
+          </Button>
+          <Button id="fill-demo-button" type="button" onClick={fillDemo}>
+            Fill Article Fields
+          </Button>
+        </div>
+      </form>
     </div>
   );
 }
