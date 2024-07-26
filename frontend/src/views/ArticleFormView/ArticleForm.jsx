@@ -1,8 +1,6 @@
 // import Select from "react-select";
 import "../../assets/view/AddArticleForm.css";
 import { useEffect, useState } from "react";
-import ReactQuill from "react-quill";
-import "react-quill/dist/quill.snow.css";
 import store from "../../store";
 import { postArticle, updateArticle } from "../../store/article";
 import { useSelector } from "react-redux";
@@ -13,6 +11,7 @@ import { CiEdit } from "react-icons/ci";
 import { Button, TextField } from "@mui/material";
 import ArticleEditor from "../../components/ArticleEditor";
 import { useRef } from "react";
+import notify from "../../components/Toaster/notify";
 
 export default function ArticleForm() {
   const { articleId } = useParams();
@@ -84,6 +83,12 @@ export default function ArticleForm() {
       .then(unwrapResult)
       .then((res) => {
         if (res && res.article.id) navigate(`/articles/${res.article.id}`);
+        notify({
+          message: "your article is now online",
+          icon: "👌",
+          color: "green",
+          position: "top-left",
+        });
       });
   };
 
@@ -109,6 +114,12 @@ export default function ArticleForm() {
       .then(unwrapResult)
       .then((res) => {
         if (res && res.article.id) navigate(`/articles/${res.article.id}`);
+        notify({
+          message: "your article is now updated",
+          icon: "👌",
+          color: "green",
+          position: "top-left",
+        });
       });
   };
 

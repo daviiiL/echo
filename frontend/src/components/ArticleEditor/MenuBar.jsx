@@ -1,5 +1,3 @@
-import { useCurrentEditor } from "@tiptap/react";
-
 export default function MenuBar({ editor }) {
   // const { editor } = useCurrentEditor();
 

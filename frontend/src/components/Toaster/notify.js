@@ -14,6 +14,10 @@ export default function notify(args) {
       background: "#E2E8F0",
       color: "black",
     },
+    green: {
+      background: "green",
+      color: "white",
+    },
   };
   console.log(args);
   const options = {};
