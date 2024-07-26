@@ -1,10 +1,11 @@
-import { useModal } from '../../context/Modal';
+import { useModal } from "../../context/Modal";
 
 function OpenModalMenuItem({
   modalComponent, // component to render inside the modal
   itemText, // text of the button that opens the modal
   onItemClick, // optional: callback function that will be called once the button that opens the modal is clicked
-  onModalClose // optional: callback function that will be called once the modal is closed
+  onModalClose, // optional: callback function that will be called once the modal is closed
+  icon,
 }) {
   const { setModalContent, setOnModalClose } = useModal();
 
@@ -15,7 +16,13 @@ function OpenModalMenuItem({
   };
 
   return (
-    <li onClick={onClick}>{itemText}</li>
+    <li
+      onClick={onClick}
+      className="nav-items flex-col cursor-pointer hover:bg-gray-300 rounded-lg"
+    >
+      {icon}
+      <p className="text-xs text-gray-500 ">{itemText.toLowerCase()}</p>
+    </li>
   );
 }
 

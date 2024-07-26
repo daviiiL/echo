@@ -15,7 +15,7 @@ const createCommentSection = (articleComments, navigate) => {
         key={`article${article.id}`}
         className="user-content-comment-article-container"
       >
-        <div className="comments-article-container">
+        <div>
           <p
             className="comments-article-title"
             onClick={() => navigate(`/articles/${article.id}`)}

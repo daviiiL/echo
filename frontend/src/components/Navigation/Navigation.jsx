@@ -6,6 +6,8 @@ import { connect } from "react-redux";
 import icon from "./echo_logo_icon_only.png";
 import { IoIosAdd } from "react-icons/io";
 import { clearArticleErrors } from "../../store/article";
+import UserProfileMenu from "../ReactDialogs/UserProfileMenu/UserProfileMenu";
+import notify from "../Toaster/notify";
 
 class Navigation extends React.Component {
   render() {
@@ -20,9 +22,12 @@ class Navigation extends React.Component {
               </NavLink>
             </div>
           </li>
-          <li className="nav-items">
-            <ProfileButton sessionUser={this.props.session.user} />
-          </li>
+          <ProfileButton sessionUser={this.props.session.user} />
+          {this.props.session?.user && (
+            <li className="nav-items">
+              <UserProfileMenu sessionUser={this.props.session.user} />
+            </li>
+          )}
 
           <li className="nav-items">
             {this.props.session.user?.id ? (
@@ -40,7 +45,13 @@ class Navigation extends React.Component {
               <div
                 id="add-article-button"
                 onClick={() => {
-                  window.alert("Please login to post an article");
+                  // window.alert("Please login to post an article");
+                  notify({
+                    message: "Please login to post an article",
+                    icon: "⛔",
+                    position: "top-left",
+                    // color: "error",
+                  });
                 }}
               >
                 <IoIosAdd size={40} />
@@ -70,7 +81,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const NavigationConnected = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Navigation);
 NavigationConnected.displayName = "Navigation";
 export default NavigationConnected;

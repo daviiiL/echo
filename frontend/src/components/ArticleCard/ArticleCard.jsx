@@ -14,21 +14,10 @@ export default function ArticleCard({ article }) {
           <img src={article.preview_image_url} alt={article.title} />
         ) : (
           <>
-            <p>
-              <span className="quote">{`"`}</span>
-              {stripHTMLTags(article.body).slice(0, 100) + "..."}
+            <span className="quote block h-5 pl-2">{`"`}</span>
+            <p className="text-wrap truncate">{stripHTMLTags(article.body)}</p>
 
-              <br></br>
-              <span
-                className="quote"
-                style={{
-                  textAlign: "center",
-                  width: "100%",
-                  display: "flex",
-                  flexDirection: "row-reverse",
-                }}
-              >{`"`}</span>
-            </p>
+            <span className="quote block h-7 text-right pr-3">{`"`}</span>
           </>
         )}
       </div>
@@ -38,12 +27,6 @@ export default function ArticleCard({ article }) {
             ? article.title.slice(0, 40) + "..."
             : article.title}
         </p>
-        {article.title.length < 27 && (
-          <p className="subtitle-small">
-            {article.sub_title.slice(0, 25) + "..."}
-          </p>
-        )}
-
         <p className="date-small">{formatDatabaseDate(article.updatedAt)}</p>
       </div>
     </div>

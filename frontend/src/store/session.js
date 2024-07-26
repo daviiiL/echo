@@ -57,6 +57,9 @@ export const sessionSlice = createSlice({
       state.isAuthenticated = state.user && true;
       state.errors = null;
     },
+    clearSessionErrors: (state) => {
+      state.errors = null;
+    },
   },
   extraReducers: (builder) => {
     builder.addCase(login.rejected, (state) => {
@@ -82,6 +85,6 @@ export const sessionSlice = createSlice({
   },
 });
 
-export const { loginSuccess, logoutSuccess, restoreSessionSuccess } =
+export const { logoutSuccess, restoreSessionSuccess, clearSessionErrors } =
   sessionSlice.actions;
 export default sessionSlice.reducer;

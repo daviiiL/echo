@@ -22,14 +22,38 @@ div.view-container {
     flex-grow: 2;
     border-top-left-radius: 3em;
     border-top-right-radius: 3em;
-    padding: 2em 0 5em 2em;
+    padding: 2em 0 2em 2em;
     margin-right: 1.5em;
     min-height: 90%;
     & a {
         color: black;
     }
+    & > div {
+        margin-right: 1.7em;
+    }
 }
 
 p.errors {
     color: red;
+}
+
+@media screen and (max-width: 768px) {
+    body {
+        div#main {
+            display: flex;
+            /* flex-direction: column-reverse; */
+            & > div {
+                /* width: 100wv; */
+                /* margin: 0; */
+                /* padding: 0; */
+                & > div#main-view-spacer {
+                    /* height: 1px; */
+                }
+                & > div.view-container {
+                    /* margin: 0; */
+                    /* border-radius: 0; */
+                }
+            }
+        }
+    }
 }

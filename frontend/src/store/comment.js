@@ -128,10 +128,12 @@ export const deleteComment = createAsyncThunk(
     return data;
   },
 );
+
 export const commentSlice = createSlice({
   name: "comments",
   initialState: {
     userComments: [],
+    userArticleComments: {},
     articleComments: [],
     singleComment: {},
     errors: null,
@@ -144,6 +146,12 @@ export const commentSlice = createSlice({
     clearCommentErrors: (state) => {
       state.errors = null;
       state.modalErrors = null;
+    },
+    clearUserCommentsByArticleId: (state, action) => {
+      const articleId = action.payload;
+      state.userComments = state.userComments.filter(
+        (e) => e.parent_article !== articleId,
+      );
     },
   },
 
@@ -260,6 +268,9 @@ export const commentSlice = createSlice({
   },
 });
 
-export const { clearCurrentUserComments, clearCommentErrors } =
-  commentSlice.actions;
+export const {
+  clearCurrentUserComments,
+  clearCommentErrors,
+  clearUserCommentsByArticleId,
+} = commentSlice.actions;
 export default commentSlice.reducer;

@@ -4,6 +4,8 @@ import { deleteArticle } from "../../store/article";
 import store from "../../store";
 import { MdOutlineClear } from "react-icons/md";
 import { deleteComment } from "../../store/comment";
+import { clearDeletedArticleComments } from "../../services/commentThunks";
+import notify from "../Toaster/notify";
 export default function ConfirmDeletionModal(props) {
   // const errors = useState((state) => state.articles.errors);
   const id = props.articleId ? props.articleId : props.commentId;
@@ -12,8 +14,23 @@ export default function ConfirmDeletionModal(props) {
   const handleDelete = (e) => {
     e.preventDefault();
     props.articleId !== undefined
-      ? store.dispatch(deleteArticle(id))
-      : store.dispatch(deleteComment(id));
+      ? store.dispatch(deleteArticle(id)).then(() => {
+          clearDeletedArticleComments(id);
+          notify({
+            message: "your article is now deleted",
+            icon: "🗑️",
+            color: "green",
+            position: "top-left",
+          });
+        })
+      : store.dispatch(deleteComment(id)).then(() => {
+          notify({
+            message: "your comment is now deleted",
+            icon: "🗑️",
+            color: "green",
+            position: "top-left",
+          });
+        });
     closeModal();
   };
 

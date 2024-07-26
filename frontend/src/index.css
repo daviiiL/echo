@@ -1,7 +1,6 @@
-/* ------------------------------------------------
- *
- * COLORS
- *-------------------------------------------------*/
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
 
 :root {
     --view-background: #ffffff;
@@ -45,10 +44,10 @@ a {
     text-decoration: none;
 }
 
-ul,
+/* ul,
 li {
-    list-style-type: none;
-}
+  list-style-type: none;
+} */
 
 /* divider styles  */
 /* Dashed border */

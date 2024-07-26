@@ -16,11 +16,6 @@ div.content-title {
 div.content-cards {
   display: flex;
   flex-direction: column;
-  /* border: 1px solid var(--site-background); */
-
-  border-radius: 1em;
-  padding: 0.5em;
-  box-shadow: 0 0 5px var(--site-background);
 }
 
 p.comments-article-title {
