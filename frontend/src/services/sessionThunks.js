@@ -6,6 +6,8 @@ import {
 import { csrfFetch } from "../store/csrf";
 import store from "../store";
 import { createAsyncThunk } from "@reduxjs/toolkit";
+import { fetchCurrentUserArticles } from "./articleThunks";
+import { fetchCurrentUserComments } from "../store/comment";
 
 export const logout = createAsyncThunk(
   "session/logout",
@@ -27,7 +29,7 @@ export const logout = createAsyncThunk(
         server: "Something went wrong. Please try again later!",
       };
     rejectWithValue(errorMessages);
-  }
+  },
 );
 
 export const restoreSession = createAsyncThunk(
@@ -37,6 +39,10 @@ export const restoreSession = createAsyncThunk(
     const data = await response.json();
     if (response.status >= 400)
       return store.dispatch(restoreSessionSuccess({ user: null }));
-    store.dispatch(restoreSessionSuccess(data));
-  }
+    store.dispatch(restoreSessionSuccess(data)).then(() => {
+      //populate store
+      store.dispatch(fetchCurrentUserArticles());
+      store.dispatch(fetchCurrentUserComments());
+    });
+  },
 );

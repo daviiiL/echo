@@ -12,9 +12,11 @@ import { clearArticleDetails, clearUserArticles } from "../../../store/article";
 import { clearCurrentUserComments } from "../../../store/comment";
 import { useNavigate } from "react-router-dom";
 import notify from "../../Toaster/notify";
+
 export default function UserProfileMenu({ sessionUser }) {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
+
   const handleClickOpen = () => {
     setOpen(true);
   };

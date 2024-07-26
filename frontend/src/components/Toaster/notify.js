@@ -19,7 +19,6 @@ export default function notify(args) {
       color: "white",
     },
   };
-  console.log(args);
   const options = {};
   if (args.position) options.position = args.position;
   options.style = args.color ? colors[args.color] : args.white;

@@ -22,7 +22,11 @@ const extensions = [
   }),
 ];
 
-export default function ArticleEditor({ setBody, initialContent }) {
+export default function ArticleEditor({
+  setBody,
+  initialContent,
+  fillerLoaded,
+}) {
   const editor = useEditor({
     extensions,
     onUpdate: ({ editor }) => {
@@ -34,7 +38,7 @@ export default function ArticleEditor({ setBody, initialContent }) {
     if (initialContent && editor.isEmpty) {
       editor.commands.setContent(initialContent.current);
     }
-  }, [initialContent, editor]);
+  }, [initialContent, fillerLoaded, editor]);
 
   return (
     <>
