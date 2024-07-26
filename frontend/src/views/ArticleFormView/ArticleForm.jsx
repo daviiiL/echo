@@ -10,8 +10,9 @@ import { useNavigate, useParams } from "react-router-dom";
 import { unwrapResult } from "@reduxjs/toolkit";
 import { fetchArticleDetails } from "../../services/articleThunks";
 import { CiEdit } from "react-icons/ci";
-import { Button } from "@mui/material";
+import { Button, TextField } from "@mui/material";
 import ArticleEditor from "../../components/ArticleEditor";
+import { useRef } from "react";
 
 export default function ArticleForm() {
   const { articleId } = useParams();
@@ -24,6 +25,8 @@ export default function ArticleForm() {
   const [header, setHeader] = useState("");
   const [subheader, setSubheader] = useState("");
   const [errors, setErrors] = useState({});
+  const articleBody = useRef(null);
+
   useEffect(() => {
     const validateErrors = {};
     if (!body || !header || !subheader) validateErrors.fields = "empty";
@@ -48,6 +51,7 @@ export default function ArticleForm() {
           .dispatch(fetchArticleDetails(articleId))
           .then(() => setLoaded(true));
       } else {
+        if (!articleBody.current) articleBody.current = articleDetails.body;
         setBody(articleDetails.body);
         setHeader(articleDetails.title);
         setSubheader(articleDetails.sub_title);
@@ -61,7 +65,14 @@ export default function ArticleForm() {
 
   const submitNewArticle = (e) => {
     e.preventDefault();
-    if (Object.keys(errors).length > 0) return;
+    const submissionErrors = { ...errors };
+    if (!header.length)
+      submissionErrors.title = "Please provide a title for your article";
+    if (!subheader.length)
+      submissionErrors.sub_title =
+        "Please provide a short description for your article";
+    if (Object.keys(submissionErrors).length > 0)
+      return setErrors(submissionErrors);
 
     const article = {
       title: header,
@@ -78,7 +89,15 @@ export default function ArticleForm() {
 
   const submitArticleUpdate = (e) => {
     e.preventDefault();
-    if (Object.keys(errors).length) return;
+    const submissionErrors = { ...errors };
+    if (!header.length)
+      submissionErrors.title = "Please provide a title for your article";
+    if (!subheader.length)
+      submissionErrors.sub_title =
+        "Please provide a short description for your article";
+    if (Object.keys(submissionErrors).length > 0)
+      return setErrors(submissionErrors);
+
     const article = {
       title: header,
       sub_title: subheader,
@@ -126,58 +145,45 @@ In summary, React.js is a powerful, flexible, and efficient library for building
         </p>
       )}
       <form id="article-form">
-        <div id="article-form-title-container">
-          {" "}
-          <label>
-            <input
-              id="article-form-title"
-              type="text"
-              placeholder="TITLE"
-              value={header}
-              required
-              onChange={(e) => setHeader(e.target.value)}
-            ></input>
-          </label>
-          {errors?.title && (
-            <p className="article-form-errors errors">{errors.title}</p>
-          )}
+        <div id="article-form-title-container" className="mb-4">
+          <TextField
+            sx={{
+              "& fieldset": { border: "none" },
+            }}
+            id="article-form-title"
+            type="text"
+            placeholder="TITLE"
+            variant="outlined"
+            value={header}
+            required
+            helperText={(errors?.title && errors.title) || " "}
+            error={!!errors?.title}
+            onChange={(e) => setHeader(e.target.value)}
+          />
         </div>
-        <hr />
         <div id="article-form-sub-title-container">
-          {" "}
-          <label>
-            <input
-              id="article-form-sub-title"
-              type="text"
-              placeholder="SUBTITLE"
-              value={subheader}
-              required
-              onChange={(e) => setSubheader(e.target.value)}
-            ></input>
-          </label>
-          {errors?.sub_title && (
-            <p className="article-form-errors errors">{errors.sub_title}</p>
-          )}
+          <TextField
+            sx={{
+              "& fieldset": { border: "none" },
+            }}
+            id="article-form-sub-title"
+            type="text"
+            placeholder="SUBTITLE"
+            helperText={(errors?.sub_title && errors.sub_title) || " "}
+            error={!!errors?.sub_title}
+            value={subheader}
+            required
+            onChange={(e) => setSubheader(e.target.value)}
+          />
         </div>
         <div id="article-form-body-container" className="w-full">
           {errors?.body && (
             <p className="article-form-errors errors">{errors.body}</p>
           )}
-          {/* <ReactQuill
-              theme="snow"
-              modules={{ toolbar: true }}
-              // formats={[]}
 
-              value={body}
-              onChange={setBody}
-            /> */}
-          <ArticleEditor />
+          <ArticleEditor setBody={setBody} initialContent={articleBody} />
         </div>
 
-        {/* <label>
-            Add a preview image <input type="file"></input>
-          </label> */}
-        {/* <Select options={[]} /> */}
         <div className="flex w-full ml-14 gap-x-5">
           <Button
             variant="contained"
@@ -187,7 +193,6 @@ In summary, React.js is a powerful, flexible, and efficient library for building
           >
             Submit
           </Button>
-
           <Button
             id="cancel-button"
             type="button"

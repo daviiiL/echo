@@ -1,10 +1,11 @@
 import { Color } from "@tiptap/extension-color";
 import ListItem from "@tiptap/extension-list-item";
 import TextStyle from "@tiptap/extension-text-style";
-import { EditorProvider } from "@tiptap/react";
+import { EditorContent, useEditor } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
 import MenuBar from "./MenuBar.jsx";
 import "./styles.scss";
+import { useEffect } from "react";
 
 const extensions = [
   Color.configure({ types: [TextStyle.name, ListItem.name] }),
@@ -21,12 +22,24 @@ const extensions = [
   }),
 ];
 
-export default function ArticleEditor({ value, onChange }) {
+export default function ArticleEditor({ setBody, initialContent }) {
+  const editor = useEditor({
+    extensions,
+    onUpdate: ({ editor }) => {
+      setBody(editor.getHTML());
+    },
+  });
+
+  useEffect(() => {
+    if (initialContent && editor.isEmpty) {
+      editor.commands.setContent(initialContent.current);
+    }
+  }, [initialContent, editor]);
+
   return (
-    <EditorProvider
-      slotBefore={<MenuBar />}
-      extensions={extensions}
-      content={value}
-    ></EditorProvider>
+    <>
+      <MenuBar editor={editor} />
+      <EditorContent editor={editor} />
+    </>
   );
 }
