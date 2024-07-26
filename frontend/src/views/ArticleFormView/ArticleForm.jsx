@@ -171,7 +171,7 @@ In summary, React.js is a powerful, flexible, and efficient library for building
               value={body}
               onChange={setBody}
             /> */}
-          <ArticleEditor value={body} onChange={setBody} />
+          <ArticleEditor />
         </div>
 
         {/* <label>
