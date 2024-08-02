@@ -23,18 +23,21 @@ const extensions = [
 ];
 
 export default function ArticleEditor({
-  setBody,
+  setBody, //state setter for article form body state
   initialContent,
   fillerLoaded,
 }) {
   const editor = useEditor({
+    //tiptap react hook
     extensions,
     onUpdate: ({ editor }) => {
+      //this handles on change for editor text box
       setBody(editor.getHTML());
     },
   });
 
   useEffect(() => {
+    //prepopulating data
     if (initialContent && editor.isEmpty) {
       editor.commands.setContent(initialContent.current);
     }
