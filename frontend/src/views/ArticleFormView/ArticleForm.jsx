@@ -1,34 +1,44 @@
-// import Select from "react-select";
-import "../../assets/view/AddArticleForm.css";
-import { useEffect, useState } from "react";
-import store from "../../store";
-import { postArticle, updateArticle } from "../../store/article";
-import { useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
-import { unwrapResult } from "@reduxjs/toolkit";
-import { fetchArticleDetails } from "../../services/articleThunks";
-import { CiEdit } from "react-icons/ci";
+import ArrowDownwardIcon from "@mui/icons-material/ArrowDownward";
 import {
+  List,
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
   Button,
   Dialog,
   DialogActions,
   DialogContent,
   DialogTitle,
   TextField,
+  Typography,
+  ListItem,
+  Divider,
+  ListItemAvatar,
 } from "@mui/material";
+import { unwrapResult } from "@reduxjs/toolkit";
+import { useEffect, useRef, useState } from "react";
+import { CiEdit } from "react-icons/ci";
+import { useSelector } from "react-redux";
+import { useNavigate, useParams } from "react-router-dom";
+import "../../assets/view/AddArticleForm.css";
 import ArticleEditor from "../../components/ArticleEditor";
-import { useRef } from "react";
 import notify from "../../components/Toaster/notify";
+import { fetchArticleDetails } from "../../services/articleThunks";
+import store from "../../store";
+import { postArticle, updateArticle } from "../../store/article";
 import DemoData from "./DemoData";
+import LightbulbCircleIcon from "@mui/icons-material/LightbulbCircle";
+import StarIcon from "@mui/icons-material/Star";
 
 export default function ArticleForm() {
   const { articleId } = useParams();
   //for short curcuiting this component while things load
-  const [loaded, setLoaded] = useState(false);
-
   const navigate = useNavigate();
+
   const dbErrors = useSelector((state) => state.articles?.errors);
   const articleDetails = useSelector((state) => state.articles.articleDetails);
+
+  const [loaded, setLoaded] = useState(false);
   const [body, setBody] = useState("");
   const [header, setHeader] = useState("");
   const [subheader, setSubheader] = useState("");
@@ -207,9 +217,57 @@ export default function ArticleForm() {
             Fill Article Fields
           </Button>
         </div>
-        <Dialog open={open}>
+        <Dialog
+          open={open}
+          PaperProps={
+            {
+              // sx: { height: "500px" },
+            }
+          }
+        >
           <DialogTitle>Almost there!</DialogTitle>
-          <DialogContent></DialogContent>
+          <DialogContent>
+            <Accordion>
+              <AccordionSummary
+                expandIcon={<ArrowDownwardIcon style={{ color: "white" }} />}
+                sx={{
+                  backgroundColor: "#1976D2",
+                  borderRadius: "5px",
+                  color: "white",
+                }}
+              >
+                <Typography className="flex place-items-center justify-items-centern">
+                  <LightbulbCircleIcon />
+                  Tips after posting your article
+                </Typography>
+              </AccordionSummary>
+              <AccordionDetails
+                sx={{
+                  backgroundColor: "#E2E8F0",
+                }}
+              >
+                <List>
+                  <ListItem>
+                    <ListItemAvatar>
+                      <StarIcon />
+                    </ListItemAvatar>
+                    <Typography className="flex justify-center">
+                      add tags to your article
+                    </Typography>
+                  </ListItem>
+                  <Divider />
+                  <ListItem>
+                    <ListItemAvatar>
+                      <StarIcon />
+                    </ListItemAvatar>
+                    <Typography className="flex justify-center">
+                      manage your article easily
+                    </Typography>
+                  </ListItem>
+                </List>
+              </AccordionDetails>
+            </Accordion>
+          </DialogContent>
           <DialogActions>
             <Button variant="outlined" onClick={() => setOpen(false)}>
               Cancel
