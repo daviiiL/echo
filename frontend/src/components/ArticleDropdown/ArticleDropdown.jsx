@@ -25,6 +25,7 @@ import {
   fetchArticleTags,
   postArticletags,
 } from "../../store/tag";
+import notify from "../Toaster/notify";
 
 const Transition = forwardRef(function Transition(props, ref) {
   return <Slide direction="up" ref={ref} {...props} />;
@@ -62,6 +63,7 @@ export default function ArticleDropdown({ article }) {
     setOpen(false);
     store.dispatch(clearArticleTags());
     tagsRef.current = [];
+    notify({ color: "green", message: "Article tags updated!", icon: "✅" });
   };
 
   const toggleMenu = (e) => {
@@ -129,7 +131,10 @@ export default function ArticleDropdown({ article }) {
             TransitionComponent={Transition}
           >
             <AppBar sx={{ position: "relative" }}>
-              <Toolbar variant="dense" sx={{ backgroundColor: "#82a1cc" }}>
+              <Toolbar
+                variant="dense"
+                sx={{ backgroundColor: "white", color: "black" }}
+              >
                 <IconButton
                   edge="start"
                   color="inherit"
@@ -145,12 +150,7 @@ export default function ArticleDropdown({ article }) {
                 >
                   Manage your article tags
                 </Typography>
-                <Button
-                  variant="outlined"
-                  autoFocus
-                  color="inherit"
-                  onClick={handleSubmit}
-                >
+                <Button variant="contained" autoFocus onClick={handleSubmit}>
                   save
                 </Button>
               </Toolbar>

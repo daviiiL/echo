@@ -33,8 +33,8 @@ const structureCommentsByArticle = (comments) => {
 
 class UserContentView extends React.Component {
   componentDidMount() {
-    if (!this.props.articles?.length) this.props.fetchCurrentUserArticles();
-    if (!this.props.comments?.length) this.props.fetchCurrentUserComments();
+    this.props.fetchCurrentUserArticles();
+    this.props.fetchCurrentUserComments();
   }
 
   render() {

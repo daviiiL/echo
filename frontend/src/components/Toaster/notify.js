@@ -1,5 +1,12 @@
 import toast from "react-hot-toast";
 
+/**
+ *
+ * @param {string} message toast message
+ * @param {object} icon toast icon (optional)
+ * @param {string} color choose from error, white, site, green (optional)
+ * @returns
+ */
 export default function notify(args) {
   const colors = {
     error: {

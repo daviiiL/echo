@@ -367,11 +367,13 @@ router.post(
 // ----------------------------------------TAGS---------------------------------------
 //add a tag to article by articleId
 //the request url should be .../articles/:articlesId/tags?tag=a&tag=b&tag=c
+//returns NEWLY CREATED tags only
 router.post("/:articleId/tags", requireAuth, async (req, res, next) => {
   //deep copy into an array from query param
   //TODO: handle single tags
   const article = await findAndCheckArticle(req);
   const addedTags = [];
+  const createdTags = [];
   if (article instanceof Error) return next(article);
   //if empty query param then remove all tag associations
   //else construct tags
@@ -391,11 +393,12 @@ router.post("/:articleId/tags", requireAuth, async (req, res, next) => {
       if (tag instanceof Tag) {
         addedTags.push(tag);
         // await article.addTag(tag);
+        if (created) createdTags.push(tag);
       }
     }
   }
   await article.setTags(addedTags);
-  return res.json({ tags: addedTags });
+  return res.json({ tags: createdTags });
 });
 
 //get all tags of an article by article Id

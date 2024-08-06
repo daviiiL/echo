@@ -4,7 +4,6 @@ import makeAnimated from "react-select/animated";
 import { fetchActiveTags, fetchArticleTags } from "../../store/tag";
 import { connect } from "react-redux";
 import { capString } from "../../utils/stringUtils";
-import { unwrapResult } from "@reduxjs/toolkit";
 
 const constructTagOptions = (tags) => {
   return tags.reduce((acc, el) => {
@@ -97,7 +96,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const ManageTagBarConnected = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ManageTagBar);
 ManageTagBarConnected.displayName = "ManageTagBar";
 export default ManageTagBarConnected;

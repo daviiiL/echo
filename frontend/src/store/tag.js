@@ -70,14 +70,13 @@ export const tagSlice = createSlice({
     }),
     builder.addCase(postArticletags.fulfilled, (state, action) => {
       state.errors = null;
-      state.articleTags = action.payload.tags?.map((e) => e.title);
+      state.allTags = [...state.allTags, ...action.payload.tags];
     }),
     builder.addCase(fetchArticleTags.rejected, (state, action) => {
       state.fetchErrors = action.payload.errors;
     }),
     builder.addCase(fetchArticleTags.fulfilled, (state, action) => {
       //api returns an array of data instead of pojo
-
       state.articleTags = action.payload.tags?.map((e) => e.title);
     }),
   ],

@@ -30,7 +30,7 @@ import DemoData from "./DemoData";
 import LightbulbCircleIcon from "@mui/icons-material/LightbulbCircle";
 import StarIcon from "@mui/icons-material/Star";
 import { KeyboardArrowRight, MoreVert } from "@mui/icons-material";
-import { SlOptionsVertical } from "react-icons/sl";
+
 export default function ArticleForm() {
   const { articleId } = useParams();
   //for short curcuiting this component while things load
