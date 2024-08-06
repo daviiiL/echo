@@ -396,13 +396,14 @@ router.post("/:articleId/tags", requireAuth, async (req, res, next) => {
 router.get("/:articleId/tags", async (req, res, next) => {
   const article = await findAndCheckArticle(req);
   if (article instanceof Error) return next(article);
-  return res.json(
-    await article.getTags({
-      through: {
-        model: ArticleTag,
-        attributes: [],
-      },
-    })
-  );
+  const articleTags = await article.getTags({
+    through: {
+      model: ArticleTag,
+      attributes: [],
+    },
+  });
+  return res.json({
+    tags: articleTags,
+  });
 });
 module.exports = router;

@@ -29,7 +29,8 @@ import { postArticle, updateArticle } from "../../store/article";
 import DemoData from "./DemoData";
 import LightbulbCircleIcon from "@mui/icons-material/LightbulbCircle";
 import StarIcon from "@mui/icons-material/Star";
-
+import { KeyboardArrowRight, MoreVert } from "@mui/icons-material";
+import { SlOptionsVertical } from "react-icons/sl";
 export default function ArticleForm() {
   const { articleId } = useParams();
   //for short curcuiting this component while things load
@@ -217,14 +218,7 @@ export default function ArticleForm() {
             Fill Article Fields
           </Button>
         </div>
-        <Dialog
-          open={open}
-          PaperProps={
-            {
-              // sx: { height: "500px" },
-            }
-          }
-        >
+        <Dialog open={open} PaperProps={{}}>
           <DialogTitle>Almost there!</DialogTitle>
           <DialogContent>
             <Accordion>
@@ -241,27 +235,47 @@ export default function ArticleForm() {
                   Tips after posting your article
                 </Typography>
               </AccordionSummary>
-              <AccordionDetails
-                sx={{
-                  backgroundColor: "#E2E8F0",
-                }}
-              >
-                <List>
-                  <ListItem>
+              <AccordionDetails>
+                <List disablePadding>
+                  <ListItem
+                    sx={{
+                      backgroundColor: "#E2E8F0",
+                      borderRadius: "5px",
+                    }}
+                  >
+                    <Typography
+                      className="flex items-center p-2 rounded-lg"
+                      sx={{
+                        backgroundColor: "#E2E8F0",
+                      }}
+                    >
+                      navigate to{" "}
+                      <span className="bg-white rounded-lg ml-1 px-2 font-bold">
+                        Yours
+                      </span>{" "}
+                      {<KeyboardArrowRight />} click
+                      {
+                        <span className="bg-white rounded-lg mx-3">
+                          <MoreVert />
+                        </span>
+                      }
+                    </Typography>
+                  </ListItem>
+                  <ListItem sx={{ pl: 4 }}>
                     <ListItemAvatar>
                       <StarIcon />
                     </ListItemAvatar>
                     <Typography className="flex justify-center">
-                      add tags to your article
+                      Add tags to your article{" "}
                     </Typography>
                   </ListItem>
                   <Divider />
-                  <ListItem>
+                  <ListItem sx={{ pl: 4 }}>
                     <ListItemAvatar>
                       <StarIcon />
                     </ListItemAvatar>
                     <Typography className="flex justify-center">
-                      manage your article easily
+                      Manage or update your article
                     </Typography>
                   </ListItem>
                 </List>

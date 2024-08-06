@@ -1,35 +1,39 @@
 div.article-dropdown-container {
-    color: var(--dashboard-item-color);
-    display: flex;
-    align-items: start;
-    justify-content: space-between;
-    padding-bottom: 2em;
-    position: relative;
+  color: var(--dashboard-item-color);
+  display: flex;
+  align-items: start;
+  justify-content: space-between;
+  padding-bottom: 2em;
+  position: relative;
 }
 
 ul.article-dropdown {
-    position: absolute;
-    z-index: 3;
-    right: -3em;
-    width: 10em;
-    top: 30px;
-    background-color: var(--button-color);
-    border: 1px solid var(--button-color);
-    padding: 1em;
+  position: absolute;
+  z-index: 3;
+  right: -3em;
+  width: 8em;
+  top: 30px;
+  background-color: var(--button-color);
+  border: 1px solid var(--button-color);
+  padding: 0 0.7em;
+  color: white;
+  font-weight: bold;
+  border-radius: 1em;
+  & > li {
+    margin: 0.5em 0;
+    cursor: pointer;
+    border: 1px solid transparent;
+  }
+  & div {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+  }
+  & p {
+    font-size: 12pt;
     color: white;
-    font-weight: bold;
-    border-radius: 1em;
-    & > li {
-        margin: 0.5em 0;
-        cursor: pointer;
-    }
-    & div {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-    }
-    & p {
-        font-size: 12pt;
-        color: white;
-    }
+  }
+  & > li:hover {
+    border-bottom: 1px solid white;
+  }
 }

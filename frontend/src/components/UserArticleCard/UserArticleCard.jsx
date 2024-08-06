@@ -6,7 +6,7 @@ export default function UserArticleCard({ article }) {
   const navigate = useNavigate();
 
   return (
-    <div className="user-content-card">
+    <div className="user-content-card hover:border-solid">
       <div
         className="article-details"
         onClick={() => navigate(`/articles/${article.id}`)}

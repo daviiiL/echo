@@ -41,12 +41,12 @@ export default function UserContentSection(props) {
       <div className="content-title">
         {props.articles ? (
           <>
-            <h2>your articles</h2>
+            <h2 className="text-xl font-semibold">your articles</h2>
             <GrArticle />
           </>
         ) : (
           <>
-            <h2>your comments</h2>
+            <h2 className="text-xl font-semibold">your comments</h2>
             <FaComments />
           </>
         )}

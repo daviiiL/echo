@@ -1,24 +1,30 @@
 div.user-content-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    & p {
-        max-width: 80%;
-        white-space: normal;
-        width: 80%;
-    }
-    background-color: var(--card-background);
-    padding: 1em;
-    margin: 0.3em;
-    border-radius: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  & p {
+    max-width: 80%;
+    white-space: normal;
+    width: 80%;
+  }
+  background-color: var(--card-background);
+  padding: 1em;
+  margin: 0.3em;
+  border-radius: 1em;
+  border: 1px solid transparent;
+  /* border-left: 2px solid var(--site-background); */
+}
+
+div.user-content-card:hover {
+  background-color: var(--site-background);
 }
 
 div.article-details {
-    width: 70%;
-    display: flex;
-    flex-direction: column;
-    cursor: pointer;
-    row-gap: 2px;
-    position: relative;
-    z-index: 0;
+  width: 70%;
+  display: flex;
+  flex-direction: column;
+  cursor: pointer;
+  row-gap: 2px;
+  position: relative;
+  z-index: 0;
 }

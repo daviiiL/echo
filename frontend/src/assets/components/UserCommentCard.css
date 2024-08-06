@@ -1,25 +1,29 @@
 div.user-comment-card {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    & p {
-        max-width: 80%;
-        white-space: normal;
-        width: 80%;
-        overflow-wrap: break-word;
-    }
-    & > div:last-child {
-        height: min-content;
-    }
-    background-color: var(--card-background);
-    padding: 1em;
-    margin: 0.3em;
-    border-radius: 1em;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  & p {
+    max-width: 80%;
+    white-space: normal;
+    width: 80%;
+    overflow-wrap: break-word;
+  }
+  & > div:last-child {
+    height: min-content;
+  }
+  background-color: var(--card-background);
+  padding: 1em;
+  margin: 0.3em;
+  border-radius: 1em;
+}
+
+div.user-comment-card:hover {
+  background-color: var(--site-background);
 }
 
 div.comment-details {
-    width: 80%;
-    & p {
-        width: 100%;
-    }
+  width: 80%;
+  & p {
+    width: 100%;
+  }
 }
