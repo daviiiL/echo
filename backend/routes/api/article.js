@@ -373,22 +373,28 @@ router.post("/:articleId/tags", requireAuth, async (req, res, next) => {
   const article = await findAndCheckArticle(req);
   const addedTags = [];
   if (article instanceof Error) return next(article);
+  //if empty query param then remove all tag associations
+  //else construct tags
+  if (req.query.tag?.length) {
+    const tags = Array.isArray(req.query.tag)
+      ? [...req.query.tag]
+      : [req.query.tag];
 
-  const tags = [...req.query.tag];
-
-  for (const tagTitle of tags) {
-    const [tag, created] = await Tag.findOrCreate({
-      where: { title: tagTitle.toLowerCase() },
-      defaults: {
-        title: tagTitle.toLowerCase(),
-      },
-    });
-    // return res.json(tag instanceof Tag);
-    if (tag instanceof Tag) {
-      addedTags.push(tag);
-      await article.addTag(tag);
+    for (const tagTitle of tags) {
+      const [tag, created] = await Tag.findOrCreate({
+        where: { title: tagTitle.toLowerCase() },
+        defaults: {
+          title: tagTitle.toLowerCase(),
+        },
+      });
+      // return res.json(tag instanceof Tag);
+      if (tag instanceof Tag) {
+        addedTags.push(tag);
+        // await article.addTag(tag);
+      }
     }
   }
+  await article.setTags(addedTags);
   return res.json({ tags: addedTags });
 });
 

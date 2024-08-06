@@ -53,15 +53,12 @@ export default function ArticleDropdown({ article }) {
 
   const handleSubmit = () => {
     //tagsRef will remain empty less tags are added/removed to/from article
-
-    console.log(tagsRef.current);
-    // if (tagsRef.current.length)
-    //   store.dispatch(
-    //     postArticletags({
-    //       articleId: article.id,
-    //       tags: tagsRef.current,
-    //     })
-    //   );
+    store.dispatch(
+      postArticletags({
+        articleId: article.id,
+        tags: tagsRef.current,
+      })
+    );
     setOpen(false);
     store.dispatch(clearArticleTags());
     tagsRef.current = [];
