@@ -48,13 +48,15 @@ module.exports = {
       options,
     );
     await queryInterface.addConstraint(
-      "Likes",
+      {
+        schema: options.schema,
+        tableName: "Likes",
+      },
       {
         fields: ["article_id", "user_id"],
         type: "unique",
         name: "unique_likes",
       },
-      options,
     );
   },
   async down(queryInterface, Sequelize) {
