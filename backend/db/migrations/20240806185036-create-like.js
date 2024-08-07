@@ -45,13 +45,17 @@ module.exports = {
           defaultValue: Sequelize.literal("CURRENT_TIMESTAMP"),
         },
       },
-      options
+      options,
     );
-    await queryInterface.addConstraint("Likes", {
-      fields: ["article_id", "user_id"],
-      type: "unique",
-      name: "unique_likes",
-    });
+    await queryInterface.addConstraint(
+      "Likes",
+      {
+        fields: ["article_id", "user_id"],
+        type: "unique",
+        name: "unique_likes",
+      },
+      options,
+    );
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable("Likes", options);
