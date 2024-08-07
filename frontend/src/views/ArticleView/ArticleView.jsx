@@ -11,6 +11,8 @@ import parse from "html-react-parser";
 import "../../assets/view/ArticleView.css";
 import AuthorCard from "../../components/AuthorCard";
 import ArticleCommentsSectionConnected from "../../components/ArticleCommentSection/ArticleCommentSection";
+import { IconButton, Typography } from "@mui/material";
+import { likeArticle, unlikeArticle } from "../../store/article";
 
 export class ArticleView extends React.Component {
   constructor(props) {
@@ -18,6 +20,7 @@ export class ArticleView extends React.Component {
     this.url = window.location.href.split("/");
     //define the array first for better time and space complexities than a one liner
     this.articleId = this.url[this.url.length - 1];
+    this.liked = null;
   }
   formatDate(dateString) {
     const date = new Date(dateString);
@@ -27,6 +30,14 @@ export class ArticleView extends React.Component {
   componentDidMount() {
     const { fetchArticleDetails } = this.props;
     fetchArticleDetails(this.articleId);
+  }
+
+  componentDidUpdate() {
+    if (this.props.articleDetails.Likes) {
+      this.liked = this.props.articleDetails.Likes.map(
+        (e) => e.user_id,
+      ).includes(this.props.sessionUserId);
+    }
   }
 
   render() {
@@ -47,24 +58,48 @@ export class ArticleView extends React.Component {
               owner={this.props.articleDetails.Author}
               readtime={this.props.articleDetails.body}
               publishDate={this.formatDate(this.props.articleDetails.createdAt)}
+              sessionUserId={this.props.sessionUserId}
             />
           </div>
           <div id="article-interactions">
             <div>
               <div>
-                <PiHandsClappingThin size={25} className="interact" />
-                <p className="interact">
+                <IconButton
+                  sx={{ padding: 0 }}
+                  aria-label="like"
+                  color={this.liked ? "success" : "primary"}
+                  disabled={this.props.sessionUserId ? false : true}
+                  onClick={() => {
+                    this.liked
+                      ? this.props.unlikeArticle({
+                          articleId: parseInt(this.articleId),
+                          userId: this.props.sessionUserId,
+                        })
+                      : this.props.likeArticle(this.articleId);
+                    this.liked = !this.liked;
+                  }}
+                  key={this.sessionUserId}
+                >
+                  <PiHandsClappingThin size={25} />
+                </IconButton>
+                <p className="interact select-none">
                   {this.props.articleDetails.likes_count}
                 </p>
               </div>
               <div>
                 <PiChatCircleTextThin size={25} className="interact" />
-                <p className="interact">
-                  {/* probably consider removing fetching comments in article backend route to lighten server load */}
+                <p className="select-none">
+                  {/*TODO: probably consider removing fetching comments in article backend route to lighten server load */}
                   {/* {this.props.articleDetails?.Comments?.length} NOTE: replaced by comment store article comment length*/}
                   {this.props.commentsLength}
                 </p>
               </div>
+              {!this.props.sessionUserId && (
+                <Typography
+                  variant="caption"
+                  sx={{ color: "grey" }}
+                >{`👉  login to like this article`}</Typography>
+              )}
             </div>
             <div>
               <PiBookmarkThin
@@ -100,12 +135,19 @@ export class ArticleView extends React.Component {
 const mapStateToProps = (state) => ({
   articleDetails: state.articles?.articleDetails,
   commentsLength: state.comments?.articleComments?.length,
+  sessionUserId: state.session.user?.id,
 });
 
 const mapDispatchToProps = (dispatch) => {
   return {
     fetchArticleDetails: (articleId) => {
       dispatch(fetchArticleDetails(parseInt(articleId)));
+    },
+    likeArticle: (articleId) => {
+      dispatch(likeArticle(parseInt(articleId)));
+    },
+    unlikeArticle: (payload) => {
+      dispatch(unlikeArticle(payload));
     },
   };
 };

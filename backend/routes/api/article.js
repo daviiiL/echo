@@ -26,7 +26,7 @@ const validateArticle = [
   check("sub_title")
     .isLength({ min: 4 })
     .withMessage(
-      "Please enter at least 4 characters for your article sub-title"
+      "Please enter at least 4 characters for your article sub-title",
     ),
   check("body")
     .exists({ checkFalsy: true })
@@ -320,7 +320,7 @@ router.post(
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       next(e);
     }
-  }
+  },
 );
 
 //post a child comment by article id
@@ -373,7 +373,7 @@ router.post(
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       return next(e);
     }
-  }
+  },
 );
 // ----------------------------------------TAGS---------------------------------------
 //add a tag to article by articleId
@@ -453,13 +453,14 @@ router.post("/:articleId/likes", async (req, res, next) => {
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       return next(e);
     }
-    return res.json({ message: "Operation Successful" });
+    return res.json(response[0]);
   }
   // return response
   //   ? res.json({ message: "Operation successful" })
   //   : next(new Error("User already liked this article"));
 });
 
+//unlike an article
 router.delete("/:articleId/likes", async (req, res, next) => {
   // const userId = parseInt(req.user.id);
   const user = await User.findByPk(parseInt(req.user.id));
@@ -481,7 +482,7 @@ router.delete("/:articleId/likes", async (req, res, next) => {
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       return next(e);
     }
-    return res.json({ message: "Operation Successful" });
+    return res.json(response);
   }
 });
 

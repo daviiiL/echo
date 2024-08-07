@@ -12,7 +12,7 @@ export const postArticle = createAsyncThunk(
     const data = await response.json();
     if (response.status >= 400) return rejectWithValue(data);
     return data;
-  }
+  },
 );
 
 export const updateArticle = createAsyncThunk(
@@ -26,7 +26,7 @@ export const updateArticle = createAsyncThunk(
     const data = await response.json();
     if (response.status >= 400) return rejectWithValue(data);
     return data;
-  }
+  },
 );
 
 export const deleteArticle = createAsyncThunk(
@@ -38,7 +38,32 @@ export const deleteArticle = createAsyncThunk(
     const data = await response.json();
     if (response.status >= 400) rejectWithValue(data);
     return data;
-  }
+  },
+);
+
+export const likeArticle = createAsyncThunk(
+  "articles/likeArticle",
+  async (articleId, { rejectWithValue }) => {
+    const response = await csrfFetch(`/api/articles/${articleId}/likes`, {
+      method: "POST",
+    });
+    const data = await response.json();
+    if (response.status >= 400) rejectWithValue(data);
+    return data;
+  },
+);
+
+export const unlikeArticle = createAsyncThunk(
+  "articles/unlikeArticle",
+  async (payload, { rejectWithValue }) => {
+    const { articleId, userId } = payload;
+    const response = await csrfFetch(`/api/articles/${articleId}/likes`, {
+      method: "DELETE",
+    });
+    const data = await response.json();
+    if (response.status >= 400) rejectWithValue(data);
+    return userId;
+  },
 );
 
 const replaceArrayItem = (arr, item) => {
@@ -93,11 +118,11 @@ export const articleSlice = createSlice({
       state.articleDetails = action.payload.article;
       state.allArticles = replaceArrayItem(
         state.allArticles,
-        action.payload.article
+        action.payload.article,
       );
       state.userArticles = replaceArrayItem(
         state.userArticles,
-        action.payload.article
+        action.payload.article,
       );
       state.errors = null;
     });
@@ -113,6 +138,23 @@ export const articleSlice = createSlice({
       state.allArticles.splice(index, 1);
       index = state.userArticles.map((e) => e.id).indexOf(deletedId);
       state.userArticles.splice(index, 1);
+    });
+    builder.addCase(likeArticle.rejected, (state) => {
+      state.errors = "Something went wrong";
+    });
+    builder.addCase(likeArticle.fulfilled, (state, action) => {
+      // console.log(action.payload);
+      state.articleDetails.Likes = [
+        ...state.articleDetails.Likes,
+        { user_id: action.payload.user_id },
+      ];
+      state.articleDetails.likes_count += 1;
+    });
+    builder.addCase(unlikeArticle.fulfilled, (state, action) => {
+      state.articleDetails.Likes = state.articleDetails.Likes.filter(
+        (e) => !(e.user_id == action.payload),
+      );
+      state.articleDetails.likes_count -= 1;
     });
   },
 });
