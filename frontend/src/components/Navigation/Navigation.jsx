@@ -8,7 +8,11 @@ import { IoIosAdd } from "react-icons/io";
 import { clearArticleErrors } from "../../store/article";
 import UserProfileMenu from "../ReactDialogs/UserProfileMenu/UserProfileMenu";
 import notify from "../Toaster/notify";
-
+import { Button } from "@mui/material";
+import ArticleIcon from "@mui/icons-material/Article";
+import HomeIcon from "@mui/icons-material/Home";
+import NewspaperIcon from "@mui/icons-material/Newspaper";
+import ChatIcon from "@mui/icons-material/Chat";
 class Navigation extends React.Component {
   render() {
     return (
@@ -58,12 +62,62 @@ class Navigation extends React.Component {
               </div>
             )}
           </li>
-          <li className="nav-items">Words</li>
-          <li className="nav-items">Chats</li>
-          <li className="nav-items">News</li>
+          <li className="nav-items">
+            <Button aria-label="words" color="inherit" size="small">
+              <NavLink to="/">
+                <ArticleIcon />
+                <p>articles</p>
+              </NavLink>
+            </Button>
+          </li>
+          <li className="nav-items">
+            <Button
+              aria-label="words"
+              className="flex-col"
+              color="inherit"
+              size="small"
+            >
+              <NavLink
+                onClick={() =>
+                  notify({ message: "News Access coming soon", color: "green" })
+                }
+              >
+                <NewspaperIcon />
+                <p>news</p>
+              </NavLink>
+            </Button>
+          </li>
+          <li className="nav-items">
+            <Button
+              aria-label="words"
+              className="flex-col"
+              color="inherit"
+              size="small"
+            >
+              <NavLink
+                onClick={() =>
+                  notify({ message: "Chatrooms opening soon", color: "green" })
+                }
+              >
+                <ChatIcon />
+                <p>chat</p>
+              </NavLink>
+            </Button>
+          </li>
+
           {this.props.session.user?.id && (
             <li className="nav-items">
-              <NavLink to="/user/user-content">Yours</NavLink>
+              <Button
+                aria-label="words"
+                className="flex-col"
+                color="inherit"
+                size="small"
+              >
+                <NavLink to="/user/user-content">
+                  <HomeIcon />
+                  <p>yours</p>
+                </NavLink>
+              </Button>
             </li>
           )}
         </ul>
@@ -81,7 +135,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const NavigationConnected = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(Navigation);
 NavigationConnected.displayName = "Navigation";
 export default NavigationConnected;
