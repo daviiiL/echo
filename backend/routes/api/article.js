@@ -1,6 +1,13 @@
 const router = require("express").Router();
 const Sequelize = require("sequelize");
-const { Article, Comment, User, Tag, ArticleTag } = require("../../db/models");
+const {
+  Article,
+  Comment,
+  User,
+  Tag,
+  ArticleTag,
+  Like,
+} = require("../../db/models");
 const { requireAuth } = require("../../utils/auth.js");
 const { handleValidationErrors } = require("../../utils/validation.js");
 const { check } = require("express-validator");
@@ -168,6 +175,10 @@ router.get("/:articleId", async (req, res, next) => {
             model: ArticleTag,
             attributes: [],
           },
+        },
+        {
+          model: Like,
+          attributes: ["user_id"],
         },
       ],
     });
@@ -415,4 +426,41 @@ router.get("/:articleId/tags", async (req, res, next) => {
     tags: articleTags,
   });
 });
+
+//-------------------------------------LIKES----------------------------
+//post like to article
+router.post("/:articleId/likes", async (req, res, next) => {
+  // const userId = parseInt(req.user.id);
+  const user = await User.findByPk(parseInt(req.user.id));
+  if (!user.id) {
+    const sessionError = new Error("Forbidden");
+    sessionError.status = 403;
+    return next(sessionError);
+  }
+  const article = await Article.findByPk(parseInt(req.params.articleId));
+  if (!article) return next(new Error("Article Not Found").status(500));
+  // return res.json({ article, user });
+  const response = await article.addLikedUser(user);
+  return response
+    ? res.json({ message: "Operation successful" })
+    : next(new Error("User already liked this article"));
+});
+
+router.delete("/:articleId/likes", async (req, res, next) => {
+  // const userId = parseInt(req.user.id);
+  const user = await User.findByPk(parseInt(req.user.id));
+  if (!user.id) {
+    const sessionError = new Error("Forbidden");
+    sessionError.status = 403;
+    return next(sessionError);
+  }
+  const article = await Article.findByPk(parseInt(req.params.articleId));
+  if (!article) return next(new Error("Article Not Found").status(500));
+  // return res.json({ article, user });
+  const response = await article.removeLikedUser(user);
+  return response
+    ? res.json({ message: "Operation successful" })
+    : next(new Error("User hasn't liked this article"));
+});
+
 module.exports = router;

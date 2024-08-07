@@ -28,6 +28,17 @@ module.exports = (sequelize, DataTypes) => {
         through: models.ArticleTag,
         foreignKey: "article_id",
       });
+      Article.hasMany(models.Like, {
+        foreignKey: "article_id",
+        onDelete: "CASCADE",
+        hooks: true,
+        sourceKey: "id",
+      });
+      Article.belongsToMany(models.User, {
+        through: models.Like,
+        foreignKey: "article_id",
+        as: "LikedUser",
+      });
     }
   }
   Article.init(
@@ -80,7 +91,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       sequelize,
       modelName: "Article",
-    }
+    },
   );
   return Article;
 };
