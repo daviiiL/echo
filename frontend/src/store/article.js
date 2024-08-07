@@ -36,7 +36,7 @@ export const deleteArticle = createAsyncThunk(
       method: "DELETE",
     });
     const data = await response.json();
-    if (response.status >= 400) rejectWithValue(data);
+    if (response.status >= 400) return rejectWithValue(data);
     return data;
   },
 );
@@ -48,7 +48,7 @@ export const likeArticle = createAsyncThunk(
       method: "POST",
     });
     const data = await response.json();
-    if (response.status >= 400) rejectWithValue(data);
+    if (response.status >= 400) return rejectWithValue(data);
     return data;
   },
 );
@@ -61,8 +61,42 @@ export const unlikeArticle = createAsyncThunk(
       method: "DELETE",
     });
     const data = await response.json();
-    if (response.status >= 400) rejectWithValue(data);
+    if (response.status >= 400) return rejectWithValue(data);
     return userId;
+  },
+);
+
+export const subscribeToArticle = createAsyncThunk(
+  "articles/subscribeToArticle",
+  async (articleId, { rejectWithValue }) => {
+    const response = await csrfFetch(`/api/articles/${articleId}/subscribe`, {
+      method: "POST",
+    });
+    const data = await response.json();
+    if (response.status >= 400) return rejectWithValue(data);
+    return data;
+  },
+);
+
+export const unsubscribeFromArticle = createAsyncThunk(
+  "articles/unsubscribeFromArticle",
+  async (articleId, { rejectWithValue }) => {
+    const response = await csrfFetch(`/api/articles/${articleId}/subscribe`, {
+      method: "DELETE",
+    });
+    const data = await response.json();
+    if (response.status >= 400) return rejectWithValue(data);
+    return data;
+  },
+);
+
+export const fetchCurrentUserSubscriptions = createAsyncThunk(
+  "articles/getUserSubscriptions",
+  async () => {
+    const response = await csrfFetch(`/api/articles/current/subscriptions`);
+    const data = await response.json();
+    // if (response.status >= 400) return rejectWithValue(data);
+    return data;
   },
 );
 
@@ -81,6 +115,7 @@ export const articleSlice = createSlice({
     allArticles: [],
     articleDetails: {},
     userArticles: [],
+    bookmarkedArticleIds: [],
     errors: null,
   },
   reducers: {
@@ -101,6 +136,9 @@ export const articleSlice = createSlice({
     },
     clearArticleErrors: (state) => {
       state.errors = null;
+    },
+    clearUserSubscriptions: (state) => {
+      state.bookmarkedArticleIds = [];
     },
   },
   extraReducers: (builder) => {
@@ -156,6 +194,24 @@ export const articleSlice = createSlice({
       );
       state.articleDetails.likes_count -= 1;
     });
+    builder.addCase(subscribeToArticle.fulfilled, (state, action) => {
+      state.bookmarkedArticleIds.push(
+        parseInt(action.payload.bookmark.article_id),
+      );
+    });
+    builder.addCase(unsubscribeFromArticle.fulfilled, (state, action) => {
+      state.bookmarkedArticleIds = state.bookmarkedArticleIds.filter(
+        (e) => e !== parseInt(action.payload.bookmark.article_id),
+      );
+    });
+    builder.addCase(
+      fetchCurrentUserSubscriptions.fulfilled,
+      (state, action) => {
+        state.bookmarkedArticleIds = action.payload.subscribed_articles.map(
+          (e) => e.id,
+        );
+      },
+    );
   },
 });
 
@@ -166,5 +222,6 @@ export const {
   clearArticleDetails,
   clearUserArticles,
   clearArticleErrors,
+  clearUserSubscriptions,
 } = articleSlice.actions;
 export default articleSlice.reducer;

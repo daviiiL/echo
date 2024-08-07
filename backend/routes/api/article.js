@@ -7,6 +7,7 @@ const {
   Tag,
   ArticleTag,
   Like,
+  Subscription,
 } = require("../../db/models");
 const { requireAuth } = require("../../utils/auth.js");
 const { handleValidationErrors } = require("../../utils/validation.js");
@@ -432,14 +433,14 @@ router.get("/:articleId/tags", async (req, res, next) => {
 router.post("/:articleId/likes", async (req, res, next) => {
   // const userId = parseInt(req.user.id);
   const user = await User.findByPk(parseInt(req.user.id));
-  if (!user.id) {
+  if (!user || !user.id) {
     const sessionError = new Error("Forbidden");
     sessionError.status = 403;
     return next(sessionError);
   }
   const article = await Article.findByPk(parseInt(req.params.articleId));
 
-  if (!article) return next(new Error("Article Not Found").status(500));
+  if (!article) return next(new Error("Article Not Found"));
   // return res.json({ article, user });
   const response = await article.addLikedUser(user);
 
@@ -464,13 +465,13 @@ router.post("/:articleId/likes", async (req, res, next) => {
 router.delete("/:articleId/likes", async (req, res, next) => {
   // const userId = parseInt(req.user.id);
   const user = await User.findByPk(parseInt(req.user.id));
-  if (!user.id) {
+  if (!user || !user.id) {
     const sessionError = new Error("Forbidden");
     sessionError.status = 403;
     return next(sessionError);
   }
   const article = await Article.findByPk(parseInt(req.params.articleId));
-  if (!article) return next(new Error("Article Not Found").status(500));
+  if (!article) return next(new Error("Article Not Found"));
   const response = await article.removeLikedUser(user);
   if (!response) return next(new Error("User hasn't liked this article"));
   else {
@@ -485,31 +486,65 @@ router.delete("/:articleId/likes", async (req, res, next) => {
     return res.json(response);
   }
 });
+
+//get like status of article
+router.get("/:articleId/likes", async (req, res, next) => {
+  try {
+    const like = await Like.findOne({
+      where: {
+        user_id: parseInt(req.user.id),
+        article_id: parseInt(req.params.articleId),
+      },
+    });
+    return res.json({ liked: like ? true : false });
+  } catch (e) {
+    if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
+    return next(e);
+  }
+});
 //------------------------------------SUBSCRIPTIONS--------------------------------------
 //get user article subscriptions
 router.get("/current/subscriptions", async (req, res, next) => {
-  const user = await User.findByPk(parseInt(req.user.id));
-  if (!user.id) {
-    return next(new Error("Unauthorized User").status(403));
+  try {
+    const user = await User.findByPk(parseInt(req.user.id));
+    if (!user?.id) {
+      const authorizationError = new Error("Unauthorized User");
+      authorizationError.status = 403;
+      throw authorizationError;
+    }
+    const response = await user.getSubscribedArticle({
+      attributes: ["id", "title", "sub_title"],
+      joinTableAttributes: [],
+    });
+    return res.json({ subscribed_articles: response ? response : [] });
+  } catch (e) {
+    if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
+    return next(e);
   }
-  const response = await user.getSubscribedArticle();
-  return response ? res.json(response) : [];
 });
 
 //add article to subscriptions list
 router.post("/:articleId/subscribe", async (req, res, next) => {
   const user = await User.findByPk(parseInt(req.user.id));
   if (!user.id) {
-    return next(new Error("Forbidden").status(403));
+    const authorizationError = new Error("Forbidden");
+    authorizationError.status = 403;
+    return next(authorizationError);
   }
   const article = await Article.findByPk(parseInt(req.params.articleId));
   if (!article) return next(new Error("Article Not Found"));
-  else {
+  if (parseInt(article.author_id) === parseInt(user.id)) {
+    const authorizationError = new Error(
+      "User cannot subscribe to their own article",
+    );
+    authorizationError.status = 403;
+    return next(authorizationError);
+  } else {
     try {
       const response = await user.addSubscribedArticle(article);
       if (!response)
         throw new Error("User has already subscribed to this article");
-      return res.json(response);
+      return res.json({ bookmark: response[0] });
     } catch (e) {
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       return next(e);
@@ -529,7 +564,13 @@ router.delete("/:articleId/subscribe", async (req, res, next) => {
     try {
       const response = await user.removeSubscribedArticle(article);
       if (!response) throw new Error("User isn't subscribed to this article");
-      return res.json(response);
+      return res.json({
+        bookmark: {
+          user_id: req.user.id,
+          article_id: parseInt(req.params.articleId),
+          message: "Successfully Unsubscribed",
+        },
+      });
     } catch (e) {
       if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
       return next(e);

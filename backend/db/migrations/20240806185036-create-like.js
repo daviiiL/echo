@@ -47,17 +47,24 @@ module.exports = {
       },
       options,
     );
-    await queryInterface.addConstraint(
-      {
-        schema: options.schema,
-        tableName: "Likes",
-      },
-      {
+    if (process.env.NODE_ENV === "production")
+      await queryInterface.addConstraint(
+        {
+          schema: options.schema,
+          tableName: "Likes",
+        },
+        {
+          fields: ["article_id", "user_id"],
+          type: "unique",
+          name: "unique_likes",
+        },
+      );
+    else
+      await queryInterface.addConstraint("Likes", {
         fields: ["article_id", "user_id"],
         type: "unique",
         name: "unique_likes",
-      },
-    );
+      });
   },
   async down(queryInterface, Sequelize) {
     await queryInterface.dropTable("Likes", options);

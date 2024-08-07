@@ -1,19 +1,19 @@
+import { useEffect, useState } from "react";
+import { useSelector } from "react-redux";
 import { Outlet } from "react-router-dom";
+import "../../assets/view/index.css";
 import NavigationConnected from "../../components/Navigation";
+import Notifier from "../../components/Toaster";
 import { Modal } from "../../context/Modal";
-import store from "../../store";
 import {
   fetchAllArticles,
   fetchCurrentUserArticles,
 } from "../../services/articleThunks";
 import { restoreSession } from "../../services/sessionThunks";
-import "./Layout.css";
-import "../../assets/view/index.css";
-import { useEffect, useState } from "react";
-import { unwrapResult } from "@reduxjs/toolkit";
+import store from "../../store";
+import { fetchCurrentUserSubscriptions } from "../../store/article";
 import { fetchCurrentUserComments } from "../../store/comment";
-import { useSelector } from "react-redux";
-import Notifier from "../../components/Toaster";
+import "./Layout.css";
 
 export default function Layout() {
   //get user selected tags from state, which is updated by the tag bar
@@ -34,12 +34,13 @@ export default function Layout() {
     store.dispatch(fetchAllArticles(tags));
     store
       .dispatch(restoreSession())
-      .then(unwrapResult)
-      .then((res) => {
-        if (res.user?.id) {
-          store.dispatch(fetchCurrentUserArticles());
-          store.dispatch(fetchCurrentUserComments());
-        }
+      // .then(unwrapResult)
+      .then(() => {
+        // if (res.user?.id) {
+        store.dispatch(fetchCurrentUserArticles());
+        store.dispatch(fetchCurrentUserComments());
+        store.dispatch(fetchCurrentUserSubscriptions());
+        // }
       });
   });
   return (

@@ -8,7 +8,11 @@ import {
 import { Fragment, useState } from "react";
 import store from "../../../store";
 import { logout } from "../../../services/sessionThunks";
-import { clearArticleDetails, clearUserArticles } from "../../../store/article";
+import {
+  clearArticleDetails,
+  clearUserArticles,
+  clearUserSubscriptions,
+} from "../../../store/article";
 import { clearCurrentUserComments } from "../../../store/comment";
 import { useNavigate } from "react-router-dom";
 import notify from "../../Toaster/notify";
@@ -28,9 +32,11 @@ export default function UserProfileMenu({ sessionUser }) {
   const handleLogout = (e) => {
     e.preventDefault();
     store.dispatch(logout()).then(() => {
+      //cleaning redux store after user logs out successfully
       store.dispatch(clearUserArticles());
       store.dispatch(clearCurrentUserComments());
       store.dispatch(clearArticleDetails());
+      store.dispatch(clearUserSubscriptions());
       setOpen(false);
       navigate("/");
       notify({

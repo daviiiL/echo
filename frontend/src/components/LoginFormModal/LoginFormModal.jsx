@@ -6,6 +6,7 @@ import { login } from "../../store/session";
 import { fetchCurrentUserArticles } from "../../services/articleThunks";
 import { fetchCurrentUserComments } from "../../store/comment";
 import notify from "../Toaster/notify";
+import { fetchCurrentUserSubscriptions } from "../../store/article";
 function LoginFormModal() {
   const [credential, setCredential] = useState("");
   const [password, setPassword] = useState("");
@@ -19,6 +20,7 @@ function LoginFormModal() {
     if (actionResult.error) setErrors({ credential: "Invalid Credentials" });
     else {
       store.dispatch(fetchCurrentUserComments());
+      store.dispatch(fetchCurrentUserSubscriptions());
       store.dispatch(fetchCurrentUserArticles()).then(closeModal);
       notify({
         message: "You are in",
