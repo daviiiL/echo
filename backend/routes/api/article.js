@@ -438,12 +438,26 @@ router.post("/:articleId/likes", async (req, res, next) => {
     return next(sessionError);
   }
   const article = await Article.findByPk(parseInt(req.params.articleId));
+
   if (!article) return next(new Error("Article Not Found").status(500));
   // return res.json({ article, user });
   const response = await article.addLikedUser(user);
-  return response
-    ? res.json({ message: "Operation successful" })
-    : next(new Error("User already liked this article"));
+
+  if (!response) return next(new Error("User already liked this article"));
+  else {
+    try {
+      //save the updated instance to db
+      article.likes_count += 1;
+      const updatedArticle = await article.save();
+    } catch (e) {
+      if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
+      return next(e);
+    }
+    return res.json({ message: "Operation Successful" });
+  }
+  // return response
+  //   ? res.json({ message: "Operation successful" })
+  //   : next(new Error("User already liked this article"));
 });
 
 router.delete("/:articleId/likes", async (req, res, next) => {
@@ -456,11 +470,19 @@ router.delete("/:articleId/likes", async (req, res, next) => {
   }
   const article = await Article.findByPk(parseInt(req.params.articleId));
   if (!article) return next(new Error("Article Not Found").status(500));
-  // return res.json({ article, user });
   const response = await article.removeLikedUser(user);
-  return response
-    ? res.json({ message: "Operation successful" })
-    : next(new Error("User hasn't liked this article"));
+  if (!response) return next(new Error("User hasn't liked this article"));
+  else {
+    try {
+      //save the updated instance to db
+      article.likes_count -= 1;
+      const updatedArticle = await article.save();
+    } catch (e) {
+      if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
+      return next(e);
+    }
+    return res.json({ message: "Operation Successful" });
+  }
 });
 
 module.exports = router;
