@@ -1,7 +1,5 @@
 import "../../assets/components/UserContentSection.css";
 import UserArticleCard from "../UserArticleCard";
-import { GrArticle } from "react-icons/gr";
-import { FaComments } from "react-icons/fa6";
 import EmptyContentCard from "../EmptyContentCard";
 import UserCommentCard from "../UserCommentCard";
 import { IoMdArrowForward } from "react-icons/io";
@@ -37,20 +35,7 @@ const createCommentSection = (articleComments, navigate) => {
 export default function UserContentSection(props) {
   const navigate = useNavigate();
   return (
-    <div className="user-content-section-container">
-      <div className="content-title">
-        {props.articles ? (
-          <>
-            <h2 className="text-xl font-semibold">your articles</h2>
-            <GrArticle />
-          </>
-        ) : (
-          <>
-            <h2 className="text-xl font-semibold">your comments</h2>
-            <FaComments />
-          </>
-        )}
-      </div>
+    <div className="mt-3">
       <div className="content-cards">
         {props.articles ? (
           props.articles.length ? (
