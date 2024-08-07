@@ -30,6 +30,17 @@ module.exports = (sequelize, DataTypes) => {
         through: models.Like,
         foreignKey: "user_id",
       });
+      User.hasMany(models.Subscription, {
+        foreignKey: "user_id",
+        onDelete: "CASCADE",
+        hooks: true,
+        sourceKey: "id",
+      });
+      User.belongsToMany(models.Article, {
+        through: models.Subscription,
+        foreignKey: "user_id",
+        as: "SubscribedArticle",
+      });
     }
   }
   User.init(

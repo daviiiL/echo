@@ -485,5 +485,56 @@ router.delete("/:articleId/likes", async (req, res, next) => {
     return res.json(response);
   }
 });
+//------------------------------------SUBSCRIPTIONS--------------------------------------
+//get user article subscriptions
+router.get("/current/subscriptions", async (req, res, next) => {
+  const user = await User.findByPk(parseInt(req.user.id));
+  if (!user.id) {
+    return next(new Error("Unauthorized User").status(403));
+  }
+  const response = await user.getSubscribedArticle();
+  return response ? res.json(response) : [];
+});
+
+//add article to subscriptions list
+router.post("/:articleId/subscribe", async (req, res, next) => {
+  const user = await User.findByPk(parseInt(req.user.id));
+  if (!user.id) {
+    return next(new Error("Forbidden").status(403));
+  }
+  const article = await Article.findByPk(parseInt(req.params.articleId));
+  if (!article) return next(new Error("Article Not Found"));
+  else {
+    try {
+      const response = await user.addSubscribedArticle(article);
+      if (!response)
+        throw new Error("User has already subscribed to this article");
+      return res.json(response);
+    } catch (e) {
+      if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
+      return next(e);
+    }
+  }
+});
+
+//remove article from subscriptions list
+router.delete("/:articleId/subscribe", async (req, res, next) => {
+  const user = await User.findByPk(parseInt(req.user.id));
+  if (!user.id) {
+    return next(new Error("Forbidden").status(403));
+  }
+  const article = await Article.findByPk(parseInt(req.params.articleId));
+  if (!article) return next(new Error("Article Not Found"));
+  else {
+    try {
+      const response = await user.removeSubscribedArticle(article);
+      if (!response) throw new Error("User isn't subscribed to this article");
+      return res.json(response);
+    } catch (e) {
+      if (e instanceof Sequelize.DatabaseError) e.title = "Database Error";
+      return next(e);
+    }
+  }
+});
 
 module.exports = router;
