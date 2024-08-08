@@ -115,7 +115,7 @@ class Navigation extends React.Component {
               >
                 <NavLink to="/user/user-content">
                   <HomeIcon />
-                  <p>yours</p>
+                  <p>my</p>
                 </NavLink>
               </Button>
             </li>
@@ -135,7 +135,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const NavigationConnected = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(Navigation);
 NavigationConnected.displayName = "Navigation";
 export default NavigationConnected;

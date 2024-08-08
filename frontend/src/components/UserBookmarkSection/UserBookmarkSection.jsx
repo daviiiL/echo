@@ -3,27 +3,10 @@ import { connect } from "react-redux";
 import BookmarkCard from "./BookmarkCard";
 
 class UserBookmarkSection extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = { bookmarkedArticles: null };
-  }
-
-  componentDidMount() {
-    if (this.state.bookmarkedArticles === null) {
-      const articles = this.props.allArticles.filter((e) =>
-        this.props.bookmarkedArticleIds.includes(e.id)
-      );
-      this.setState({
-        bookmarkedArticles: articles,
-      });
-    }
-  }
-
   render() {
-    if (!this.state.bookmarkedArticles) return null;
     return (
       <div>
-        {this.state.bookmarkedArticles.map((e) => (
+        {this.props.allArticles.map((e) => (
           <BookmarkCard key={e.id} e={e} />
         ))}
       </div>
@@ -33,18 +16,13 @@ class UserBookmarkSection extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    bookmarkedArticleIds: state.articles?.bookmarkedArticleIds,
-    allArticles: state.articles?.allArticles,
+    allArticles: state.articles?.allArticles.filter((e) =>
+      state.articles.bookmarkedArticleIds.includes(e.id),
+    ),
   };
 };
 
-const mapDispatchToProps = (dispatch) => {
-  return {};
-};
-
-const UserBookmarkSectionConnected = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(UserBookmarkSection);
+const UserBookmarkSectionConnected =
+  connect(mapStateToProps)(UserBookmarkSection);
 UserBookmarkSectionConnected.displayName = "UserBookmarkSection";
 export default UserBookmarkSectionConnected;

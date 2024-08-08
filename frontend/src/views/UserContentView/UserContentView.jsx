@@ -74,14 +74,14 @@ class UserContentView extends React.Component {
             }}
           >
             <Tab
-              label="articles"
+              label="my articles"
               icon={<ArticleIcon />}
               iconPosition="end"
               disableRipple
               sx={{ minHeight: 1, height: 1 }}
             />
             <Tab
-              label="comments"
+              label="my comments"
               icon={<CommentIcon />}
               iconPosition="end"
               disableRipple
@@ -130,7 +130,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const UserContentViewConnected = connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(UserContentView);
 UserContentViewConnected.displayName = "UserContentView";
 export default UserContentViewConnected;
