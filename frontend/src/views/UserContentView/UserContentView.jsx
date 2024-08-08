@@ -1,6 +1,7 @@
 import React from "react";
 import { connect } from "react-redux";
 import UserContentSection from "../../components/UserContentSection";
+import UserBookmarkSection from "../../components/UserBookmarkSection";
 import { fetchCurrentUserArticles } from "../../services/articleThunks";
 import { fetchCurrentUserComments } from "../../store/comment";
 import "../../assets/view/UserContentView.css";
@@ -106,6 +107,7 @@ class UserContentView extends React.Component {
         {this.state.index === 1 && (
           <UserContentSection comments={this.props.comments} />
         )}
+        {this.state.index === 2 && <UserBookmarkSection />}
       </div>
     );
   }
@@ -128,7 +130,7 @@ const mapDispatchToProps = (dispatch) => ({
 
 const UserContentViewConnected = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(UserContentView);
 UserContentViewConnected.displayName = "UserContentView";
 export default UserContentViewConnected;

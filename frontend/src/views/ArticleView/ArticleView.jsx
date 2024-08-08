@@ -50,10 +50,10 @@ export class ArticleView extends React.Component {
       prevProps.bookmarkedArticleIds !== this.props.bookmarkedArticleIds
     ) {
       const liked = this.props.articleDetails.Likes.some(
-        (e) => e.user_id === this.props.sessionUserId,
+        (e) => e.user_id === this.props.sessionUserId
       );
       const subscribed = this.props.bookmarkedArticleIds.includes(
-        parseInt(this.articleId),
+        parseInt(this.articleId)
       );
       this.setState({ liked: liked, subscribed: subscribed });
     }
@@ -63,10 +63,10 @@ export class ArticleView extends React.Component {
       this.props.bookmarkedArticleIds
     ) {
       const liked = this.props.articleDetails.Likes.some(
-        (e) => e.user_id === this.props.sessionUserId,
+        (e) => e.user_id === this.props.sessionUserId
       );
       const subscribed = this.props.bookmarkedArticleIds.includes(
-        parseInt(this.articleId),
+        parseInt(this.articleId)
       );
       this.setState({ liked: liked, loaded: true, subscribed });
     }
@@ -103,7 +103,9 @@ export class ArticleView extends React.Component {
         : this.props.unsubscribeFromArticle(this.articleId);
     });
     return notify({
-      message: `article ${!this.state.subscribed ? "saved" : "removed from reading list"}`,
+      message: `article ${
+        !this.state.subscribed ? "saved" : "removed from reading list"
+      }`,
       position: "top-right",
       color: "green",
       icon: "🎉",
@@ -161,19 +163,22 @@ export class ArticleView extends React.Component {
                 >{`👉  login to like or save this article`}</Typography>
               )}
             </div>
-            <div>
-              <IconButton
-                color={this.state.subscribed ? "success" : "primary"}
-                onClick={this.handleSubscribe}
-                key={this.state.subscribed}
-              >
-                {this.state.subscribed ? (
-                  <MdBookmarkAdded size={25} />
-                ) : (
-                  <MdBookmarkAdd size={25} />
-                )}
-              </IconButton>
-            </div>
+            {this.props.articleDetails.author_id !==
+              this.props.sessionUserId && (
+              <div>
+                <IconButton
+                  color={this.state.subscribed ? "success" : "primary"}
+                  onClick={this.handleSubscribe}
+                  key={this.state.subscribed}
+                >
+                  {this.state.subscribed ? (
+                    <MdBookmarkAdded size={25} />
+                  ) : (
+                    <MdBookmarkAdd size={25} />
+                  )}
+                </IconButton>
+              </div>
+            )}
           </div>
           <div className="article-body">
             {this.props.articleDetails?.preview_image_url && (
@@ -228,7 +233,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const ArticleViewConnected = connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(ArticleView);
 ArticleViewConnected.displayName = "ArticleView";
 export default ArticleViewConnected;
