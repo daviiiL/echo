@@ -115,7 +115,7 @@ class Navigation extends React.Component {
               >
                 <NavLink to="/user/user-content">
                   <HomeIcon />
-                  <p>my</p>
+                  <p>yours</p>
                 </NavLink>
               </Button>
             </li>

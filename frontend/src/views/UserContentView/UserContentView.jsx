@@ -74,14 +74,14 @@ class UserContentView extends React.Component {
             }}
           >
             <Tab
-              label="my articles"
+              label="articles"
               icon={<ArticleIcon />}
               iconPosition="end"
               disableRipple
               sx={{ minHeight: 1, height: 1 }}
             />
             <Tab
-              label="my comments"
+              label="comments"
               icon={<CommentIcon />}
               iconPosition="end"
               disableRipple
