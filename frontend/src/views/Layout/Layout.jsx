@@ -19,7 +19,6 @@ export default function Layout() {
   //get user selected tags from state, which is updated by the tag bar
   const selectedTags = useSelector((state) => state.tags.selectedTags);
   const [tags, setTags] = useState([]);
-
   useEffect(() => {
     setTags(selectedTags);
     //whenever user selected tags change, this useEffect sets state
@@ -34,7 +33,7 @@ export default function Layout() {
     store.dispatch(fetchAllArticles(tags));
     store
       .dispatch(restoreSession())
-      // .then(unwrapResult)
+      //.then(unwrapResult)
       .then(() => {
         // if (res.user?.id) {
         store.dispatch(fetchCurrentUserArticles());
