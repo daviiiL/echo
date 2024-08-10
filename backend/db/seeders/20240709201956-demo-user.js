@@ -58,7 +58,7 @@ module.exports = {
   },
 
   async down(_queryInterface, Sequelize) {
-    return User.bulkDelete({
+    await User.bulkDelete({
       where: {
         username: {
           [Sequelize.Op.in]: ["Demo-lition", "TestingDragon", "SurfingCheetos"],
