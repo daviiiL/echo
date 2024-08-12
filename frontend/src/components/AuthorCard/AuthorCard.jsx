@@ -9,6 +9,7 @@ export default function AuthorCard({
   publishDate,
   isArticle = true,
   sessionUserId,
+  implemented = false,
 }) {
   const handleFollow = () => {
     if (!sessionUserId)
@@ -39,8 +40,8 @@ export default function AuthorCard({
               {owner.last_active && formatDataBaseActiveDate(owner.last_active)}
             </p>
           )}
-          {isArticle && "•"}
-          {isArticle && (
+          {isArticle && implemented && "•"}
+          {isArticle && implemented && (
             <Button sx={{ color: "green" }} onClick={handleFollow}>
               Follow
             </Button>
