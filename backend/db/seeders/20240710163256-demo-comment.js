@@ -100,13 +100,13 @@ const comments = [
   {
     from: "TestingDragon",
     to: "Spider-man's journal: these damn spidey senses",
-    reply: true,
+    reply: false,
     payload: { body: "Maybe meditation or focusing techniques could help?" },
   },
   {
     from: "Demo-lition",
     to: "Using Postman to Test Your APIs",
-    reply: true,
+    reply: false,
     payload: {
       body: "Great tool! Definitely a must for any developer working with APIs.",
     },
@@ -144,7 +144,7 @@ const comments = [
   {
     from: "SurfingCheetos",
     to: "Functional vs Class React Components",
-    reply: true,
+    reply: false,
     payload: {
       body: "I love the simplicity of functional components. Less boilerplate, more productivity!",
     },
@@ -160,8 +160,8 @@ const comments = [
   {
     from: "Spidey",
     to: "How to surf as a Cheetos",
-    reply: true,
-    payload: { body: "Haha, this is hilarious! Surf safe, little Cheetos." },
+    reply: false,
+    payload: { body: "Haha, this is hilarious! Surf safe!" },
   },
   {
     from: "TestingDragon",
@@ -174,7 +174,7 @@ const comments = [
   {
     from: "SurfingCheetos",
     to: "How to be a Cheetos",
-    reply: true,
+    reply: false,
     payload: {
       body: "As a fellow introvert, this article really speaks to me.",
     },
