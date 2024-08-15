@@ -43,7 +43,7 @@ const userArticles = [
            <p>Your custom built PC is more than just a machine; it’s a project you’ve poured time, effort, and passion into. By following these care tips, you’ll ensure that your rig stays in top-notch condition and performs at its best. Regular cleaning, temperature monitoring, software maintenance, cable management, power supply care, and data backups are all essential steps to keep your PC running smoothly. So, take a little time to show your PC some love, and it’ll reward you with years of reliable performance and countless hours of enjoyment. Happy computing!</p>`,
       },
       {
-        title: "Spider-man's journal: these damn spidy senses",
+        title: "Spider-man's journal: these damn spidey senses",
         sub_title: "With great power comes great responsibility",
         body: `<p><strong>July 18, 2024</strong></p>
             <p>Today marks another day in the life of Peter Parker, the ordinary high school student who moonlights as Spider-Man. When I first got my powers, I thought it was the coolest thing ever. Super strength, agility, the ability to stick to walls, and of course, my trusty spider-sense. But lately, this heightened sensibility has been more of a curse than a blessing.</p>
