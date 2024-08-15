@@ -1,3 +1,6 @@
+# ignores asdf virtual envs 
+asdf-vm
+
 # ignores all .db files
 /backend/db/dev.db
 
